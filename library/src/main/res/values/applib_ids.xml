@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~  Copyright (C) 2012-2015 Jason Fang ( ifangyucun@gmail.com )
+  ~
+  ~  Licensed under the Apache License, Version 2.0 (the "License");
+  ~  you may not use this file except in compliance with the License.
+  ~  You may obtain a copy of the License at
+  ~
+  ~       http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~  Unless required by applicable law or agreed to in writing, software
+  ~  distributed under the License is distributed on an "AS IS" BASIS,
+  ~  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~  See the License for the specific language governing permissions and
+  ~  limitations under the License.
+  -->
+
+<resources>
+
+    <!-- Widget -->
+    <item name="progress_bar" type="id"/>
+    <item name="list" type="id"/>
+    <item name="recycler_view" type="id"/>
+    <item name="web_view" type="id"/>
+    <item name="vs_toolbar" type="id"/>
+    <item name="card_view" type="id"/>
+    <item name="view_pager" type="id"/>
+    <item name="calendar_view" type="id"/>
+    <item name="text" type="id"/>
+    <item name="btn" type="id"/>
+    <item name="fragment_pager" type="id"/>
+    <item name="fragment_container" type="id"/>
+    <item name="layout_container" type="id"/>
+    <item name="view_pager_indicator" type="id"/>
+    <item name="radio_group" type="id"/>
+    <item name="radio_button" type="id"/>
+    <item name="navigation_view" type="id"/>
+    <item name="tab_layout" type="id"/>
+    <item name="toolbar" type="id"/>
+    <item name="title" type="id"/>
+    <item name="swipe_refresh_layout" type="id"/>
+    <item name="scrollview" type="id"/>
+
+    <!-- Btn -->
+    <item name="btn_ok" type="id"/>
+    <item name="btn_back" type="id"/>
+    <item name="btn_cancel" type="id"/>
+    <item name="btn_login" type="id"/>
+    <item name="btn_logout" type="id"/>
+    <item name="btn_register" type="id"/>
+    <item name="btn_start" type="id"/>
+    <item name="btn_stop" type="id"/>
+    <item name="btn_search" type="id"/>
+    <item name="btn_send" type="id"/>
+    <item name="btn_publish" type="id"/>
+    <item name="btn_commit" type="id"/>
+    <item name="btn_submit" type="id"/>
+    <item name="btn_dial" type="id"/>
+    <item name="btn_sms" type="id"/>
+    <item name="btn_email" type="id"/>
+    
+    <!-- Dialog -->
+    <item name="dlg_title" type="id"/>
+    <item name="dlg_content" type="id"/>
+    <item name="dlg_btn_ok" type="id"/>
+    <item name="dlg_btn_cancel" type="id"/>
+    <item name="dlg_progress" type="id"/>
+    
+    <!-- User -->
+    <item name="avatar" type="id"/>
+    <item name="truename" type="id"/>
+    <item name="username" type="id"/>
+    <item name="nickname" type="id"/>
+    <item name="tel" type="id"/>
+    <item name="email" type="id"/>
+    <item name="enterprise" type="id"/>
+    <item name="job" type="id"/>
+    <item name="portrait" type="id"/>
+    
+    <!-- Other -->
+    <item name="version" type="id"/>
+    <item name="version_update" type="id"/>
+    <item name="copyright" type="id"/>
+    <item name="terms" type="id"/>
+    <item name="policy" type="id"/>
+    <item name="terms_and_policy" type="id"/>
+
+</resources>
