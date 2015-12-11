@@ -56,21 +56,20 @@ public class BaseWebView extends WebView {
 
     public BaseWebView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        init(context);
+        init();
     }
 
     public BaseWebView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init(context);
+        init();
     }
 
     public BaseWebView(Context context) {
         super(context);
-        init(context);
+        init();
     }
 
-    private void init(Context context) {
-//        删除掉Android默认注册的JS接口
+    private void init() {
         removeSearchBoxImpl();
     }
 
@@ -218,11 +217,9 @@ public class BaseWebView extends WebView {
         return cls;
     }
 
-    public void injectJavascriptInterfaces(WebView webView) {
-        // if (webView instanceof CommonWebView) {
-        injectJavascriptInterfaces();
-        // }
-    }
+//    public void injectJavascriptInterfaces(WebView webView) {
+//        injectJavascriptInterfaces();
+//    }
 
     public void injectJavascriptInterfaces() {
         if (!TextUtils.isEmpty(mJsStringCache)) {
@@ -230,8 +227,7 @@ public class BaseWebView extends WebView {
             return;
         }
 
-        String jsString = genJavascriptInterfacesString();
-        mJsStringCache = jsString;
+        mJsStringCache = genJavascriptInterfacesString();
 
         loadJavascriptInterfaces();
     }
