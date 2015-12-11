@@ -20,7 +20,7 @@ import android.annotation.TargetApi;
 import android.media.MediaCodecInfo;
 import android.media.MediaCodecList;
 
-import com.hellofyc.applib.util.Flog;
+import com.hellofyc.applib.util.FLog;
 
 @TargetApi(16)
 public class MediaToolBox {
@@ -32,11 +32,11 @@ public class MediaToolBox {
 		MediaCodecInfo codecInfo = selectCodec(mimeType);
         if (codecInfo == null) return 0;
         MediaCodecInfo.CodecCapabilities capabilities = codecInfo.getCapabilitiesForType(mimeType);
-        if (DEBUG) Flog.i(TAG, "capabilities.colorFormats.length:" + capabilities.colorFormats.length);
+        if (DEBUG) FLog.i(TAG, "capabilities.colorFormats.length:" + capabilities.colorFormats.length);
         int format = 0;
         for (int i = 0; i < capabilities.colorFormats.length; i++) {
         	format = capabilities.colorFormats[i];
-        	if (DEBUG) Flog.i(TAG, "Key_Color_Format:" + format);
+        	if (DEBUG) FLog.i(TAG, "Key_Color_Format:" + format);
         }
         return format;
 	}

@@ -62,7 +62,7 @@ public final class ViewUtils {
 		
 		if (sHandler.hasMessages(MSG_VISIBILITY)) return;
 		
-		if (DEBUG) Flog.i("begin alpha!");
+		if (DEBUG) FLog.i("begin alpha!");
 		Message msg = sHandler.obtainMessage(MSG_VISIBILITY);
 		msg.obj = view;
 		msg.arg1 = visibility ? 1 : 0;
@@ -239,7 +239,7 @@ public final class ViewUtils {
 //		
 //		view.setBackground(new BitmapDrawable(context.getResources(), overlay));
 //		
-//		Flog.i("time:" + (System.currentTimeMillis() - time));
+//		FLog.i("time:" + (System.currentTimeMillis() - time));
 //	}
 	
 
@@ -271,7 +271,7 @@ public final class ViewUtils {
 				sHandler.removeMessages(MSG_VISIBILITY);
 				return;
 			}
-			if (DEBUG) Flog.i("add alpha!" + ViewCompat.getAlpha(view));
+			if (DEBUG) FLog.i("add alpha!" + ViewCompat.getAlpha(view));
 			ViewCompat.setAlpha(view, ViewCompat.getAlpha(view) + 0.05f);
 		} else {
 			if (ViewCompat.getAlpha(view) <= 0.0) {
@@ -279,7 +279,7 @@ public final class ViewUtils {
 				sHandler.removeMessages(MSG_VISIBILITY);
 				return;
 			}
-			if (DEBUG) Flog.i("minus alpha!" + ViewCompat.getAlpha(view));
+			if (DEBUG) FLog.i("minus alpha!" + ViewCompat.getAlpha(view));
 			ViewCompat.setAlpha(view, ViewCompat.getAlpha(view) - 0.05f);
 		}
 		

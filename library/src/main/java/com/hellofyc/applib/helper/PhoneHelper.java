@@ -32,7 +32,7 @@ import android.telephony.gsm.GsmCellLocation;
 import android.text.TextUtils;
 
 import com.hellofyc.applib.model.ContactInfo;
-import com.hellofyc.applib.util.Flog;
+import com.hellofyc.applib.util.FLog;
 import com.hellofyc.applib.util.IoUtils;
 import com.hellofyc.applib.util.NetUtils;
 import com.hellofyc.applib.util.VerifyUtils;
@@ -171,7 +171,7 @@ public class PhoneHelper {
 			TelephonyManager tm = (TelephonyManager)context.getSystemService(Context.TELEPHONY_SERVICE);
 			return tm.getSimSerialNumber();
 		} catch (Exception e) {
-			Flog.e(e);
+			FLog.e(e);
 		}
 		return "";
 	}
@@ -216,7 +216,7 @@ public class PhoneHelper {
 				}
 			}
 		} catch (Exception e) {
-			if (DEBUG) Flog.e(e);
+			if (DEBUG) FLog.e(e);
 		}
 		return "";
     }
@@ -285,7 +285,7 @@ public class PhoneHelper {
                 return line;   
             }
         } catch(IOException e) {
-            Flog.e(e);
+            FLog.e(e);
         } finally {
         	IoUtils.closeIS(is);
         }
@@ -416,7 +416,7 @@ public class PhoneHelper {
 		try {
 			c = cr.query(ContactsContract.Contacts.CONTENT_URI, null, null, null, null);
 		} catch (SecurityException e) {
-			Flog.e(e);
+			FLog.e(e);
 		}
 		if (c == null) return contacts;
 		
@@ -437,7 +437,7 @@ public class PhoneHelper {
 			}
 			IoUtils.close(phoneNumberCursor);
 			info.phoneNumbers = sb.toString().split(",");
-			if (DEBUG) Flog.i(info.displayName + "\n" + sb.toString());
+			if (DEBUG) FLog.i(info.displayName + "\n" + sb.toString());
 			
 			contacts.add(info);
 		}

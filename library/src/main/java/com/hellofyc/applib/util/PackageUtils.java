@@ -74,7 +74,7 @@ public final class PackageUtils {
 //		try {
 //			ReflectUtils.invokeMethod(mPM, "getPackageSizeInfo", packageName, new PackageStatsObserver());
 //		} catch (Exception e) {
-//			Flog.e(e);
+//			FLog.e(e);
 //		}
 //	}
 	
@@ -109,7 +109,7 @@ public final class PackageUtils {
 //				throws RemoteException {
 //			
 //			if (!succeeded) {
-//				if (DEBUG) Flog.e("query failure!");
+//				if (DEBUG) FLog.e("query failure!");
 //				return;
 //			}
 //			
@@ -134,7 +134,7 @@ public final class PackageUtils {
 //			}
 //			
 //			if (DEBUG) {
-//				Flog.i("cacheSize:" + appInfo.cacheSize + 
+//				FLog.i("cacheSize:" + appInfo.cacheSize +
 //						", dataSize:" + appInfo.dataSize + 
 //						", codeSize:" + appInfo.codeSize + 
 //						", totalSize:" + appInfo.totalSize + 
@@ -168,18 +168,18 @@ public final class PackageUtils {
 //					continue;
 //				}
 //				
-//				if (DEBUG) Flog.i(pInfo.applicationInfo.flags + ", packageName:" + pInfo.packageName);
+//				if (DEBUG) FLog.i(pInfo.applicationInfo.flags + ", packageName:" + pInfo.packageName);
 //				break;
 //			case FLAG_NOT_SYSTEM:
 //				if ((pInfo.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0) {
 //					continue;
 //				}
 //				
-//				if (DEBUG) Flog.i(pInfo.applicationInfo.flags + ", packageName:" + pInfo.packageName);
+//				if (DEBUG) FLog.i(pInfo.applicationInfo.flags + ", packageName:" + pInfo.packageName);
 //				break;
 //			case FLAG_ALL:
 //				
-//				if (DEBUG) Flog.i(pInfo.applicationInfo.flags + ", packageName:" + pInfo.packageName);
+//				if (DEBUG) FLog.i(pInfo.applicationInfo.flags + ", packageName:" + pInfo.packageName);
 //				break;
 //			}
 //			
@@ -222,7 +222,7 @@ public final class PackageUtils {
 		try {
 			return pm.getApplicationInfo(packageName, PackageManager.GET_META_DATA);
 		} catch (NameNotFoundException e) {
-			Flog.e(e);
+			FLog.e(e);
 		}
 		return null;
 	}
@@ -321,7 +321,7 @@ public final class PackageUtils {
     	try {
 			return pManager.getPackageInfo(packageName, PackageManager.GET_PERMISSIONS).requestedPermissions;
 		} catch (NameNotFoundException e) {
-			Flog.e(e);
+			FLog.e(e);
 		}
     	return new String[0];
     }
@@ -510,7 +510,7 @@ public final class PackageUtils {
 //            && (commandResult.successMsg.contains("Success") || commandResult.successMsg.contains("success"))) {
 //            return DELETE_SUCCEEDED;
 //        }
-//        if (DEBUG) Flog.e(new StringBuilder().append("uninstallSilent successMsg:").append(commandResult.successMsg)
+//        if (DEBUG) FLog.e(new StringBuilder().append("uninstallSilent successMsg:").append(commandResult.successMsg)
 //                                 .append(", ErrorMsg:").append(commandResult.errorMsg).toString());
 //        if (commandResult.errorMsg == null) {
 //            return DELETE_FAILED_INTERNAL_ERROR;
@@ -534,7 +534,7 @@ public final class PackageUtils {
             ApplicationInfo app = context.getPackageManager().getApplicationInfo(packageName, 0);
             return (app != null && (app.flags & ApplicationInfo.FLAG_SYSTEM) > 0);
         } catch (NameNotFoundException e) {
-            Flog.e(e);
+            FLog.e(e);
         }
         return false;
     }
@@ -553,7 +553,7 @@ public final class PackageUtils {
         try {
             return packageName.equals(tasksInfo.get(0).topActivity.getPackageName());
         } catch (Exception e) {
-            if (DEBUG) Flog.e(e);
+            if (DEBUG) FLog.e(e);
         }
         
         return false;
@@ -584,7 +584,7 @@ public final class PackageUtils {
                 }
             }
 		} catch (Exception e) {
-			if (DEBUG) Flog.e(e);
+			if (DEBUG) FLog.e(e);
 		}
         return signatures;
     }
@@ -615,7 +615,7 @@ public final class PackageUtils {
 			Signature sign = signatures[0];
 			return parseSignature(sign.toByteArray());
 		} catch (Exception e) {
-			if (DEBUG) Flog.e(e);
+			if (DEBUG) FLog.e(e);
 		}
 		return null;
 	}
@@ -663,7 +663,7 @@ public final class PackageUtils {
             try {
                 return appInfo.loadIcon(pm);
             } catch (OutOfMemoryError e) {
-                Flog.e("ApkIconLoader", e);
+                e.printStackTrace();
             }
         }
         return null;

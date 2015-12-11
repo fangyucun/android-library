@@ -41,7 +41,7 @@ public final class EncodeUtils {
 		try {
 			return URLEncoder.encode(text, getDefultCharset());
 		} catch (UnsupportedEncodingException e) {
-			Flog.e(e);
+			FLog.e(e);
 		}
 		
 		return "";
@@ -59,7 +59,7 @@ public final class EncodeUtils {
 			bis = new BufferedInputStream(new FileInputStream(filePath));
 			p = (bis.read() << 8) + bis.read();
 		} catch (Exception e) {
-			Flog.e(e);
+			FLog.e(e);
 		} finally {
 			IoUtils.close(bis);
 		}

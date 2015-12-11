@@ -23,7 +23,7 @@ import com.hellofyc.applib.security.DESUtils;
 import com.hellofyc.applib.security.MD5Utils;
 import com.hellofyc.applib.security.RSAUtils;
 import com.hellofyc.applib.util.DeviceUtils;
-import com.hellofyc.applib.util.Flog;
+import com.hellofyc.applib.util.FLog;
 import com.hellofyc.applib.util.PackageUtils;
 import com.hellofyc.applib.util.ParseUtils;
 import com.hellofyc.applib.util.RandomUtils;
@@ -60,12 +60,12 @@ public class HttpHelper {
 		}
 		
 		String randomString = RandomUtils.getRandomNumbersAndLetters(117);
-		if (DEBUG && ENCRYPT_DEBUG) Flog.i("random string", randomString);
+		if (DEBUG && ENCRYPT_DEBUG) FLog.i("random string", randomString);
 		String keyString = randomString.substring(KEY_START_POSITION, KEY_START_POSITION + 24);
 		String ivString = keyString.substring(IV_START_POSITION, IV_START_POSITION + 8);
 		
-		if (DEBUG && ENCRYPT_DEBUG) Flog.i("key string", keyString);
-		if (DEBUG && ENCRYPT_DEBUG) Flog.i("iv string", ivString);
+		if (DEBUG && ENCRYPT_DEBUG) FLog.i("key string", keyString);
+		if (DEBUG && ENCRYPT_DEBUG) FLog.i("iv string", ivString);
 		
 		long timestamp = TimeUtils.getCurrentTimeMillis();
 		params.put("app_version", PackageUtils.getVersionCode(mContext) + "");
@@ -73,20 +73,20 @@ public class HttpHelper {
 		params.put("t", timestamp + "");
 		params.put("token", getToken(params));
 		
-		if (DEBUG) Flog.i("request url", urlString);
-		if (DEBUG) Flog.i("request params", params.toString());
+		if (DEBUG) FLog.i("request url", urlString);
+		if (DEBUG) FLog.i("request params", params.toString());
 		
 		ArrayMap<String, String> finalParamsMap = getFinalParams(params, randomString, keyString, ivString);
 		
-		if (DEBUG && ENCRYPT_DEBUG) Flog.i("request encrypt params", finalParamsMap.toString());
+		if (DEBUG && ENCRYPT_DEBUG) FLog.i("request encrypt params", finalParamsMap.toString());
 
         HttpResponse response = HttpUtils.doPost(urlString, finalParamsMap);
 		
-		if (DEBUG && ENCRYPT_DEBUG) Flog.i("response encrypt text", response.text);
+		if (DEBUG && ENCRYPT_DEBUG) FLog.i("response encrypt text", response.text);
 		
 		String responseText = DESUtils.decryptWithDESede(response.text, keyString, ivString);
 		
-		if (DEBUG) Flog.i("response text", responseText);
+		if (DEBUG) FLog.i("response text", responseText);
 		
 		return responseText;
 	}

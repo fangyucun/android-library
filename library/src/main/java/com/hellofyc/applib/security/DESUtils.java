@@ -3,7 +3,7 @@ package com.hellofyc.applib.security;
 import android.annotation.SuppressLint;
 import android.support.annotation.NonNull;
 
-import com.hellofyc.applib.util.Flog;
+import com.hellofyc.applib.util.FLog;
 import com.hellofyc.applib.util.ParseUtils;
 
 import java.io.UnsupportedEncodingException;
@@ -48,7 +48,7 @@ public class DESUtils {
             cipher.init(Cipher.ENCRYPT_MODE, securekey, new IvParameterSpec(password.getBytes()));
             return cipher.doFinal(srcData);
         } catch (Exception e) {
-            if (DEBUG) Flog.e(e);
+            if (DEBUG) FLog.e(e);
         }
         return null;
     }
@@ -70,7 +70,7 @@ public class DESUtils {
             cipher.init(Cipher.DECRYPT_MODE, securekey, random);
             return cipher.doFinal(destData);
         } catch (Exception e) {
-            Flog.e(e);
+            FLog.e(e);
         }
         return null;
     }
@@ -145,7 +145,7 @@ public class DESUtils {
             cipher.init(Cipher.ENCRYPT_MODE, securekey, random);
             return cipher.doFinal(srcData);
         } catch (Exception e) {
-            if (DEBUG) Flog.e(e);
+            if (DEBUG) FLog.e(e);
         }
         return null;
     }
@@ -208,7 +208,7 @@ public class DESUtils {
             cipher.init(Cipher.ENCRYPT_MODE, sk, ivSpec);
             return cipher.doFinal(data);
         } catch (Exception e) {
-            Flog.e(e);
+            FLog.e(e);
         }
         return null;
     }
@@ -249,7 +249,7 @@ public class DESUtils {
             cipher.init(Cipher.DECRYPT_MODE, sk, ivSpec);
             return cipher.doFinal(data);
         } catch (Exception e) {
-            Flog.e(e);
+            FLog.e(e);
         }
         return null;
     }

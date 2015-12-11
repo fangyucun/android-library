@@ -20,7 +20,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
-import com.hellofyc.applib.util.Flog;
+import com.hellofyc.applib.util.FLog;
 
 public class ShutDownReceiver extends BroadcastReceiver {
 	static final boolean DEBUG = true;
@@ -30,7 +30,7 @@ public class ShutDownReceiver extends BroadcastReceiver {
 		final String action = intent.getAction();
 		if (Intent.ACTION_SHUTDOWN.equals(action)) {
 			//TODO
-            Flog.i("");
+            FLog.i("");
         }
 	}
 

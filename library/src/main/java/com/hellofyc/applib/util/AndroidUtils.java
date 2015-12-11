@@ -156,7 +156,7 @@ public final class AndroidUtils {
 	
 	public static boolean isDownloadManagerEnable(@NonNull Context context) {
 		int state = context.getPackageManager().getApplicationEnabledSetting("com.android.providers.downloads");
-		if (DEBUG) Flog.i("===state===" + state);
+		if (DEBUG) FLog.i("===state===" + state);
 		switch (state) {
 			case PackageManager.COMPONENT_ENABLED_STATE_DISABLED:
 			case PackageManager.COMPONENT_ENABLED_STATE_DISABLED_UNTIL_USED:
@@ -174,7 +174,7 @@ public final class AndroidUtils {
     	try {
     		ReflectUtils.invokeMethod(aManager, "forceStopPackage", packageName);
     	} catch (Exception e) {
-    		Flog.e(e);
+    		FLog.e(e);
     	}
     }
 	
@@ -322,7 +322,7 @@ public final class AndroidUtils {
             reader = new BufferedReader(new InputStreamReader(p.getInputStream()), 1024);
             return reader.readLine();
         } catch (IOException e) {
-        	Flog.e(e);
+        	FLog.e(e);
         } finally {
             IoUtils.close(reader);
         }
@@ -343,7 +343,7 @@ public final class AndroidUtils {
 			List< ActivityManager.RunningTaskInfo > taskInfo = am.getRunningTasks(1);
 			cm = taskInfo.get(0).topActivity;
 	    } catch (SecurityException e) {
-	    	Flog.e("Requires Permission: android.Manifest.permission#GET_TASKS");
+	    	FLog.e("Requires Permission: android.Manifest.permission#GET_TASKS");
 	    }
 		return cm;
     }
@@ -370,7 +370,7 @@ public final class AndroidUtils {
 			CertificateFactory certFactory = CertificateFactory.getInstance("X.509");
 			return (X509Certificate) certFactory.generateCertificate(new ByteArrayInputStream(signatureByteArray));
 		} catch (CertificateException e) {
-			if (DEBUG) Flog.e(e);
+			if (DEBUG) FLog.e(e);
 		}
 		return null;
     }
@@ -446,7 +446,7 @@ public final class AndroidUtils {
                 return true;
             }
         } catch (Exception e) {
-            if (DEBUG) Flog.e(e);
+            if (DEBUG) FLog.e(e);
         } finally {
             IoUtils.close(c);
         }
@@ -528,7 +528,7 @@ public final class AndroidUtils {
 					Instrumentation inst = new Instrumentation();
 					inst.sendKeyDownUpSync(keyCode);
 				} catch (Exception e) {
-					if (DEBUG) Flog.e(e);
+					if (DEBUG) FLog.e(e);
 				}
 			}
 		}.start();
@@ -583,7 +583,7 @@ public final class AndroidUtils {
 		try {
 			bitmap.compress(CompressFormat.PNG, 100, new FileOutputStream(file));
 		} catch (FileNotFoundException e) {
-			if (DEBUG) Flog.e(e.getMessage());
+			if (DEBUG) FLog.e(e.getMessage());
 		}
 		return file.getPath();
 	}
@@ -599,7 +599,7 @@ public final class AndroidUtils {
 		try {
 			bitmap.compress(CompressFormat.PNG, 100, new FileOutputStream(file));
 		} catch (FileNotFoundException e) {
-			if(DEBUG) Flog.e(e.getMessage());
+			if(DEBUG) FLog.e(e.getMessage());
 		}
 		return file.getPath();
 	}
@@ -624,7 +624,7 @@ public final class AndroidUtils {
 				return Secure.getInt(context.getContentResolver(), Secure.ADB_ENABLED) == 1;
 			}
 		} catch (SettingNotFoundException e) {
-			Flog.e(e);
+			FLog.e(e);
 			return false;
 		}
 	}
@@ -662,7 +662,7 @@ public final class AndroidUtils {
 			    field = notification.getClass().getField("extraNotification"); 
 			    field.set(notification, miuiNotification); 
 			} catch (Exception e) {
-				Flog.e(e);
+				FLog.e(e);
 			}
 			manager.notify(notifyId, notification);
 		}

@@ -123,7 +123,7 @@ public final class RomUtils {
 			String romStr = rom.get(null).toString();
 			if (romStr.startsWith("ColorOS")) return true;
 		} catch (Exception e) {
-            if (DEBUG) Flog.e(e);
+            if (DEBUG) FLog.e(e);
 		}
         return false;
 	}

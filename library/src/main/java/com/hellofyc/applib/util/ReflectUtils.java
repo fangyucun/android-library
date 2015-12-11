@@ -39,7 +39,7 @@ public class ReflectUtils {
 			Field field = getDeclaredField(receiver.getClass(), fieldName);
 			field.setBoolean(receiver, trueOrFalse);
 		} catch (Exception e) {
-			if (DEBUG) Flog.e(e);
+			if (DEBUG) FLog.e(e);
 		}
 	}
 	
@@ -54,7 +54,7 @@ public class ReflectUtils {
 			field.setAccessible(true);
 			return field;
 		} catch (NoSuchFieldException e) {
-			if (DEBUG) Flog.e(e);
+			if (DEBUG) FLog.e(e);
 			return null;
 		}
 	}
@@ -68,7 +68,7 @@ public class ReflectUtils {
 		try {
 			return cls.getField(fieldName);
 		} catch (NoSuchFieldException e) {
-			if (DEBUG) Flog.e(e);
+			if (DEBUG) FLog.e(e);
 		}
         return null;
     }
@@ -82,7 +82,7 @@ public class ReflectUtils {
 		try {
 			return cs[index].newInstance(constructorArgs);
 		} catch (Exception e) {
-			if (DEBUG) Flog.e(e);
+			if (DEBUG) FLog.e(e);
 		}
         return null;
     }
@@ -113,7 +113,7 @@ public class ReflectUtils {
 			Class<?> cls = Class.forName(className);
 			return invokeStaticMethod(cls, methodName, methodArgs);
 		} catch (ClassNotFoundException e) {
-			Flog.e(e);
+			FLog.e(e);
 		}
         return null;
     }
@@ -133,7 +133,7 @@ public class ReflectUtils {
 			Method method = cls.getMethod(methodName, argsClass);
 			return method.invoke(null, methodArgs);
 		} catch (Exception e) {
-			if (DEBUG) Flog.e(e);
+			if (DEBUG) FLog.e(e);
 			return null;
 		}
 	}

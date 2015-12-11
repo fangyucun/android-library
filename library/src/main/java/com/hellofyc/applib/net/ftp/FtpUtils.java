@@ -46,7 +46,7 @@ public class FtpUtils {
 //			boolean loginResult = ftpClient.login(username, password);
 //			int returnCode = ftpClient.getReplyCode();
 //			if (returnCode == FTPReply.NOT_LOGGED_IN) {
-//				Flog.e("UserName Or Password Is Wrong!");
+//				FLog.e("UserName Or Password Is Wrong!");
 //				return null;
 //			}
 //
@@ -63,12 +63,12 @@ public class FtpUtils {
 //			}
 //
 //		} catch (IOException e) {
-//			if (DEBUG) Flog.e(e);
+//			if (DEBUG) FLog.e(e);
 //		} finally {
 //			try {
 //				ftpClient.disconnect();
 //			} catch (IOException e) {
-//				Flog.e(e);
+//				FLog.e(e);
 //			}
 //		}
 //		return null;
@@ -87,7 +87,7 @@ public class FtpUtils {
 //					tempMap.put(file.getPath(), false);
 //				}
 //			} catch (IOException e) {
-//				Flog.e(e);
+//				FLog.e(e);
 //			}
 //		}
 //		return tempMap;

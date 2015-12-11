@@ -165,7 +165,7 @@ public final class TimeUtils {
 			Date date = new SimpleDateFormat(template, Locale.CHINA).parse(dateStr);
 			return date.getTime();
 		} catch (ParseException e) {
-			if (DEBUG) Flog.e(e);
+			if (DEBUG) FLog.e(e);
 		}
 		return 0;
 	}

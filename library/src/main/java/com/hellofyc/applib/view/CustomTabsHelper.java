@@ -22,13 +22,13 @@ public class CustomTabsHelper {
 //
 //            @Override
 //            public void onCustomTabsServiceConnected(ComponentName componentName, CustomTabsClient customTabsClient) {
-//                if (DEBUG) Flog.i("===onCustomTabsServiceConnected===");
+//                if (DEBUG) FLog.i("===onCustomTabsServiceConnected===");
 //                onCustomTabsServiceConnectSuccess(componentName, customTabsClient);
 //            }
 //
 //            @Override
 //            public void onServiceDisconnected(ComponentName name) {
-//                if (DEBUG) Flog.i("===onServiceDisconnected===");
+//                if (DEBUG) FLog.i("===onServiceDisconnected===");
 //            }
 //        };
 //        return CustomTabsClient.bindCustomTabsService(context, PACKAGE_NAME_CHROME, customTabsServiceConnection);

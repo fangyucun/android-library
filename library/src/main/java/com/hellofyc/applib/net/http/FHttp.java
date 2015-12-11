@@ -21,7 +21,7 @@ import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.v4.util.ArrayMap;
 
-import com.hellofyc.applib.util.Flog;
+import com.hellofyc.applib.util.FLog;
 
 import java.io.File;
 import java.util.Map;
@@ -129,11 +129,11 @@ public class FHttp {
 				String responseText = result.mResponseText;
 				
 				if (result.mHttpCallback == null) {
-					if (DEBUG) Flog.e("HttpCallback can not be null!");
+					if (DEBUG) FLog.e("HttpCallback can not be null!");
 					return;
 				}
 				
-				if(DEBUG) Flog.i("Response Text:" + result.mResponseText);
+				if(DEBUG) FLog.i("Response Text:" + result.mResponseText);
 				
 				result.mHttpCallback.onRequestFinish(result.mTag);
 				

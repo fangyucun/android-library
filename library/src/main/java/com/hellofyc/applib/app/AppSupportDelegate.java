@@ -56,7 +56,7 @@ import com.hellofyc.applib.content.ResourcesValue;
 import com.hellofyc.applib.helper.PermissionHelper;
 import com.hellofyc.applib.text.SpanBuilder;
 import com.hellofyc.applib.util.AndroidUtils;
-import com.hellofyc.applib.util.Flog;
+import com.hellofyc.applib.util.FLog;
 import com.hellofyc.applib.util.ToastUtils;
 
 /**
@@ -116,7 +116,7 @@ public class AppSupportDelegate implements ResourcesValue {
 			if (view != null) {
 				view.setOnClickListener(listener);
 			} else {
-				Flog.e("Some Views are null!");
+				FLog.e("Some Views are null!");
 			}
 		}
 	}

@@ -40,7 +40,7 @@ public class ParcelUtils {
                 return intent.getParcelableExtra(name);
             }
         } catch (Exception e) {
-            if (DEBUG) Flog.e(e);
+            if (DEBUG) FLog.e(e);
         }
         return null;
     }
@@ -51,7 +51,7 @@ public class ParcelUtils {
                 return intent.getIntExtra(name, defValue);
             }
         } catch (Exception e) {
-            if (DEBUG) Flog.e(e);
+            if (DEBUG) FLog.e(e);
         }
         return defValue;
     }
@@ -62,7 +62,7 @@ public class ParcelUtils {
                 return intent.getIntArrayExtra(name);
             }
         } catch (Exception e) {
-            if (DEBUG) Flog.e(e);
+            if (DEBUG) FLog.e(e);
         }
         return null;
     }
@@ -73,7 +73,7 @@ public class ParcelUtils {
                 return intent.getIntegerArrayListExtra(name);
             }
         } catch (Exception e) {
-            if (DEBUG) Flog.e(e);
+            if (DEBUG) FLog.e(e);
         }
         return null;
     }
@@ -84,7 +84,7 @@ public class ParcelUtils {
                 return intent.getLongExtra(name, defValue);
             }
         } catch (Exception e) {
-            if (DEBUG) Flog.e(e);
+            if (DEBUG) FLog.e(e);
         }
         return defValue;
     }
@@ -95,7 +95,7 @@ public class ParcelUtils {
                 return intent.getLongArrayExtra(name);
             }
         } catch (Exception e) {
-            if (DEBUG) Flog.e(e);
+            if (DEBUG) FLog.e(e);
         }
         return null;
     }
@@ -106,7 +106,7 @@ public class ParcelUtils {
                 return intent.getStringExtra(name);
             }
         } catch (Exception e) {
-            if (DEBUG) Flog.e(e);
+            if (DEBUG) FLog.e(e);
         }
         return "";
     }
@@ -117,7 +117,7 @@ public class ParcelUtils {
                 return intent.getStringArrayListExtra(name);
             }
         } catch (Exception e) {
-            if (DEBUG) Flog.e(e);
+            if (DEBUG) FLog.e(e);
         }
         return null;
     }
@@ -128,7 +128,7 @@ public class ParcelUtils {
                 return intent.getStringArrayExtra(name);
             }
         } catch (Exception e) {
-            if (DEBUG) Flog.e(e);
+            if (DEBUG) FLog.e(e);
         }
         return null;
     }
@@ -139,7 +139,7 @@ public class ParcelUtils {
                 return intent.getBooleanExtra(name, defaultValue);
             }
         } catch (Exception e) {
-            if (DEBUG) Flog.e(e);
+            if (DEBUG) FLog.e(e);
         }
         return defaultValue;
     }
@@ -150,7 +150,7 @@ public class ParcelUtils {
                 return intent.getBooleanArrayExtra(name);
             }
         } catch (Exception e) {
-            if (DEBUG) Flog.e(e);
+            if (DEBUG) FLog.e(e);
         }
         return null;
     }
@@ -161,7 +161,7 @@ public class ParcelUtils {
                 return intent.getFloatExtra(name, defaultValue);
             }
         } catch (Exception e) {
-            if (DEBUG) Flog.e(e);
+            if (DEBUG) FLog.e(e);
         }
         return defaultValue;
     }
@@ -172,7 +172,7 @@ public class ParcelUtils {
                 return intent.getFloatArrayExtra(name);
             }
         } catch (Exception e) {
-            if (DEBUG) Flog.e(e);
+            if (DEBUG) FLog.e(e);
         }
         return null;
     }
@@ -183,7 +183,7 @@ public class ParcelUtils {
                 return intent.getDoubleExtra(name, defaultValue);
             }
         } catch (Exception e) {
-            if (DEBUG) Flog.e(e);
+            if (DEBUG) FLog.e(e);
         }
         return defaultValue;
     }
@@ -194,7 +194,7 @@ public class ParcelUtils {
                 return intent.getDoubleArrayExtra(name);
             }
         } catch (Exception e) {
-            if (DEBUG) Flog.e(e);
+            if (DEBUG) FLog.e(e);
         }
         return null;
     }
@@ -205,7 +205,7 @@ public class ParcelUtils {
                 return intent.getBundleExtra(name);
             }
         } catch (Exception e) {
-            if (DEBUG) Flog.e(e);
+            if (DEBUG) FLog.e(e);
         }
         return null;
     }
@@ -216,7 +216,7 @@ public class ParcelUtils {
                 return intent.getByteExtra(name, defaultValue);
             }
         } catch (Exception e) {
-            if (DEBUG) Flog.e(e);
+            if (DEBUG) FLog.e(e);
         }
         return defaultValue;
     }
@@ -227,7 +227,7 @@ public class ParcelUtils {
                 return intent.getByteArrayExtra(name);
             }
         } catch (Exception e) {
-            if (DEBUG) Flog.e(e);
+            if (DEBUG) FLog.e(e);
         }
         return null;
     }
@@ -238,7 +238,7 @@ public class ParcelUtils {
                 return intent.getCharExtra(name, defaultValue);
             }
         } catch (Exception e) {
-            if (DEBUG) Flog.e(e);
+            if (DEBUG) FLog.e(e);
         }
         return defaultValue;
     }
@@ -249,7 +249,7 @@ public class ParcelUtils {
                 return intent.getCharArrayExtra(name);
             }
         } catch (Exception e) {
-            if (DEBUG) Flog.e(e);
+            if (DEBUG) FLog.e(e);
         }
         return null;
     }
@@ -260,7 +260,7 @@ public class ParcelUtils {
                 return intent.getCharSequenceExtra(name);
             }
         } catch (Exception e) {
-            if (DEBUG) Flog.e(e);
+            if (DEBUG) FLog.e(e);
         }
         return null;
     }
@@ -271,7 +271,7 @@ public class ParcelUtils {
                 return intent.getCharSequenceArrayExtra(name);
             }
         } catch (Exception e) {
-            if (DEBUG) Flog.e(e);
+            if (DEBUG) FLog.e(e);
         }
         return null;
     }
@@ -282,7 +282,7 @@ public class ParcelUtils {
                 return intent.getCharSequenceArrayListExtra(name);
             }
         } catch (Exception e) {
-            if (DEBUG) Flog.e(e);
+            if (DEBUG) FLog.e(e);
         }
         return null;
     }
@@ -333,7 +333,7 @@ public class ParcelUtils {
 				parcel.writeByte(f.getByte(obj));
 			}
 		} catch (IllegalAccessException | IllegalArgumentException e) {
-			Flog.e(e);
+			FLog.e(e);
 		}
 	}
 	
@@ -357,7 +357,7 @@ public class ParcelUtils {
 				f.setByte(obj, parcel.readByte());
 			}
 		} catch (IllegalAccessException | IllegalArgumentException e) {
-			Flog.e(e);
+			FLog.e(e);
 		}
 	}
 	

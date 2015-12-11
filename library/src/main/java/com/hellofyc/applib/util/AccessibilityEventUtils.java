@@ -35,7 +35,7 @@ public class AccessibilityEventUtils {
             try {
                 pendingIntent.send();
             } catch (PendingIntent.CanceledException e) {
-                if (DEBUG) Flog.e(e);
+                if (DEBUG) FLog.e(e);
             }
         }
     }

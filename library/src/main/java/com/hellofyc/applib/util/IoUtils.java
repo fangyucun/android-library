@@ -51,7 +51,7 @@ public final class IoUtils {
 			try {
 				os.close();
             } catch (IOException e) {
-                Flog.e(e);
+                FLog.e(e);
             }
 		}
 	}
@@ -61,7 +61,7 @@ public final class IoUtils {
 			try {
 				is.close();
 			} catch (IOException e) {
-				Flog.e(e);
+				FLog.e(e);
 			}
 		}
 	}
@@ -71,7 +71,7 @@ public final class IoUtils {
 			try {
 				reader.close();
 			} catch (IOException e) {
-				Flog.e(e);
+				FLog.e(e);
 			}
 		}
 	}
@@ -81,7 +81,7 @@ public final class IoUtils {
 			try {
 				writer.close();
 			} catch (IOException e) {
-				Flog.e(e);
+				FLog.e(e);
 			}
 		}
 	}
@@ -91,7 +91,7 @@ public final class IoUtils {
 			try {
 				file.close();
 			} catch (IOException e) {
-				Flog.e(e);
+				FLog.e(e);
 			}
 		}
 	}
@@ -102,7 +102,7 @@ public final class IoUtils {
 				try {
 					socket.close();
 				} catch (IOException e) {
-					Flog.e(e);
+					FLog.e(e);
 				}
 			}
 		}
@@ -113,7 +113,7 @@ public final class IoUtils {
 			try {
 				socket.close();
 			} catch (IOException e) {
-				Flog.e(e);
+				FLog.e(e);
 			}
 		}
 	}
@@ -135,7 +135,7 @@ public final class IoUtils {
 			try {
 				closeable.close();
 			} catch (IOException e) {
-				Flog.e(e);
+				FLog.e(e);
 			}
 		}
 	}
@@ -164,7 +164,7 @@ public final class IoUtils {
 		} else if (obj instanceof Closeable) {
 			close((Closeable)obj);
 		} else {
-			Flog.e("不支持的关闭!");
+			FLog.e("不支持的关闭!");
 			throw new RuntimeException("不支持的关闭!");
 		}
 	}
@@ -215,7 +215,7 @@ public final class IoUtils {
                 text.append("\n");
 			}
 		} catch (IOException e) {
-			Flog.e(e);
+			FLog.e(e);
 		} finally {
 			close(reader, in);
 		}

@@ -70,17 +70,17 @@ public final class FileUtils {
 	
 	public static byte[] readFile(File file, int offset, long length) {
 		if (!isFileExists(file)) {
-			Flog.e("file not exists!");
+			FLog.e("file not exists!");
 			return null;
 		}
 		
 		if (offset < 0) {
-			Flog.e("readFile offset cannot below 0");
+			FLog.e("readFile offset cannot below 0");
 			return null;
 		}
 		
 		if (length < -1) {
-			Flog.e("readFile length cannot below -1");
+			FLog.e("readFile length cannot below -1");
 			return null;
 		}
 
@@ -89,7 +89,7 @@ public final class FileUtils {
 		}
 		
 		if (offset + length > file.length()) {
-			Flog.e("readFile offset plus length more than file length!");
+			FLog.e("readFile offset plus length more than file length!");
 			return null;
 		}
 		
@@ -101,7 +101,7 @@ public final class FileUtils {
 			raFile.seek(offset);
 			raFile.readFully(bytes);
 		} catch (Exception e) {
-            if (DEBUG) Flog.e(e);
+            if (DEBUG) FLog.e(e);
 		} finally {
 			IoUtils.close(raFile);
 		}
@@ -110,7 +110,7 @@ public final class FileUtils {
  	
 	public static byte[] readFile(String filePath, int offset, long length) {
 		if (TextUtils.isEmpty(filePath)) {
-			Flog.e("filePath is empty!");
+			FLog.e("filePath is empty!");
 			return null;
 		}
 		return readFile(new File(filePath), offset, length);
@@ -251,13 +251,13 @@ public final class FileUtils {
 	    		return true;
 	    	}
     	} catch (IOException e) {
-    		if (DEBUG) Flog.e(e);
+    		if (DEBUG) FLog.e(e);
     	}
     	return false;
     }
 
 	public static boolean deleteFile(File file) {
-		if (DEBUG) Flog.i("===i come in===");
+		if (DEBUG) FLog.i("===i come in===");
 		
 		boolean isDelete;
 
@@ -300,7 +300,7 @@ public final class FileUtils {
 			fos.close();
 			return bitmapFile;
 		} catch (FileNotFoundException e) {
-			if (DEBUG) Flog.e(e);
+			if (DEBUG) FLog.e(e);
 		} catch (Exception e) {
 			FileUtils.deleteFile(bitmapFile);
 		}
@@ -328,7 +328,7 @@ public final class FileUtils {
 				writer.write(text);
 				return file;
 			} catch (IOException e) {
-				Flog.e(e);
+				FLog.e(e);
 			} finally {
 				IoUtils.close(writer, reader);
 			}
@@ -361,7 +361,7 @@ public final class FileUtils {
 			}
             return true;
 		} catch (IOException e) {
-			if (DEBUG) Flog.e(e);
+			if (DEBUG) FLog.e(e);
 		}
         return false;
 	}
@@ -372,7 +372,7 @@ public final class FileUtils {
 		try {
 			fout.write(bytes);
 		} catch (Exception e) {
-            if (DEBUG) Flog.e(e);
+            if (DEBUG) FLog.e(e);
         } finally {
 			fout.close();
 		}
@@ -389,7 +389,7 @@ public final class FileUtils {
 			bis = new BufferedInputStream(new FileInputStream(filePath));
 			p = (bis.read() << 8) + bis.read();
 		} catch (Exception e) {
-			if (DEBUG) Flog.e(e);
+			if (DEBUG) FLog.e(e);
 		} finally {
 			IoUtils.close(bis);
 		}

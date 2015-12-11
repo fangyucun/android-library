@@ -21,7 +21,7 @@ import android.text.TextUtils;
 
 import com.hellofyc.applib.util.EncodeUtils;
 import com.hellofyc.applib.util.FileUtils;
-import com.hellofyc.applib.util.Flog;
+import com.hellofyc.applib.util.FLog;
 import com.hellofyc.applib.util.IoUtils;
 
 import java.io.BufferedReader;
@@ -67,16 +67,16 @@ public class HttpUtils {
 			connection = openConnection(new URL(urlString));
 			setConnectionParametersForRequest(method, connection, params);
             response.code = connection.getResponseCode();
-			if (DEBUG) Flog.i("===responseCode:" + response.code);
+			if (DEBUG) FLog.i("===responseCode:" + response.code);
 			if (response.code == HttpURLConnection.HTTP_OK) {
 				String responseText = readStream(connection.getInputStream());
-				if (DEBUG) Flog.i("===responseText:" + responseText);
+				if (DEBUG) FLog.i("===responseText:" + responseText);
                 response.text = responseText;
 			} else {
                 response.text = connection.getResponseMessage();
             }
 		} catch (IOException e) {
-            if (DEBUG) Flog.e(e);
+            if (DEBUG) FLog.e(e);
             response.code = HttpResponse.STATUS_CODE_UNKNOWN;
             response.text = "未知错误";
             return response;
@@ -105,7 +105,7 @@ public class HttpUtils {
 				return readStream(connection.getInputStream());
 			}
 		} catch (Exception e) {
-			if (DEBUG) Flog.e(e);
+			if (DEBUG) FLog.e(e);
 		} finally {
 			if (connection != null) {
 				connection.disconnect();

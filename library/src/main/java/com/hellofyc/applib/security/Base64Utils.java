@@ -3,7 +3,7 @@ package com.hellofyc.applib.security;
 import android.support.annotation.NonNull;
 import android.util.Base64;
 
-import com.hellofyc.applib.util.Flog;
+import com.hellofyc.applib.util.FLog;
 
 import java.io.UnsupportedEncodingException;
 
@@ -23,7 +23,7 @@ public class Base64Utils {
         try {
             return Base64.encode(data, Base64.DEFAULT);
         } catch (Exception e) {
-            if (DEBUG) Flog.e(e);
+            if (DEBUG) FLog.e(e);
         }
         return null;
     }
@@ -36,7 +36,7 @@ public class Base64Utils {
         try {
             return Base64.encodeToString(data, Base64.DEFAULT);
         } catch (Exception e) {
-            if (DEBUG) Flog.e(e);
+            if (DEBUG) FLog.e(e);
         }
         return "";
     }
@@ -65,7 +65,7 @@ public class Base64Utils {
         try {
             return new String(Base64.decode(data, Base64.DEFAULT), "US-ASCII");
         } catch (Exception e) {
-            if(DEBUG) Flog.e(e);
+            if(DEBUG) FLog.e(e);
         }
         return "";
     }

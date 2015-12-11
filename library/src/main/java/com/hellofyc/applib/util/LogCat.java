@@ -51,7 +51,7 @@ public class LogCat {
 				builder.append(separator);
 			}
 		} catch (IOException e) {
-			Flog.e(e);
+			FLog.e(e);
 		} finally {
 			IoUtils.close(mLogCatReader);
 		}

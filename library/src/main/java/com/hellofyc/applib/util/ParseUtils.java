@@ -99,7 +99,7 @@ public class ParseUtils {
 	        }
 	        return bytes;
         } catch (Exception e) {
-        	if (DEBUG) Flog.e(e);
+        	if (DEBUG) FLog.e(e);
         }
         return null;
     }
@@ -117,10 +117,10 @@ public class ParseUtils {
     			inputStream = urlConnection.getInputStream();
     			return inputStreamToBytes(inputStream);
     		} else {
-    			if (DEBUG) Flog.i("===Resonpse Code===" + responseCode);
+    			if (DEBUG) FLog.i("===Resonpse Code===" + responseCode);
     		}
 		} catch (IOException e) {
-			if (DEBUG) Flog.e(e);
+			if (DEBUG) FLog.e(e);
 		}
     	return null;
     }
@@ -135,7 +135,7 @@ public class ParseUtils {
 				baos.write(oneByte);
 			}
 		} catch (IOException e) {
-			if (DEBUG) Flog.e(e);
+			if (DEBUG) FLog.e(e);
 		} finally {
 			IoUtils.close(baos);
 		}
@@ -144,7 +144,7 @@ public class ParseUtils {
     
     public static byte[] bitmapToBytes(Bitmap bitmap, boolean recycle) {
     	if (bitmap == null) {
-    		Flog.e("args bitmap is null");
+    		FLog.e("args bitmap is null");
     		return null;
     	}
     	

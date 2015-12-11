@@ -20,7 +20,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.hellofyc.applib.util.Flog;
+import com.hellofyc.applib.util.FLog;
 
 public class DbHelper extends SQLiteOpenHelper {
 
@@ -78,7 +78,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-		if (DEBUG) Flog.i("onUpgrade");
+		if (DEBUG) FLog.i("onUpgrade");
 	}
 	
 	private static class SingletonHolder {

@@ -57,7 +57,7 @@ import android.widget.EditText;
 import com.hellofyc.applib.helper.SystemBarTintManager;
 import com.hellofyc.applib.app.AppSupportDelegate;
 import com.hellofyc.applib.content.IntentWrapper;
-import com.hellofyc.applib.util.Flog;
+import com.hellofyc.applib.util.FLog;
 import com.hellofyc.applib.util.ResUtils;
 import com.hellofyc.applib.util.ToastUtils;
 
@@ -268,14 +268,14 @@ abstract public class BaseActivity extends AppCompatActivity implements OnClickL
 		try {
 			super.unbindService(conn);
 		} catch (IllegalArgumentException e) {
-			Flog.e("Service not registered!");
+			FLog.e("Service not registered!");
 		}
 	}
 
 	@Override
 	public boolean stopService(Intent name) {
 		if (name == null) {
-			Flog.e("intent cannot be null!");
+			FLog.e("intent cannot be null!");
 			return true;
 		}
 		return super.stopService(name);

@@ -75,7 +75,7 @@ public final class StorageUtils {
             }
             return avaliableSize;
         } catch (Exception e) {
-        	Flog.e(e);
+        	FLog.e(e);
         }
         return 0;
     }

@@ -42,7 +42,7 @@ import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
 import com.hellofyc.applib.content.BaseBroadcastReceiver;
-import com.hellofyc.applib.util.Flog;
+import com.hellofyc.applib.util.FLog;
 import com.hellofyc.applib.util.NumberUtils;
 import com.hellofyc.applib.util.ReflectUtils;
 
@@ -215,7 +215,7 @@ public class WifiHelper {
 		try {
 			apState = (Integer) ReflectUtils.invokeMethod(mWifiManager, "getWifiApState");
 		} catch (Exception e) {
-			if (DEBUG) Flog.e(e);
+			if (DEBUG) FLog.e(e);
 		}
 		return apState;
 	}
@@ -243,7 +243,7 @@ public class WifiHelper {
 		try {
 			mWifiLock.acquire();
 		} catch (SecurityException e) {
-			Flog.e(e);
+			FLog.e(e);
 		}
 	}
 	
@@ -422,7 +422,7 @@ public class WifiHelper {
 		try {
 			return mWifiManager.getConnectionInfo();
 		} catch(SecurityException e) {
-			Flog.e("Requires Permission: android.Manifest.permission#ACCESS_WIFI_STATE");
+			FLog.e("Requires Permission: android.Manifest.permission#ACCESS_WIFI_STATE");
 		}
 		return null;
 	}
@@ -560,7 +560,7 @@ public class WifiHelper {
 			
 			return (Boolean)ReflectUtils.invokeMethod(mWifiManager, "setWifiApEnabled", wifiApConfig, true);
 		} catch (Exception e) {
-			Flog.e(e);
+			FLog.e(e);
 		}
 		return false;
 	}
@@ -573,7 +573,7 @@ public class WifiHelper {
 			return (Boolean)ReflectUtils.invokeMethod(mWifiManager, "setWifiApEnabled"
 					, createWifiApConfiguration("JasonFangEngineer", "18600635950"), false);
 		} catch (Exception e) {
-			Flog.e(e);
+			FLog.e(e);
 		}
 		return false;
 	}
@@ -830,7 +830,7 @@ public class WifiHelper {
 			try {
 				mContext.unregisterReceiver(receiver);
 			} catch (Exception e) {
-				if (DEBUG) Flog.e(e);
+				if (DEBUG) FLog.e(e);
 			}
 		}
 	}
@@ -1056,7 +1056,7 @@ public class WifiHelper {
 		
 		@Override
 		public void onTick(long millisUntilFinished) {
-			if(DEBUG) Flog.i("onTick:" + millisUntilFinished / 1000);
+			if(DEBUG) FLog.i("onTick:" + millisUntilFinished / 1000);
 		}
 
 		@Override

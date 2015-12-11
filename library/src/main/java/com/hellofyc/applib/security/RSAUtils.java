@@ -4,7 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-import com.hellofyc.applib.util.Flog;
+import com.hellofyc.applib.util.FLog;
 import com.hellofyc.applib.util.ResUtils;
 
 import java.math.BigInteger;
@@ -53,7 +53,7 @@ public class RSAUtils {
             generator.initialize(1024);
             return generator.generateKeyPair();
         } catch (NoSuchAlgorithmException e) {
-            if (DEBUG) Flog.e(e);
+            if (DEBUG) FLog.e(e);
         }
         return null;
     }
@@ -76,7 +76,7 @@ public class RSAUtils {
             X509EncodedKeySpec keySpec = new X509EncodedKeySpec(keyData);
             return KeyFactory.getInstance(ALGORITHM_RSA).generatePublic(keySpec);
         } catch (Exception e) {
-            Flog.e(e);
+            FLog.e(e);
         }
         return null;
     }
@@ -91,7 +91,7 @@ public class RSAUtils {
         try {
             return KeyFactory.getInstance(ALGORITHM_RSA).generatePublic(keySpec);
         } catch (Exception e) {
-            Flog.e(e);
+            FLog.e(e);
         }
         return null;
     }
@@ -116,7 +116,7 @@ public class RSAUtils {
     //		    KeyFactory kf = KeyFactory.getInstance("RSA");
     //		    return kf.generatePrivate(spec);
     //		} catch (Exception e) {
-    //			Flog.e(e);
+    //			FLog.e(e);
     //		}
     //		return null;
     //	}
@@ -128,7 +128,7 @@ public class RSAUtils {
         try {
             return KeyFactory.getInstance(ALGORITHM_RSA).generatePrivate(keySpec);
         } catch (Exception e) {
-            Flog.e(e);
+            FLog.e(e);
         }
         return null;
     }
@@ -145,7 +145,7 @@ public class RSAUtils {
             PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(keyData);
             return KeyFactory.getInstance(ALGORITHM_RSA).generatePrivate(keySpec);
         } catch (Exception e) {
-            Flog.e(e);
+            FLog.e(e);
         }
         return null;
     }
@@ -164,7 +164,7 @@ public class RSAUtils {
             cipher.init(Cipher.ENCRYPT_MODE, key);
             return cipher.doFinal(data);
         } catch (Exception e) {
-            Flog.e(e);
+            FLog.e(e);
         }
         return null;
     }
@@ -183,7 +183,7 @@ public class RSAUtils {
             cipher.init(Cipher.DECRYPT_MODE, key);
             return cipher.doFinal(data);
         } catch (Exception e) {
-            if (DEBUG) Flog.e(e);
+            if (DEBUG) FLog.e(e);
         }
         return null;
     }

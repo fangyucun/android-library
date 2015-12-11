@@ -27,7 +27,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Build;
 
-import com.hellofyc.applib.util.Flog;
+import com.hellofyc.applib.util.FLog;
 
 import java.io.IOException;
 import java.util.UUID;
@@ -144,7 +144,7 @@ public class BluetoothAdmin {
 			BluetoothServerSocket socket = mAdapter.listenUsingRfcommWithServiceRecord(serverName, uuid);
 			socket.accept();
 		} catch (IOException e) {
-			Flog.e(e);
+			FLog.e(e);
 		}
 	}
 }

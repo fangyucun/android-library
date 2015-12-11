@@ -2,7 +2,7 @@ package com.hellofyc.applib.security;
 
 import android.support.annotation.NonNull;
 
-import com.hellofyc.applib.util.Flog;
+import com.hellofyc.applib.util.FLog;
 import com.hellofyc.applib.util.ParseUtils;
 
 import java.io.UnsupportedEncodingException;
@@ -39,7 +39,7 @@ public class AESUtils {
             data = sb.toString().getBytes("UTF-8");
             return new SecretKeySpec(data, ALGORITHM_AES);
         } catch (Exception e) {
-            if (DEBUG)  Flog.e(e);
+            if (DEBUG)  FLog.e(e);
         }
         return null;
     }
@@ -58,7 +58,7 @@ public class AESUtils {
             cipher.init(Cipher.ENCRYPT_MODE, key);
             return cipher.doFinal(data);
         } catch (Exception e) {
-            if (DEBUG) Flog.e(e);
+            if (DEBUG) FLog.e(e);
         }
         return null;
     }
@@ -85,7 +85,7 @@ public class AESUtils {
             cipher.init(Cipher.DECRYPT_MODE, key);
             return cipher.doFinal(content);
         } catch (Exception e) {
-            if (DEBUG) Flog.e(e);
+            if (DEBUG) FLog.e(e);
         }
         return null;
     }
@@ -100,7 +100,7 @@ public class AESUtils {
             try {
                 return new String(data, "UTF-8");
             } catch (UnsupportedEncodingException e) {
-                if (DEBUG) Flog.e(e);
+                if (DEBUG) FLog.e(e);
             }
         }
         return null;

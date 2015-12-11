@@ -46,7 +46,7 @@ public final class JsonUtils {
                 JSONObject jsonObject = new JSONObject(jsonString);
                 result = parseJsonObject(jsonObject);
             } catch (JSONException e) {
-            	if (DEBUG) Flog.e(e);
+            	if (DEBUG) FLog.e(e);
             }
         }
         return result;
@@ -110,7 +110,7 @@ public final class JsonUtils {
     	try {
 			return new JSONObject(jsonString);
 		} catch (JSONException e) {
-			if (DEBUG) Flog.e(e);
+			if (DEBUG) FLog.e(e);
 		}
     	return null;
     }
@@ -120,7 +120,7 @@ public final class JsonUtils {
     		try {
 				return object.get(name);
 			} catch (JSONException e) {
-				if (DEBUG) Flog.e(e);
+				if (DEBUG) FLog.e(e);
 			}
     	}
     	return null;
@@ -143,7 +143,7 @@ public final class JsonUtils {
     	try {
     		return array.getInt(index);
     	} catch (JSONException e) {
-    		if (DEBUG) Flog.e(e);
+    		if (DEBUG) FLog.e(e);
     	}
     	return -1;
     }
@@ -153,7 +153,7 @@ public final class JsonUtils {
     	try {
     		i = Integer.valueOf(StringUtils.valueOf(get(array, index, name)));
     	} catch (Exception e) {
-    		if (DEBUG) Flog.e(e);
+    		if (DEBUG) FLog.e(e);
     	}
     	return i;
     }
@@ -163,7 +163,7 @@ public final class JsonUtils {
     	try {
     		l = Long.valueOf(StringUtils.valueOf(get(object, name)));
     	} catch (Exception e) {
-    		if (DEBUG) Flog.e(e);
+    		if (DEBUG) FLog.e(e);
     	}
     	return l;
     }
@@ -173,7 +173,7 @@ public final class JsonUtils {
     	try {
     		l = Long.valueOf(StringUtils.valueOf(get(array, index, name)));
     	} catch (Exception e) {
-    		if (DEBUG) Flog.e(e);
+    		if (DEBUG) FLog.e(e);
     	}
     	return l;
     }
@@ -183,7 +183,7 @@ public final class JsonUtils {
     	try {
     		d = Double.valueOf(StringUtils.valueOf(get(object, name)));
     	} catch (Exception e) {
-    		if (DEBUG) Flog.e(e);
+    		if (DEBUG) FLog.e(e);
     	}
     	return d;
     }
@@ -193,7 +193,7 @@ public final class JsonUtils {
     	try {
     		d = Double.valueOf(StringUtils.valueOf(get(array, index, name)));
     	} catch (Exception e) {
-    		if (DEBUG) Flog.e(e);
+    		if (DEBUG) FLog.e(e);
     	}
     	return d;
     }
@@ -203,7 +203,7 @@ public final class JsonUtils {
     	try {
     		i = Integer.valueOf(StringUtils.valueOf(get(object, name)));
     	} catch (Exception e) {
-    		if (DEBUG) Flog.e(e);
+    		if (DEBUG) FLog.e(e);
     	}
     	return i;
     }
@@ -213,7 +213,7 @@ public final class JsonUtils {
     	try {
     		b = Boolean.parseBoolean(StringUtils.valueOf(get(object, name)));
     	} catch (Exception e) {
-    		if (DEBUG) Flog.e(e);
+    		if (DEBUG) FLog.e(e);
     	}
     	return b;
     }
@@ -223,7 +223,7 @@ public final class JsonUtils {
     	try {
     		b = Boolean.parseBoolean(StringUtils.valueOf(get(array, index, name)));
     	} catch (Exception e) {
-    		if (DEBUG) Flog.e(e);
+    		if (DEBUG) FLog.e(e);
     	}
     	return b;
     }
@@ -233,7 +233,7 @@ public final class JsonUtils {
 	    	try {
 				return object.getJSONArray(name);
 			} catch (JSONException e) {
-				if (DEBUG) Flog.e(e);
+				if (DEBUG) FLog.e(e);
 			}
     	}
     	return new JSONArray();
@@ -244,7 +244,7 @@ public final class JsonUtils {
     		try {
     			return object.getJSONObject(name);
     		} catch (JSONException e) {
-    			if (DEBUG) Flog.e(e);
+    			if (DEBUG) FLog.e(e);
     		}
     	}
     	return null;
@@ -255,7 +255,7 @@ public final class JsonUtils {
     		try {
     			return array.getJSONObject(index);
     		} catch (JSONException e) {
-    			if (DEBUG) Flog.e(e);
+    			if (DEBUG) FLog.e(e);
     		}
     	}
     	return new JSONObject();

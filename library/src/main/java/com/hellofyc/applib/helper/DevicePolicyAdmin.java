@@ -25,7 +25,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 
-import com.hellofyc.applib.util.Flog;
+import com.hellofyc.applib.util.FLog;
 
 /**
  * 设备管理器管理类
@@ -45,7 +45,7 @@ public class DevicePolicyAdmin {
 		if (context instanceof Activity) {
 			mActivity = (Activity)context;
 		} else {
-			Flog.e("context is not the instance of Activity!");
+			FLog.e("context is not the instance of Activity!");
 		}
 		mDPManager = (DevicePolicyManager)context.getSystemService(Context.DEVICE_POLICY_SERVICE);
 		mConponentName = new ComponentName(context, JasonDeviceAdminReceiver.class);

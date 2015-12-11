@@ -248,7 +248,7 @@ public final class ImageUtils {
             opts.inJustDecodeBounds = false;
 			bitmap = BitmapFactory.decodeStream(is, null, opts);
 		} catch (Exception e) {
-			if (DEBUG) Flog.e(e);
+			if (DEBUG) FLog.e(e);
 		}
 		return bitmap;
 	}
@@ -318,7 +318,7 @@ public final class ImageUtils {
 	        }
 	        return Bitmap.createBitmap(bitmapSource, w, h, Config.ARGB_8888);
 	    } catch (GLException e) {
-	    	Flog.e(e);
+	    	FLog.e(e);
 	    }
 	    return null;
 	}

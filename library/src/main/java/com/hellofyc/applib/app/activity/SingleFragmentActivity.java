@@ -24,7 +24,7 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.FrameLayout;
 
 import com.hellofyc.applib.R;
-import com.hellofyc.applib.util.Flog;
+import com.hellofyc.applib.util.FLog;
 
 /**
  * Fragment Container
@@ -74,7 +74,7 @@ public class SingleFragmentActivity extends BaseActivity {
 			transaction.commit();
 			
 		} catch (Exception e) {
-			if (DEBUG) Flog.e(e);
+			if (DEBUG) FLog.e(e);
 		}
 	}
 	

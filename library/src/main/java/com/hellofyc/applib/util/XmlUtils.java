@@ -39,7 +39,7 @@ public class XmlUtils {
 //		try {
 //			eventType = parser.getEventType();
 //		} catch (XmlPullParserException e) {
-//			Flog.e(e);
+//			FLog.e(e);
 //		}
 //		while (eventType != XmlResourceParser.END_DOCUMENT) {
 //			switch (eventType) {

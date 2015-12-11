@@ -27,7 +27,7 @@ import android.webkit.JsPromptResult;
 import android.webkit.WebView;
 
 import com.hellofyc.applib.util.CollectionUtils;
-import com.hellofyc.applib.util.Flog;
+import com.hellofyc.applib.util.FLog;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -401,7 +401,7 @@ public class BaseWebView extends WebView {
         @SuppressWarnings("unused")
         @JavascriptInterface
         public void onImageClick(String imageUrls, String clickUrl) {
-            if (DEBUG) Flog.i("click url:" + clickUrl);
+            if (DEBUG) FLog.i("click url:" + clickUrl);
 
             if (mOnWebViewImageClickListener != null) {
                 ArrayList<String> stringList = CollectionUtils.parseListToArrayList(Arrays.asList(imageUrls.split(",")));

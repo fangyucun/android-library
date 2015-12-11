@@ -92,9 +92,9 @@ public final class ResUtils {
     public static int getResId(@NonNull Context context, String resName, String defType) {
     	Resources resources = context.getResources();
     	int resId = resources.getIdentifier(resName, defType, context.getPackageName());
-    	if (DEBUG) Flog.i(defType + " resId:" + resId);
+    	if (DEBUG) FLog.i(defType + " resId:" + resId);
     	if (resId == 0) {
-    		Flog.e(defType + " \"" + resName + "\" have not found!");
+    		FLog.e(defType + " \"" + resName + "\" have not found!");
     	}
     	return resId;
     }
@@ -102,7 +102,7 @@ public final class ResUtils {
     public static Drawable getDrawableFromJar(@NonNull Context context, String resName) {
     	InputStream inStream = ResUtils.class.getResourceAsStream("/res/drawable-hdpi/" + resName);
     	URL url = ResUtils.class.getResource("/res/drawable-hdpi/" + resName);
-    	if (DEBUG) Flog.i("file:" + url.getFile());
+    	if (DEBUG) FLog.i("file:" + url.getFile());
     	return new BitmapDrawable(context.getResources(), inStream);
     }
     
@@ -116,7 +116,7 @@ public final class ResUtils {
     		try {
 				if (!targetFile.createNewFile()) return false;
 			} catch (IOException e) {
-				Flog.e(e);
+				FLog.e(e);
 			}
     	}
     	
@@ -132,7 +132,7 @@ public final class ResUtils {
             }
             return true;
         } catch (IOException e) {
-        	if (DEBUG) Flog.e(e);
+        	if (DEBUG) FLog.e(e);
         } finally {
         	IoUtils.close(foStream, inputStream);
         }
@@ -153,13 +153,13 @@ public final class ResUtils {
     	try {
     		String[] fileNames = context.getAssets().list(assetsDir);
     		for (String fileName : fileNames) {
-    			if (DEBUG) Flog.i("fileName:" + fileName);
+    			if (DEBUG) FLog.i("fileName:" + fileName);
     			String targetPath = assetsDir + File.separator + fileName;
     			copyFileFromAssets(context, targetPath, targetDir);
     		}
     		return true;
     	} catch (IOException e) {
-    		Flog.e(e);
+    		FLog.e(e);
     	}
     	return false;
     }
@@ -180,7 +180,7 @@ public final class ResUtils {
             }
             return result.toString();
         } catch (Exception e) {
-        	Flog.e(e);
+        	FLog.e(e);
         } finally {
         	IoUtils.close(bufferReader, inputReader);
         }
@@ -215,7 +215,7 @@ public final class ResUtils {
     	try {
 			return manager.open(path);
 		} catch (IOException e) {
-			Flog.e(e);
+			FLog.e(e);
 		}
     	return null;
     }
@@ -246,7 +246,7 @@ public final class ResUtils {
                     return false;
                 }
 			} catch (IOException e) {
-				Flog.e(e);
+				FLog.e(e);
 			}
     	}
     	
@@ -260,7 +260,7 @@ public final class ResUtils {
             }
     		return true;
     	} catch (Exception e) {
-    		Flog.e(e);
+    		FLog.e(e);
     	} finally {
     		IoUtils.close(inputStream, foStream);
     	}
@@ -281,7 +281,7 @@ public final class ResUtils {
             }
             return result.toString();
 		} catch (Exception e) {
-		    Flog.e(e);
+		    FLog.e(e);
 		}
 		return null;
     }

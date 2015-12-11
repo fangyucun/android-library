@@ -98,7 +98,7 @@ public final class ShellUtils {
                 }
             }
         } catch (Exception e) {
-            if (DEBUG) Flog.e(e);
+            if (DEBUG) FLog.e(e);
         } finally {
         	IoUtils.close(os, successResult, errorResult, process);
         }
@@ -130,7 +130,7 @@ public final class ShellUtils {
             	return true;
             }
         } catch (Exception e) {
-        	Flog.e("ping error!");
+        	FLog.e("ping error!");
         }
         return false;
     }
@@ -161,7 +161,7 @@ public final class ShellUtils {
 //                    return true;
 //            }
 //        } catch (IOException e) {
-//            Flog.e(e);
+//            FLog.e(e);
 //        }finally{
 //            if(p!=null){
 //                p.destroy();

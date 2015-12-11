@@ -20,7 +20,7 @@ import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager.PageTransformer;
 import android.view.View;
 
-import com.hellofyc.applib.util.Flog;
+import com.hellofyc.applib.util.FLog;
 
 public class ZoomOutPageTransformer implements PageTransformer {
 	static final boolean DEBUG = false;
@@ -30,7 +30,7 @@ public class ZoomOutPageTransformer implements PageTransformer {
  
     @Override
     public void transformPage(final View view, final float position) {
-		if (DEBUG) Flog.i("view.hasCode:" + view.hashCode() + ", position:" + position);
+		if (DEBUG) FLog.i("view.hasCode:" + view.hashCode() + ", position:" + position);
     	
         int pageWidth = view.getWidth();
         int pageHeight = view.getHeight();
@@ -42,7 +42,7 @@ public class ZoomOutPageTransformer implements PageTransformer {
             float verticalMargin = pageHeight * (1 - scaleFactor) / 2;
             float horizontalMargin = pageWidth * (1 - scaleFactor) / 2;
             if (position < 0) {
-            	Flog.i("verticalMargin:" + verticalMargin + ", horizontalMargin:" + horizontalMargin);
+            	FLog.i("verticalMargin:" + verticalMargin + ", horizontalMargin:" + horizontalMargin);
             	ViewCompat.setTranslationX(view, horizontalMargin - verticalMargin / 2);
             } else {
             	ViewCompat.setTranslationX(view, -horizontalMargin + verticalMargin / 2);

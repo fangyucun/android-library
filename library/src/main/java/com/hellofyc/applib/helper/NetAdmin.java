@@ -25,7 +25,7 @@ import android.telephony.TelephonyManager;
 
 import com.hellofyc.applib.content.BaseBroadcastReceiver;
 import com.hellofyc.applib.net.http.FHttp;
-import com.hellofyc.applib.util.Flog;
+import com.hellofyc.applib.util.FLog;
 import com.hellofyc.applib.util.ReflectUtils;
 
 /**
@@ -112,7 +112,7 @@ public class NetAdmin {
 				mContext.unregisterReceiver(mMobileDataReceiver);
 				mMobileDataReceiver = null;
 			} catch (Exception e) {
-				if (DEBUG) Flog.e(e);
+				if (DEBUG) FLog.e(e);
 			}
 		}
 	}
@@ -128,7 +128,7 @@ public class NetAdmin {
 	public boolean setMobileDataEnabled(boolean enabled, OnMobileDataListener listener) {
 		final int version = Build.VERSION.SDK_INT;
 		if (version >= 20) {
-			Flog.e("setMobileDataEnabled is not support API 20!");
+			FLog.e("setMobileDataEnabled is not support API 20!");
 			return false;
 		}
 		mOnMobileDataListener = listener;
@@ -141,7 +141,7 @@ public class NetAdmin {
             try {
                 ReflectUtils.invokeMethod(tManager, "setDataEnabled", enabled);
             } catch (Exception e) {
-                if (DEBUG) Flog.e(e);
+                if (DEBUG) FLog.e(e);
                 return false;
             }
         } else {
@@ -149,7 +149,7 @@ public class NetAdmin {
             try {
                 ReflectUtils.invokeMethod(cManager, "setMobileDataEnabled" , enabled);
             } catch (Exception e) {
-                if (DEBUG) Flog.e(e);
+                if (DEBUG) FLog.e(e);
                 return false;
             }
         }
@@ -162,7 +162,7 @@ public class NetAdmin {
 	public boolean isMobileDataEnabled() {
 		final int version = Build.VERSION.SDK_INT;
 		if (version == 20) {
-			Flog.e("API 20 is not support!");
+			FLog.e("API 20 is not support!");
 			return false;
 		}
 
@@ -171,7 +171,7 @@ public class NetAdmin {
             try {
                 return (Boolean) ReflectUtils.invokeMethod(tManager, "getDataEnabled");
             } catch (Exception e) {
-                if (DEBUG) Flog.e(e);
+                if (DEBUG) FLog.e(e);
                 return false;
             }
         } else {
@@ -179,7 +179,7 @@ public class NetAdmin {
             try {
                 return (Boolean) ReflectUtils.invokeMethod(cManager, "getMobileDataEnabled");
             } catch (Exception e) {
-                if (DEBUG) Flog.e(e);
+                if (DEBUG) FLog.e(e);
                 return false;
             }
         }
@@ -205,13 +205,13 @@ public class NetAdmin {
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			super.onReceive(context, intent);
-			if (DEBUG) Flog.i("===onReceive===");
+			if (DEBUG) FLog.i("===onReceive===");
 			
 			String action = intent.getAction();
 			if (ConnectivityManager.CONNECTIVITY_ACTION.equals(action)) {
 				ConnectivityManager cManager = (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
 				NetworkInfo info = cManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
-				if (DEBUG) Flog.i("===" + info.getState());
+				if (DEBUG) FLog.i("===" + info.getState());
 				if (info.isConnected()) {
 					onMobileDataEnabled();
 				}

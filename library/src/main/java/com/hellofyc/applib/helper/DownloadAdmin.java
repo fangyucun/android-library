@@ -26,7 +26,7 @@ import android.view.View;
 
 import com.hellofyc.applib.content.IntentHelper;
 import com.hellofyc.applib.util.AndroidUtils;
-import com.hellofyc.applib.util.Flog;
+import com.hellofyc.applib.util.FLog;
 import com.hellofyc.applib.util.StorageUtils;
 import com.hellofyc.applib.util.StringUtils;
 
@@ -165,7 +165,7 @@ public class DownloadAdmin {
 			try {
 				mContext.unregisterReceiver(mDownloadCompleteReceiver);
 			} catch (Exception e) {
-				if (DEBUG) Flog.e(e);
+				if (DEBUG) FLog.e(e);
 			}
 		}
 		mDownloadCompleteReceiver = null;

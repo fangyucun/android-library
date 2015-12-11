@@ -22,8 +22,8 @@ import android.os.Handler;
 import android.os.Message;
 import android.widget.ImageView;
 
+import com.hellofyc.applib.util.FLog;
 import com.hellofyc.applib.util.FileUtils;
-import com.hellofyc.applib.util.Flog;
 import com.hellofyc.applib.util.ImageUtils;
 
 import java.io.File;
@@ -98,7 +98,7 @@ public class BitmapLoader {
 	            }
 	        }
     	} catch (Exception e) {
-        	if (DEBUG) Flog.e("loadBitmap:", e);
+            e.printStackTrace();
         }
     	
     	loadBitmapFromUrl(handler, imageUrl);
@@ -116,7 +116,7 @@ public class BitmapLoader {
                 try {
 	                bitmap = ImageUtils.getBitmapFromUrl(imageUrl, mImageWidth, mImageHeight);
                 } catch (OutOfMemoryError e) {
-        			if (DEBUG) Flog.e("OutOfMemoryError");
+        			if (DEBUG) FLog.e("OutOfMemoryError");
         			System.gc();
         			bitmap = ImageUtils.getBitmapFromUrl(imageUrl, mImageWidth, mImageHeight);
         		}

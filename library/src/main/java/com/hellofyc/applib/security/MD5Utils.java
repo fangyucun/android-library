@@ -2,7 +2,7 @@ package com.hellofyc.applib.security;
 
 import android.support.annotation.NonNull;
 
-import com.hellofyc.applib.util.Flog;
+import com.hellofyc.applib.util.FLog;
 import com.hellofyc.applib.util.IoUtils;
 
 import java.io.File;
@@ -43,7 +43,7 @@ public class MD5Utils {
             }
             return stringBuilder.toString();
         } catch (Exception e) {
-            if (DEBUG) Flog.e(e);
+            if (DEBUG) FLog.e(e);
         }
         return "";
     }

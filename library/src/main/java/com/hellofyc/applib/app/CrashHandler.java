@@ -19,8 +19,8 @@ package com.hellofyc.applib.app;
 import android.content.Context;
 import android.os.Build;
 
+import com.hellofyc.applib.util.FLog;
 import com.hellofyc.applib.util.FileUtils;
-import com.hellofyc.applib.util.Flog;
 import com.hellofyc.applib.util.PackageUtils;
 import com.hellofyc.applib.util.TimeUtils;
 
@@ -64,12 +64,12 @@ public class CrashHandler implements UncaughtExceptionHandler {
 	}
 	
 //	private void uploadLog() {
-//		Flog.getInstance(mContext).uploadCrashLogByFtp(null);
+//		FLog.getInstance(mContext).uploadCrashLogByFtp(null);
 //	}
 
 	@Override
 	public void uncaughtException(Thread thread, Throwable ex) {
-		Flog.e(ex);
+		FLog.e(ex);
 		handleException(ex);
 		if (!handleException(ex) && mDefaultHandler != null) {
 			mDefaultHandler.uncaughtException(thread, ex);
@@ -97,7 +97,7 @@ public class CrashHandler implements UncaughtExceptionHandler {
 			mInfos.put("versionName", PackageUtils.getVersionName(mContext, mContext.getPackageName()));
 			mInfos.put("versionCode", PackageUtils.getVersionCode(mContext, mContext.getPackageName()) + "");
 		} catch (Exception e) {
-			Flog.e(e);
+			FLog.e(e);
 		}
 		Field[] fields = Build.class.getDeclaredFields();
         for (Field field : fields) {
@@ -105,7 +105,7 @@ public class CrashHandler implements UncaughtExceptionHandler {
                 field.setAccessible(true);
                 mInfos.put(field.getName(), field.get(null).toString());
             } catch (Exception e) {
-                Flog.e(e);
+                FLog.e(e);
             }
         }
 	}
@@ -137,12 +137,12 @@ public class CrashHandler implements UncaughtExceptionHandler {
             FileUtils.createDir(dir);
             FileUtils.writeString(sb.toString(), dir, fileName);
         } catch (Exception e) {
-            Flog.e(e);
+            FLog.e(e);
         }
 	}
 	
 	private void exit() {
-		if (DEBUG) Flog.i("exit");
+		if (DEBUG) FLog.i("exit");
 		android.os.Process.killProcess(android.os.Process.myPid());
 		System.exit(1);
 	}

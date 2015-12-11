@@ -103,7 +103,7 @@ public final class DeviceUtils {
 //				return adapter.getAddress() == null ? "" : adapter.getAddress();
 //			}
 //		} catch (Exception e) {
-//            if (DEBUG) Flog.e(e);
+//            if (DEBUG) FLog.e(e);
 //		}
 //		return "";
 //	}
@@ -122,7 +122,7 @@ public final class DeviceUtils {
 			TelephonyManager tm = (TelephonyManager)context.getSystemService(Context.TELEPHONY_SERVICE);
 			return tm.getDeviceId() == null ? "" : tm.getDeviceId();
 		} catch (SecurityException e) {
-			Flog.e("Requires android.Manifest.permission#READ_PHONE_STATE");
+			FLog.e("Requires android.Manifest.permission#READ_PHONE_STATE");
 		}
 		return DEFAULT_IMEI;
 	}
@@ -162,9 +162,9 @@ public final class DeviceUtils {
         MemoryInfo info = new MemoryInfo();
         activityManager.getMemoryInfo(info);
      
-        if (DEBUG) Flog.i("系统剩余内存:" + Formatter.formatFileSize(context, info.availMem));   
-        if (DEBUG) Flog.i("系统是否处于低内存运行：" + info.lowMemory);
-        if (DEBUG) Flog.i("当系统剩余内存低于" + Formatter.formatFileSize(context, info.threshold) + "时就看成低内存运行");
+        if (DEBUG) FLog.i("系统剩余内存:" + Formatter.formatFileSize(context, info.availMem));
+        if (DEBUG) FLog.i("系统是否处于低内存运行：" + info.lowMemory);
+        if (DEBUG) FLog.i("当系统剩余内存低于" + Formatter.formatFileSize(context, info.threshold) + "时就看成低内存运行");
     }
 
 	@SuppressWarnings("deprecation")
@@ -223,7 +223,7 @@ public final class DeviceUtils {
 		FeatureInfo[] infos = context.getPackageManager().getSystemAvailableFeatures();
 		if (infos == null || infos.length == 0) return false;
 		for (FeatureInfo info : infos) {
-			if (DEBUG) Flog.i("Feature Name:" + info.name);
+			if (DEBUG) FLog.i("Feature Name:" + info.name);
 			if (feature.equals(info.name)) {
 				return true;
 			}

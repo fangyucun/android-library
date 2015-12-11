@@ -25,7 +25,7 @@ import android.os.Bundle;
 import android.os.Process;
 
 import com.hellofyc.applib.app.activity.ActivityStack;
-import com.hellofyc.applib.util.Flog;
+import com.hellofyc.applib.util.FLog;
 
 import java.util.List;
 
@@ -45,7 +45,7 @@ public class BaseApplication extends Application {
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		if (DEBUG) Flog.i("BaseApplication onCreate");
+		if (DEBUG) FLog.i("BaseApplication onCreate");
 		init();
 	}
 	

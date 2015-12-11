@@ -22,7 +22,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.IBinder;
 
-import com.hellofyc.applib.util.Flog;
+import com.hellofyc.applib.util.FLog;
 
 public class BaseService extends Service {
 
@@ -76,7 +76,7 @@ public class BaseService extends Service {
 				startService(mKernalServiceIntent);
 			}
 		} catch (Exception e) {
-			if(DEBUG) Flog.e(e);
+			if(DEBUG) FLog.e(e);
 		}
 	}
 	
@@ -87,7 +87,7 @@ public class BaseService extends Service {
 			try {
 				stopService(mKernalServiceIntent);
 			} catch (Exception e) {
-				Flog.e(e);
+				FLog.e(e);
 			}
 		}
 	}
@@ -113,7 +113,7 @@ public class BaseService extends Service {
 				startForeground(NOTIFICATION_FOREGROUND_ID, new Notification());
 				BaseService.sBaseService.stopForeground(true);
 			} catch (Exception e) {
-				if(DEBUG) Flog.e(e);
+				if(DEBUG) FLog.e(e);
 			}
 			return Service.START_NOT_STICKY;
 		}

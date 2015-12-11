@@ -89,7 +89,7 @@ public class ConvertUtils {
 	        }
 	        return bytes;
         } catch (Exception e) {
-        	Flog.e(e);
+        	FLog.e(e);
         	return null;
         }
     }
@@ -100,7 +100,7 @@ public class ConvertUtils {
     	try {
 			return string.getBytes(EncodeUtils.getDefultCharset());
 		} catch (UnsupportedEncodingException e) {
-			Flog.e(e);
+			FLog.e(e);
 			return null;
 		}
     }

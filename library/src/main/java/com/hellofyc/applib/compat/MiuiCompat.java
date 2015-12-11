@@ -15,7 +15,7 @@ import android.support.v4.app.NotificationCompat;
 
 import com.hellofyc.applib.content.IntentHelper;
 import com.hellofyc.applib.util.AndroidUtils;
-import com.hellofyc.applib.util.Flog;
+import com.hellofyc.applib.util.FLog;
 import com.hellofyc.applib.util.ParseUtils;
 import com.hellofyc.applib.util.ReflectUtils;
 
@@ -85,7 +85,7 @@ public class MiuiCompat {
             field = notification.getClass().getField("extraNotification");
             field.set(notification, miuiNotification);
         } catch (Exception e) {
-            Flog.e(e);
+            FLog.e(e);
         }
         manager.notify(notifyId, notification);
     }
@@ -121,7 +121,7 @@ public class MiuiCompat {
                 e.printStackTrace();
             }
         } else {
-            Flog.e("Below API 19 cannot invoke!");
+            FLog.e("Below API 19 cannot invoke!");
         }
         return false;
     }

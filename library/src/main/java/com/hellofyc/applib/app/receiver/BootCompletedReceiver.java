@@ -20,7 +20,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
-import com.hellofyc.applib.util.Flog;
+import com.hellofyc.applib.util.FLog;
 
 public class BootCompletedReceiver extends BroadcastReceiver {
 	static final boolean DEBUG = true;
@@ -29,7 +29,7 @@ public class BootCompletedReceiver extends BroadcastReceiver {
 	public void onReceive(Context context, Intent intent) {
 		final String action = intent.getAction();
 		if (Intent.ACTION_BOOT_COMPLETED.equals(action)) {
-			if(DEBUG) Flog.i("开机自启动广播接收器");
+			if(DEBUG) FLog.i("开机自启动广播接收器");
 			Intent i = new Intent(context, null);
 			context.startService(i);
 		}

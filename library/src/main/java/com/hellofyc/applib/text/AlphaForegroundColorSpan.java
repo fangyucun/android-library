@@ -21,7 +21,7 @@ import android.os.Parcel;
 import android.text.TextPaint;
 import android.text.style.ForegroundColorSpan;
 
-import com.hellofyc.applib.util.Flog;
+import com.hellofyc.applib.util.FLog;
 
 /**
  * Alpha ForegroundColorSpan
@@ -35,7 +35,7 @@ public class AlphaForegroundColorSpan extends ForegroundColorSpan {
 
     public AlphaForegroundColorSpan(int color) {
         super(color);
-        if (DEBUG) Flog.i("alpha:" + Color.alpha(color));
+        if (DEBUG) FLog.i("alpha:" + Color.alpha(color));
         setAlpha(Color.alpha(color));
 	}
 

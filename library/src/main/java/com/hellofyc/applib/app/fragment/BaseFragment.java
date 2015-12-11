@@ -34,7 +34,7 @@ import android.view.ViewGroup;
 
 import com.hellofyc.applib.app.AppSupportDelegate;
 import com.hellofyc.applib.app.activity.BaseActivity;
-import com.hellofyc.applib.util.Flog;
+import com.hellofyc.applib.util.FLog;
 
 /**
  * 
@@ -107,7 +107,7 @@ public class BaseFragment extends Fragment implements OnClickListener {
 	@Override
 	public void setUserVisibleHint(boolean isVisibleToUser) {
 		super.setUserVisibleHint(isVisibleToUser);
-		if (DEBUG) Flog.i("===setUserVisibleHint:" + isVisibleToUser);
+		if (DEBUG) FLog.i("===setUserVisibleHint:" + isVisibleToUser);
 		if (isResumed() && isVisibleToUser) {
 			onResumedVisible();
 		}

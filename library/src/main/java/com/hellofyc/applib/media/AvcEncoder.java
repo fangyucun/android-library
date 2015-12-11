@@ -20,7 +20,7 @@ import android.annotation.TargetApi;
 import android.media.MediaCodec;
 import android.media.MediaFormat;
 
-import com.hellofyc.applib.util.Flog;
+import com.hellofyc.applib.util.FLog;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -46,7 +46,7 @@ public class AvcEncoder {
         try {
 			mCodec = MediaCodec.createEncoderByType("video/avc");
 		} catch (IOException e) {
-			Flog.e(e);
+			FLog.e(e);
 		}
         
         MediaFormat mediaFormat = MediaFormat.createVideoFormat("video/avc", width, height);
@@ -113,7 +113,7 @@ public class AvcEncoder {
                 pos += mInfo.length;
             }
         } catch (Throwable t) {
-        	Flog.e(TAG, t);
+            t.printStackTrace();
         }
         return pos;
     }

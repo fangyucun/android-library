@@ -52,7 +52,7 @@ public class UiUtils {
 				HandlerResult result = (HandlerResult)msg.obj;
 				int flag = msg.arg1;
 				
-				if (DEBUG) Flog.i("flag:" + flag);
+				if (DEBUG) FLog.i("flag:" + flag);
 				
 				if (flag == 0) {
 					ViewCompat.setAlpha(result.mView, ViewCompat.getAlpha(result.mView) - 0.01f);
@@ -91,7 +91,7 @@ public class UiUtils {
 	 */
 	public static void startNotifyLight(View view) {
 		if (view == null) {
-			if (DEBUG) Flog.e("ArgumentException view is null!");
+			if (DEBUG) FLog.e("ArgumentException view is null!");
 			return;
 		}
 		
