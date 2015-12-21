@@ -49,15 +49,17 @@ import android.view.Menu;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewConfiguration;
 import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.EditText;
 
-import com.hellofyc.applib.helper.SystemBarTintManager;
 import com.hellofyc.applib.app.AppSupportDelegate;
 import com.hellofyc.applib.content.IntentWrapper;
+import com.hellofyc.applib.helper.SystemBarTintManager;
 import com.hellofyc.applib.util.FLog;
+import com.hellofyc.applib.util.Reflect;
 import com.hellofyc.applib.util.ResUtils;
 import com.hellofyc.applib.util.ToastUtils;
 
@@ -141,6 +143,14 @@ abstract public class BaseActivity extends AppCompatActivity implements OnClickL
     public void setOnKeyboardVisibileListener (AppSupportDelegate.OnKeyboardVisibleListener listener) {
         getAppSupportDelegate().setOnKeyboardVisibileListener(listener);
     }
+
+    public void setActionBarOverflowButtonVisible() {
+        Reflect.on(ViewConfiguration.class).set("sHasPermanentMenuKey", false);
+    }
+
+    public void showActionBarMenuIcon() {
+        Reflect.on(Menu.class).set("sHasPermanentMenuKey", false);
+    }
 	
 	/**
 	 * Finds a view that was identified by the name attribute from the XML that
@@ -164,10 +174,15 @@ abstract public class BaseActivity extends AppCompatActivity implements OnClickL
         mIntentWrapper.set(newIntent);
     }
 
-	@Override
-	public boolean onMenuOpened(int featureId, @NonNull Menu menu) {
-		return false;
-	}
+    @Override
+    public boolean onMenuOpened(int featureId, Menu menu) {
+        if (featureId == Window.FEATURE_ACTION_BAR && menu != null) {
+            if ("com.android.internal.view.menu.MenuBuilder".equals(menu.getClass().getName())) {
+                Reflect.on(menu).call("setOptionalIconsVisible", true);
+            }
+        }
+        return super.onMenuOpened(featureId, menu);
+    }
 
     @Override
     public void startActivityForResult(Intent intent, int requestCode, Bundle options) {
