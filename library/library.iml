@@ -84,8 +84,8 @@
     <orderEntry type="jdk" jdkName="Android API 23 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" name="recyclerview-v7-23.1.1" level="project" />
-    <orderEntry type="library" exported="" name="fastjson-1.1.46.android" level="project" />
     <orderEntry type="library" exported="" name="gradle-retrolambda-3.3.0-beta3" level="project" />
+    <orderEntry type="library" exported="" name="fastjson-1.1.46.android" level="project" />
     <orderEntry type="library" exported="" name="support-v4-23.1.1" level="project" />
     <orderEntry type="library" exported="" name="libammsdk" level="project" />
     <orderEntry type="library" exported="" name="open_sdk_r5043_lite" level="project" />
