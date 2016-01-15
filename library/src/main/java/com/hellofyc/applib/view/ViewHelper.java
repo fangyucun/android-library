@@ -23,7 +23,6 @@ public class ViewHelper {
             case View.MeasureSpec.AT_MOST:
                 result = Math.min(size, specSize);
                 break;
-
         }
         return result;
     }
