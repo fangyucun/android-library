@@ -24,8 +24,6 @@ import android.app.ActivityManager.MemoryInfo;
 import android.app.ActivityManager.RunningAppProcessInfo;
 import android.app.Application;
 import android.app.Instrumentation;
-import android.app.Notification;
-import android.app.NotificationManager;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.ClipData;
@@ -38,6 +36,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageItemInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.content.pm.ProviderInfo;
 import android.content.pm.ResolveInfo;
 import android.content.pm.Signature;
 import android.content.res.Configuration;
@@ -58,7 +57,6 @@ import android.provider.Settings.Secure;
 import android.provider.Settings.SettingNotFoundException;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresPermission;
-import android.support.v4.app.NotificationCompat;
 import android.text.TextUtils;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
@@ -75,7 +73,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.lang.reflect.Field;
 import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
@@ -172,7 +169,7 @@ public final class AndroidUtils {
     public static void forceStopPackage(@NonNull Context context, @NonNull String packageName){
     	ActivityManager aManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
     	try {
-    		ReflectUtils.invokeMethod(aManager, "forceStopPackage", packageName);
+            Reflect.on(aManager).call("forceStopPackage", packageName);
     	} catch (Exception e) {
     		FLog.e(e);
     	}
@@ -212,29 +209,6 @@ public final class AndroidUtils {
 		}
 		return names;
 	}
-
-	/**
-	 * 模拟鼠标按键
-	 */
-//	public static void sendMouseEvent() {
-//		new Thread() {
-//			public void run() {
-//				try {
-//					Instrumentation inst = new Instrumentation();
-//					inst.sendPointerSync(MotionEvent.obtain(
-//											SystemClock.uptimeMillis(),
-//											SystemClock.uptimeMillis(),
-//											MotionEvent.ACTION_DOWN, 240, 400, 0));
-//					inst.sendPointerSync(MotionEvent.obtain(
-//											SystemClock.uptimeMillis(),
-//											SystemClock.uptimeMillis(),
-//											MotionEvent.ACTION_UP, 240, 400, 0));
-//				} catch (Exception e) {
-//					LogUtils.e(TAG, e);
-//				}
-//			}
-//		}.start();
-//	}
 
 	public static String getMarketAppLink(@NonNull String packageName) {
 	    return "market://details?id=" + packageName;
@@ -408,9 +382,9 @@ public final class AndroidUtils {
 
 	/**
 	 * 创建快捷方式
-	 * require permission
-	 * {@link Manifest.permission#INSTALL_SHORTCUT}
 	 */
+    @TargetApi(Build.VERSION_CODES.KITKAT)
+    @RequiresPermission(Manifest.permission.INSTALL_SHORTCUT)
 	public static void installShortcut(@NonNull Context context, @NonNull String name, int iconResId, @NonNull Class<?> targetClass) {
         if (isShortcutInstalled(context, name)) {
             return;
@@ -430,13 +404,15 @@ public final class AndroidUtils {
 	}
 
     /**
-     * {@link Manifest.permission#INSTALL_SHORTCUT}
+     *
      * @param context context
      * @return boolean
      */
+    @TargetApi(Build.VERSION_CODES.KITKAT)
+    @RequiresPermission(Manifest.permission.INSTALL_SHORTCUT)
     private static boolean isShortcutInstalled(@NonNull Context context, @NonNull String name) {
         ContentResolver cr = context.getContentResolver();
-        final String AUTHORITY = RomUtils.getAuthorityFromPermission(context);
+        final String AUTHORITY = getAuthorityFromPermission(context);
         final Uri contentUri = Uri.parse("content://" + AUTHORITY + "/favorites?notify=true");
         Cursor c = null;
         try {
@@ -453,10 +429,31 @@ public final class AndroidUtils {
     }
 
     /**
-     * 移除快捷方式
-     * require permission
-     * {@link Manifest.permission#UNINSTALL_SHORTCUT}
+     *
+     * @param context context
+     * @return permission
      */
+    public static String getAuthorityFromPermission(Context context) {
+        List<PackageInfo> piList = context.getPackageManager().getInstalledPackages(PackageManager.GET_PROVIDERS);
+        if (piList != null) {
+            for (PackageInfo pi : piList) {
+                ProviderInfo[] infos = pi.providers;
+                if (infos != null) {
+                    for (ProviderInfo info : infos) {
+                        if ("com.android.launcher.permission.READ_SETTINGS".equals(info.readPermission)) {
+                            return info.authority;
+                        }
+                    }
+                }
+            }
+        }
+        return "";
+    }
+
+    /**
+     * 移除快捷方式
+     */
+    @RequiresPermission(Manifest.permission.UNINSTALL_SHORTCUT)
     public static void uninstallShortcut(@NonNull Context context, @NonNull String name, @NonNull Intent targetIntent) {
         Intent shortcutIntent = new Intent("com.android.launcher.action.UNINSTALL_SHORTCUT");
         shortcutIntent.putExtra(Intent.EXTRA_SHORTCUT_NAME, name);
@@ -495,9 +492,8 @@ public final class AndroidUtils {
 
     /**
      * 杀进程
-     * Requires Permission:
-     * 	System Level {@link Manifest.permission#KILL_BACKGROUND_PROCESSES}
      */
+    @RequiresPermission(Manifest.permission.KILL_BACKGROUND_PROCESSES)
     public static void killBackgroundProcesses(@NonNull Context context, String processName){
     	if (TextUtils.isEmpty(processName)) return;
     	
@@ -647,25 +643,5 @@ public final class AndroidUtils {
 		return System.getProperty("java.vm.version");
 	}
 	
-	public static void setLauncherIconCornerMark(@NonNull Context context, int notifyId, int count) {
-		if (RomUtils.checkMiuiV6()) {
-			NotificationManager manager = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
-			NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
-			Notification notification = builder.build();
-			try {
-				Class<?> miuiNotificationClass = Class.forName("android.app.MiuiNotification");
-			    Object miuiNotification = miuiNotificationClass.newInstance();
-			    Field field = miuiNotification.getClass().getDeclaredField("messageCount");
-			    field.setAccessible(true);
-			    field.set(miuiNotification, count);
-			    field = notification.getClass().getField("extraNotification"); 
-			    field.set(notification, miuiNotification); 
-			} catch (Exception e) {
-				FLog.e(e);
-			}
-			manager.notify(notifyId, notification);
-		}
-	}
-    
 	private AndroidUtils() {/* Do not new me */}
 }

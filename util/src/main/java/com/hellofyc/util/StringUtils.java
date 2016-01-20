@@ -173,15 +173,6 @@ public final class StringUtils {
         }
         return builder.substring(1);
     }
-	
-//	public static String getJsonString(String str) {
-//		str.replaceAll("'", "&apos;");
-//		str.replaceAll("\"", "&quot;");
-//		str.replaceAll(">", "&gt;");
-//		str.replaceAll("<", "&lt;");
-//		str.replaceAll("&", "&amp;");
-//		return str.replaceAll(" ", "\u0020");
-//	}
-	
+
 	private StringUtils(){/*Do not new me*/}
 }

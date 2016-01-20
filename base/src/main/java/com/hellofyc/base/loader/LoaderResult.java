@@ -20,11 +20,37 @@
  * Create on 2015年6月17日 下午5:37:20
  * @author Yucun Fang
  */
-public class LoaderResult {
-	public int code;
-	public String text;
+public class LoaderResult<T> {
+
+	private int code;
+	private String text;
+    private T value;
 
     public boolean isSuccess() {
         return code == 200;
+    }
+
+    public int getCode() {
+        return code;
+    }
+
+    public void setCode(int code) {
+        this.code = code;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    public T getValue() {
+        return value;
+    }
+
+    public void setValue(T value) {
+        this.value = value;
     }
 }

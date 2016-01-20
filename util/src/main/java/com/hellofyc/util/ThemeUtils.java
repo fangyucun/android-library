@@ -53,7 +53,6 @@ public class ThemeUtils {
         // Default state
         states[i] = EMPTY_STATE_SET;
         colors[i] = textColor;
-        i++;
 
         return new ColorStateList(states, colors);
     }

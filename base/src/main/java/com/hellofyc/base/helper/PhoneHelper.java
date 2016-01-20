@@ -26,10 +26,10 @@ import android.telephony.cdma.CdmaCellLocation;
 import android.telephony.gsm.GsmCellLocation;
 import android.text.TextUtils;
 
-import com.hellofyc.util.FLog;
-import com.hellofyc.util.IoUtils;
-import com.hellofyc.util.NetUtils;
-import com.hellofyc.util.VerifyUtils;
+import com.hellofyc.base.util.FLog;
+import com.hellofyc.base.util.IoUtils;
+import com.hellofyc.base.util.NetUtils;
+import com.hellofyc.base.util.VerifyUtils;
 
 import java.io.BufferedReader;
 import java.io.IOException;

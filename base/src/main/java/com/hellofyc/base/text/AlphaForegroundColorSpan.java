@@ -21,7 +21,7 @@ import android.os.Parcel;
 import android.text.TextPaint;
 import android.text.style.ForegroundColorSpan;
 
-import com.hellofyc.util.FLog;
+import com.hellofyc.base.util.FLog;
 
 /**
  * Alpha ForegroundColorSpan

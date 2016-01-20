@@ -24,7 +24,7 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.FrameLayout;
 
 import com.hellofyc.base.R;
-import com.hellofyc.util.FLog;
+import com.hellofyc.base.util.FLog;
 
 /**
  * Fragment Container

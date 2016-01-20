@@ -45,19 +45,19 @@ public class MD5Utils {
         return "";
     }
 
-    public static String getFileMD5(@NonNull String filePath) {
+    public static String getFileMD5(@NonNull File file) {
         MessageDigest md = null;
         FileInputStream fis = null;
-        byte[] buffer = new byte[1024];
+        byte[] buffer = new byte[1024 * 8];
         int length;
         try {
             md = MessageDigest.getInstance(ALGORITHM_MD5);
-            fis = new FileInputStream(new File(filePath));
+            fis = new FileInputStream(file);
             while ((length = fis.read(buffer, 0, 1024)) != -1) {
                 md.update(buffer, 0, length);
             }
         } catch (Exception e) {
-            return "";
+            return null;
         } finally {
             IoUtils.close(fis);
         }

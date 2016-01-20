@@ -38,21 +38,6 @@ import android.widget.TextView;
 public class ApiCompat {
 	static final boolean DEBUG = false;
 
-//	public static boolean finishAffinity(Context context) {
-//		if (context instanceof Activity) {
-//			ActivityCompat.finishAffinity((Activity)context);
-//			return true;
-//		} else {
-//			return false;
-//		}
-//	}
-//	
-//	public static void finish(Context context) {
-//		if (context instanceof Activity) {
-//			((Activity)context).finish();
-//		}
-//	}
-	
 	@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 	public static boolean isLayoutRtl(View view) {
 		return Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1

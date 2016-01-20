@@ -25,10 +25,10 @@ import android.text.TextUtils;
 import android.view.View;
 
 import com.hellofyc.base.content.IntentHelper;
-import com.hellofyc.util.AndroidUtils;
-import com.hellofyc.util.FLog;
-import com.hellofyc.util.StorageUtils;
-import com.hellofyc.util.StringUtils;
+import com.hellofyc.base.util.AndroidUtils;
+import com.hellofyc.base.util.FLog;
+import com.hellofyc.base.util.StorageUtils;
+import com.hellofyc.base.util.StringUtils;
 
 /**
  * 下载管理类

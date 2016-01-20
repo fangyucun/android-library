@@ -60,7 +60,7 @@ import java.nio.IntBuffer;
  * @since 2014年1月26日
  */
 public final class ImageUtils {
-	static final boolean DEBUG = false;
+	private static final boolean DEBUG = false;
 
     private static final Canvas sCanvas = new Canvas();
 	

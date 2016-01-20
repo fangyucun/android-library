@@ -93,31 +93,6 @@ public class RSAUtils {
         return null;
     }
 
-    //	@SuppressWarnings("unchecked")
-    //	public static PrivateKey getPrivateKey(Context context, String assetsPath) {
-    //		String text = ResUtils.getFileStringFromAssets(context, assetsPath);
-    //		String publicKeyString = text.replace(TAG_RSA_PRIVATE_KEY_BEGIN, "").replaceAll(TAG_RSA_PRIVATE_KEY_END, "");
-    //
-    //		byte[] encodedPrivateKey = base64decode(publicKeyString.getBytes());
-    //
-    //		try {
-    //		    ASN1Sequence primitive = (ASN1Sequence) ASN1Sequence.fromByteArray(encodedPrivateKey);
-    //		    Enumeration<ASN1Integer> e = (Enumeration<ASN1Integer>) primitive.getObjects();
-    //
-    //		    e.nextElement().getValue();
-    //		    BigInteger modulus = e.nextElement().getValue();
-    //		    e.nextElement().getValue();
-    //		    BigInteger privateExponent = e.nextElement().getValue();
-    //
-    //		    RSAPrivateKeySpec spec = new RSAPrivateKeySpec(modulus, privateExponent);
-    //		    KeyFactory kf = KeyFactory.getInstance("RSA");
-    //		    return kf.generatePrivate(spec);
-    //		} catch (Exception e) {
-    //			FLog.e(e);
-    //		}
-    //		return null;
-    //	}
-
     public static PrivateKey getPrivateKey(@NonNull String modulus, @NonNull String privateExponent) {
         BigInteger bigIntModulus = new BigInteger(modulus);
         BigInteger bigIntPrivateExponent = new BigInteger(privateExponent);

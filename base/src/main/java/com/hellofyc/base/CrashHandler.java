@@ -19,10 +19,10 @@ package com.hellofyc.base;
 import android.content.Context;
 import android.os.Build;
 
-import com.hellofyc.util.FLog;
-import com.hellofyc.util.FileUtils;
-import com.hellofyc.util.PackageUtils;
-import com.hellofyc.util.TimeUtils;
+import com.hellofyc.base.util.FLog;
+import com.hellofyc.base.util.FileUtils;
+import com.hellofyc.base.util.PackageUtils;
+import com.hellofyc.base.util.TimeUtils;
 
 import java.io.File;
 import java.io.PrintWriter;

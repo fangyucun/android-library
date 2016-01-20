@@ -58,10 +58,10 @@ import android.widget.EditText;
 import com.hellofyc.base.AppSupportDelegate;
 import com.hellofyc.base.SystemBarTintManager;
 import com.hellofyc.base.content.IntentWrapper;
-import com.hellofyc.util.FLog;
-import com.hellofyc.util.Reflect;
-import com.hellofyc.util.ResUtils;
-import com.hellofyc.util.ToastUtils;
+import com.hellofyc.base.util.FLog;
+import com.hellofyc.base.util.Reflect;
+import com.hellofyc.base.util.ResUtils;
+import com.hellofyc.base.util.ToastUtils;
 
 abstract public class BaseActivity extends AppCompatActivity implements OnClickListener {
 
@@ -419,7 +419,7 @@ abstract public class BaseActivity extends AppCompatActivity implements OnClickL
 	
 	void pressBackToExit() {
 		if (System.currentTimeMillis() - mPressTime > 2000) {
-			ToastUtils.show(this, "再按一次退出" + getPackageManager().getApplicationLabel(getApplicationInfo()) + "!");
+			ToastUtils.showDefault(this, "再按一次退出" + getPackageManager().getApplicationLabel(getApplicationInfo()) + "!");
 			mPressTime = System.currentTimeMillis();
 		} else {
 			ActivityStack.getInstance().closeAllActivities();

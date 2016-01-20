@@ -12,17 +12,19 @@
  *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
- */package com.hellofyc.base.http;
+ */
+
+package com.hellofyc.base.net.http;
 
 import android.content.Context;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
-import com.hellofyc.util.EncodeUtils;
-import com.hellofyc.util.FLog;
-import com.hellofyc.util.FileUtils;
-import com.hellofyc.util.IoUtils;
+import com.hellofyc.base.util.EncodeUtils;
+import com.hellofyc.base.util.FLog;
+import com.hellofyc.base.util.FileUtils;
+import com.hellofyc.base.util.IoUtils;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;

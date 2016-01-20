@@ -11,7 +11,7 @@ import com.hellofyc.base.content.IntentHelper;
  *
  * @author Yucun Fang
  */
-class SmarisanOsCompat {
+public class SmarisanOsCompat {
 
     private static final String PACKAGE_SMARTISANOS_PERMISSION_MANAGER = "com.smartisanos.security";
     private static final String ACTIVITY_SMARTISANOS_PERMISSION_MANAGER = "com.smartisanos.security.MainActivity";

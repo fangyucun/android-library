@@ -16,6 +16,7 @@
 
 package com.hellofyc.util;
 
+import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.ActivityManager;
 import android.app.ActivityManager.MemoryInfo;
@@ -26,6 +27,7 @@ import android.content.res.Configuration;
 import android.graphics.Point;
 import android.os.Build;
 import android.provider.Settings.Secure;
+import android.support.annotation.RequiresPermission;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.text.format.Formatter;
@@ -90,27 +92,10 @@ public final class DeviceUtils {
     	return Build.SERIAL;
     }
 
-//	public static String getBluetoothAddress(Context context) {
-//        if (context == null) {
-//            throw new RuntimeException("context cannot be null!");
-//        }
-//
-//		try {
-//			BluetoothAdapter adapter = BluetoothAdapter.getDefaultAdapter();
-//			if (adapter != null) {
-//				return adapter.getAddress() == null ? "" : adapter.getAddress();
-//			}
-//		} catch (Exception e) {
-//            if (DEBUG) FLog.e(e);
-//		}
-//		return "";
-//	}
-
 	/**
 	 * 获取IMEI
-	 * Requires Permission:
-	 * {@link android.Manifest.permission#READ_PHONE_STATE}
 	 */
+    @RequiresPermission(Manifest.permission.READ_PHONE_STATE)
 	public static String getIMEI(Context context) {
         if (context == null) {
             throw new RuntimeException("context cannot be null!");
@@ -136,6 +121,7 @@ public final class DeviceUtils {
 	/**
 	 * 获取设备唯一号
 	 */
+	@RequiresPermission(Manifest.permission.READ_PHONE_STATE)
 	public static String getDeviceUniqueId(Context context) {
 		if (!TextUtils.isEmpty(sDeviceUniqueId)) {
 			return sDeviceUniqueId;

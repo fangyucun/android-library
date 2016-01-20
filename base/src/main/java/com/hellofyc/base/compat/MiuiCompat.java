@@ -14,10 +14,10 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.NotificationCompat;
 
 import com.hellofyc.base.content.IntentHelper;
-import com.hellofyc.util.AndroidUtils;
-import com.hellofyc.util.FLog;
-import com.hellofyc.util.ParseUtils;
-import com.hellofyc.util.ReflectUtils;
+import com.hellofyc.base.util.AndroidUtils;
+import com.hellofyc.base.util.FLog;
+import com.hellofyc.base.util.ParseUtils;
+import com.hellofyc.base.util.Reflect;
 
 import java.lang.reflect.Field;
 
@@ -116,7 +116,7 @@ public class MiuiCompat {
         if (version >= Build.VERSION_CODES.KITKAT) {
             AppOpsManager manager = (AppOpsManager) context.getSystemService(Context.APP_OPS_SERVICE);
             try {
-                return (AppOpsManager.MODE_ALLOWED == (Integer) ReflectUtils.invokeMethod(manager, "checkOp", op, uid, packageName));
+                return (AppOpsManager.MODE_ALLOWED == (Integer)(Reflect.on(manager).call("checkOp", op, uid, packageName).get()));
             } catch (Exception e) {
                 e.printStackTrace();
             }

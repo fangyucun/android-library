@@ -42,9 +42,9 @@ import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
 import com.hellofyc.base.content.BaseBroadcastReceiver;
-import com.hellofyc.util.FLog;
-import com.hellofyc.util.NumberUtils;
-import com.hellofyc.util.ReflectUtils;
+import com.hellofyc.base.util.FLog;
+import com.hellofyc.base.util.NumberUtils;
+import com.hellofyc.base.util.Reflect;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -213,7 +213,7 @@ public class WifiHelper {
 	public int getWifiApState() {
 		int apState = WIFI_AP_STATE_FAILED;
 		try {
-			apState = (Integer) ReflectUtils.invokeMethod(mWifiManager, "getWifiApState");
+			apState = Reflect.on(mWifiManager).call("getWifiApState").get();
 		} catch (Exception e) {
 			if (DEBUG) FLog.e(e);
 		}
@@ -558,7 +558,7 @@ public class WifiHelper {
 		try {
 			if (!setWifiEnabled(false, null)) return false;
 			
-			return (Boolean)ReflectUtils.invokeMethod(mWifiManager, "setWifiApEnabled", wifiApConfig, true);
+			return Reflect.on(mWifiManager).call("setWifiApEnabled", wifiApConfig, true).get();
 		} catch (Exception e) {
 			FLog.e(e);
 		}
@@ -570,8 +570,7 @@ public class WifiHelper {
 	 */
 	public boolean setWifiApDisabled() {
 		try {
-			return (Boolean)ReflectUtils.invokeMethod(mWifiManager, "setWifiApEnabled"
-					, createWifiApConfiguration("JasonFangEngineer", "18600635950"), false);
+			return Reflect.on(mWifiManager).call("setWifiApEnabled", createWifiApConfiguration("name", "password"), false).get();
 		} catch (Exception e) {
 			FLog.e(e);
 		}

@@ -14,13 +14,21 @@
  *  limitations under the License.
  */
 
-package com.hellofyc.base.http;
+package com.hellofyc.base.util;
+
+import android.graphics.Color;
 
 /**
- * @author Jason Fang
- * Create on 2015年3月11日 下午10:58:01
+ * create on 2015/8/17 18:57
+ *
+ * @author Yucun Fang
  */
-public interface Method {
-	int GET = 1;
-	int POST = 2;
+public class ColorUtils {
+
+    public static int getDarkenColor(int color) {
+        float[] HSV = new float[3];
+        Color.colorToHSV(color, HSV);
+        HSV[2] *= 0.8f;
+        return Color.HSVToColor(HSV);
+    }
 }

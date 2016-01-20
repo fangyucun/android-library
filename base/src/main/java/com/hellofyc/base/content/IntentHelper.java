@@ -30,8 +30,8 @@ import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.webkit.URLUtil;
 
-import com.hellofyc.util.CollectionUtils;
-import com.hellofyc.util.PackageUtils;
+import com.hellofyc.base.util.CollectionUtils;
+import com.hellofyc.base.util.PackageUtils;
 
 import java.net.URISyntaxException;
 import java.util.ArrayList;

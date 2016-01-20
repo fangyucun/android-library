@@ -1,4 +1,4 @@
-package com.hellofyc.base.http;
+package com.hellofyc.base.net.http;
 
 /**
  * Created on 2015/10/9.

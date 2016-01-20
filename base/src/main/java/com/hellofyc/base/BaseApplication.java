@@ -25,7 +25,7 @@ import android.os.Bundle;
 import android.os.Process;
 
 import com.hellofyc.base.activity.ActivityStack;
-import com.hellofyc.util.FLog;
+import com.hellofyc.base.util.FLog;
 
 import java.util.List;
 

@@ -25,7 +25,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 
-import com.hellofyc.util.FLog;
+import com.hellofyc.base.util.FLog;
 
 /**
  * 设备管理器管理类

@@ -14,14 +14,30 @@
  *  * See the License for the specific language governing permissions and
  *  * limitations under the License.
  *
- */
+ */package com.hellofyc.base.view;
 
-package com.hellofyc.base.loader;
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
+import android.webkit.DownloadListener;
 
 /**
- * Create on 2015年6月25日 下午3:04:18
+ * Create on 2015年5月7日 下午2:51:44
  * @author Yucun Fang
  */
-public class IntegerLoaderResult extends LoaderResult {
-	public int result;
+public class OnWebViewDownloadListener implements DownloadListener {
+
+	private Context mContext;
+	
+	public OnWebViewDownloadListener(Context context) {
+		mContext = context;
+	}
+	
+	@Override
+	public void onDownloadStart(String url, String userAgent,
+			String contentDisposition, String mimetype, long contentLength) {
+		Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+		mContext.startActivity(intent);
+	}
+
 }

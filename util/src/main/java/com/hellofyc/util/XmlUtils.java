@@ -23,10 +23,10 @@ package com.hellofyc.util;
  * @author Fang Yucun
  */
 public class XmlUtils {
-	static final boolean DEBUG = false;
-	
-	private XmlUtils(){}
-	
+//	private static final boolean DEBUG = false;
+//
+//	private XmlUtils(){}
+//
 //	/**
 //	 * @see StringUtils#getMimeTypeByExtension
 //	 */
@@ -59,5 +59,5 @@ public class XmlUtils {
 //		}
 //		return "";
 //	}
-	
+
 }

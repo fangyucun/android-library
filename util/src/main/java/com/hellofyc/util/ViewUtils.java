@@ -69,22 +69,6 @@ public final class ViewUtils {
 		sHandler.sendMessage(msg);
 	}
 
-//    public static void setNavVisibility(View v, boolean visibility) {
-//        int newVis = v.getSystemUiVisibility();
-//        if (!visibility) {
-//            newVis |= View.SYSTEM_UI_FLAG_LOW_PROFILE | View.SYSTEM_UI_FLAG_FULLSCREEN;
-//        }
-//        final boolean changed = newVis == v.getSystemUiVisibility();
-//
-//        if (changed || visibility) {
-//            Handler h = v.getHandler();
-//            if (h != null) {
-//                h.removeCallbacks(mNavHider);
-//            }
-//        }
-//        v.setSystemUiVisibility(newVis);
-//    }
-	
     /**
      * set view height
      * 
@@ -180,18 +164,6 @@ public final class ViewUtils {
 		textView.setText(Html.fromHtml("<u>" + text + "</u>"));
 	}
 	
-//	public static void setBlur(final Context context, final View view) {
-//		view.getViewTreeObserver().addOnPreDrawListener(new OnPreDrawListener() {
-//			
-//			@Override
-//			public boolean onPreDraw() {
-//				view.getViewTreeObserver().removeOnPreDrawListener(this);
-//				blur2(context, view);
-//				return true;
-//			}
-//		});
-//	}
-	
 	@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 	static void blur(Context context, View view) {
 		view.buildDrawingCache();
@@ -216,33 +188,6 @@ public final class ViewUtils {
 		script.destroy();
 	}
 	
-//	@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-//	static void blur2(Context context, View view) {
-//		long time = System.currentTimeMillis();
-//		
-//		view.buildDrawingCache();
-//		Bitmap srcBitmap = view.getDrawingCache();
-//		int radius = 2;
-//		float scaleFactor = 8f;
-//		
-//		Bitmap overlay = Bitmap.createBitmap((int)(view.getMeasuredWidth() / scaleFactor), (int)(view.getMeasuredHeight() / scaleFactor), Bitmap.Config.ARGB_8888);
-//		Canvas canvas = new Canvas(overlay);
-//		canvas.translate(-view.getLeft() / scaleFactor, -view.getTop() / scaleFactor);
-//		canvas.scale(1 / scaleFactor, 1 / scaleFactor);
-//		
-//		Paint paint = new Paint();
-//		paint.setFlags(Paint.FILTER_BITMAP_FLAG);
-//		
-//		canvas.drawBitmap(srcBitmap, 0, 0, paint);
-//		
-//		overlay = FastBlur.doBlur(overlay, radius, true);
-//		
-//		view.setBackground(new BitmapDrawable(context.getResources(), overlay));
-//		
-//		FLog.i("time:" + (System.currentTimeMillis() - time));
-//	}
-	
-
 	private static final int MSG_VISIBILITY = 1;
 	private static final int MSG_PROGRESS_ANIM = 2;
 	

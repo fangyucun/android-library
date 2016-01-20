@@ -34,6 +34,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.RandomAccessFile;
+import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.zip.ZipEntry;
@@ -46,7 +47,7 @@ import java.util.zip.ZipOutputStream;
  * Create on 2014年11月22日 下午2:10:12
  */
 public final class FileUtils {
-	static final boolean DEBUG = true;
+	private static final boolean DEBUG = true;
 
 	private static String BASE_DIR = "**";
 
@@ -256,29 +257,18 @@ public final class FileUtils {
     	return false;
     }
 
-	public static boolean deleteFile(File file) {
-		if (DEBUG) FLog.i("===i come in===");
-		
-		boolean isDelete;
-
-		if (file == null || !file.exists()) {
-			return true;
-		} else if (file.isDirectory()) {
-			File[] files = file.listFiles();
-			if (files != null) { 
-				for (File f : files) {
-					isDelete = deleteFile(f);
-					if (!isDelete) {
-						return false;
-					}
-				}
-			}
-			isDelete = file.delete();
-		} else {
-			isDelete = file.delete();
-		}
-		return isDelete;
-	}
+    public static boolean deleteFile(File file) {
+        if (!file.exists()) {
+            return true;
+        }
+        if (file.isDirectory()) {
+            File[] files = file.listFiles();
+            for (File f : files) {
+                deleteFile(f);
+            }
+        }
+        return file.delete();
+    }
 
 	public static boolean deleteFile(String path) {
 		return deleteFile(new File(path));
@@ -336,35 +326,69 @@ public final class FileUtils {
 		return null;
 	}
 
+    /**
+     *
+     * copy file
+     *
+     * @param srcFile
+     *            source file
+     * @param destFile
+     *            target file
+     * @throws IOException
+     */
+    public static boolean copy(File srcFile, File destFile) throws IOException {
+        FileChannel inChannel = null;
+        FileChannel outChannel = null;
+        try {
+            if (!destFile.exists()) {
+                if (!destFile.createNewFile()) {
+                    FLog.e("Create File Error!");
+                    return false;
+                }
+            }
+            inChannel = new FileInputStream(srcFile).getChannel();
+            outChannel = new FileOutputStream(destFile).getChannel();
+            inChannel.transferTo(0, inChannel.size(), outChannel);
+            return true;
+        } finally {
+            if (inChannel != null) {
+                inChannel.close();
+            }
+            if (outChannel != null) {
+                outChannel.close();
+            }
+        }
+    }
+
 	/**
 	 * 文件拷贝
 	 */
-	public static boolean copy(File fromFile, File toFile, boolean isRewrite) {
-		if (!fromFile.exists() || !fromFile.isFile() || !fromFile.canRead()) return false;
-
-		if (toFile.getParentFile().exists()) {
-			if (!toFile.getParentFile().mkdirs()) return false;
-		}
-		if (toFile.exists() && isRewrite) {
-			if (!toFile.delete()) return false;
-		}
-
-		FileInputStream fis;
-		FileOutputStream fos;
-		byte[] buffer = new byte[1024];
-		int byteCount;
-		try {
-			fis = new FileInputStream(fromFile);
-			fos = new FileOutputStream(toFile);
-			while ((byteCount = fis.read()) != -1) {
-				fos.write(buffer, 0, byteCount);
-			}
-            return true;
-		} catch (IOException e) {
-			if (DEBUG) FLog.e(e);
-		}
-        return false;
-	}
+//	public static boolean copy(File fromFile, File toFile, boolean isRewrite) {
+//		if (!fromFile.exists() || !fromFile.isFile() || !fromFile.canRead()) return false;
+//
+//		if (toFile.getParentFile().exists()) {
+//			if (!toFile.getParentFile().mkdirs()) return false;
+//		}
+//		if (toFile.exists() && isRewrite) {
+//			if (!toFile.delete()) return false;
+//		}
+//
+//		FileInputStream fis;
+//		FileOutputStream fos;
+//		byte[] buffer = new byte[1024];
+//		int byteCount;
+//		try {
+//			fis = new FileInputStream(fromFile);
+//			fos = new FileOutputStream(toFile);
+//			while ((byteCount = fis.read()) != -1) {
+//				fos.write(buffer, 0, byteCount);
+//			}
+//            return true;
+//		} catch (IOException e) {
+//			if (DEBUG) FLog.e(e);
+//		}
+//        return false;
+//	}
 	
 	@SuppressWarnings("TryFinallyCanBeTryWithResources")
     public static void writeByteArrayToFile(File file, byte[] bytes) throws IOException {

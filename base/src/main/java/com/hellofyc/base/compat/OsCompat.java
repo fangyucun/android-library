@@ -7,9 +7,10 @@ import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
 import com.hellofyc.base.content.IntentHelper;
-import com.hellofyc.util.AndroidUtils;
+import com.hellofyc.base.util.AndroidUtils;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 
 /**
  * Created on 2015/11/23.
@@ -27,6 +28,7 @@ public class OsCompat {
     public static final String OS_SMARTISAN_OS       = "SmartisanOS";
     public static final String OS_360_UI             = "360UI";
     public static final String OS_FUNTOUCH_OS        = "FuntouchOS";
+    public static final String OS_YUN_OS             = "YunOS";
 
     private static final String mOS;
 
@@ -138,6 +140,9 @@ public class OsCompat {
     static class OsCompatImplH2OS extends OsCompatImplBase {
     }
 
+    static class OsCompatImplYunOS extends OsCompatImplBase {
+    }
+
     public static Intent getOpenPermissionManagerActivityIntent (@NonNull Context context) {
         return IMPL.getOpenPermissionManagerActivityIntent(context);
     }
@@ -182,6 +187,8 @@ public class OsCompat {
             IMPL = new OsCompatImpl360UI();
         } else if (OS_FUNTOUCH_OS.equals(mOS)) {
             IMPL = new OsCompatImplFuntouchOs();
+        } else if (OS_YUN_OS.equals(mOS)) {
+            IMPL = new OsCompatImplYunOS();
         } else {
             IMPL = new OsCompatImplBase();
         }
@@ -204,6 +211,8 @@ public class OsCompat {
             return OS_360_UI;
         } else if (isFuntouchOs()) {
             return OS_FUNTOUCH_OS;
+        } else if (isYunOS()) {
+            return OS_YUN_OS;
         } else {
             return OS_DEFAULT;
         }
@@ -254,6 +263,21 @@ public class OsCompat {
     public static boolean isFuntouchOs() {
         String versionName = AndroidUtils.getSystemProperty("ro.vivo.os.name");
         return versionName != null && versionName.contains("Funtouch");
+    }
+
+    private static boolean isYunOS() {
+        String version = null;
+        String vmName = null;
+        try {
+            Method method = Class.forName("android.os.SystemProperties").getMethod("get", String.class);
+            version = (String) method.invoke(null, "ro.yunos.version");
+            vmName = (String) method.invoke(null, "java.vm.name");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return ((vmName != null && vmName.toLowerCase().contains("lemur"))
+                || (version != null && version.trim().length() > 0));
     }
 
 }

@@ -16,10 +16,12 @@
 
 package com.hellofyc.base.fragment;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.ArrayRes;
 import android.support.annotation.ColorRes;
@@ -34,12 +36,13 @@ import android.view.ViewGroup;
 
 import com.hellofyc.base.AppSupportDelegate;
 import com.hellofyc.base.activity.BaseActivity;
-import com.hellofyc.util.FLog;
+import com.hellofyc.base.util.FLog;
 
 /**
- * 
+ *
+ * Create on 2015年4月13日 下午6:22:40
+ *
  * @author Yucun Fang
- * @since 2015年4月13日 下午6:22:40
  */
 public class BaseFragment extends Fragment implements OnClickListener {
 	private static final boolean DEBUG = false;
@@ -48,7 +51,7 @@ public class BaseFragment extends Fragment implements OnClickListener {
     protected static final int RESULT_OK			 = -1;
 
 	/**
-	 * Do not use direct please use {@link #getAppSupportDelegate()}
+	 * Do not use direct please use {@link #getAppSupportDelegate()}}
 	 */
 	private AppSupportDelegate mActivityDelegate;
 
@@ -158,6 +161,7 @@ public class BaseFragment extends Fragment implements OnClickListener {
 		startActivityForResult(intent, -1);
 	}
 
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     public void startActivity(Intent intent, Bundle options) {
         getActivity().startActivity(intent, options);
     }
@@ -167,6 +171,7 @@ public class BaseFragment extends Fragment implements OnClickListener {
 		super.startActivityForResult(intent, requestCode);
 	}
 
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     public void startActivityForResult(Intent intent, int requestCode, Bundle options) {
         getActivity().startActivityForResult(intent, requestCode, options);
     }

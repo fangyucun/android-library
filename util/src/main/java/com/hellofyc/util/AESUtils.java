@@ -15,7 +15,7 @@ import javax.crypto.spec.SecretKeySpec;
 public class AESUtils {
     private static final boolean DEBUG = false;
 
-    public static final String ALGORITHM_AES					 = "AES";
+    public static final String ALGORITHM_AES = "AES";
 
     /**
      * 创建密钥

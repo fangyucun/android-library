@@ -34,7 +34,7 @@ import java.util.Map;
  * @author Jason Fang
  */
 public final class JsonUtils {
-	static final boolean DEBUG = false;
+	private static final boolean DEBUG = false;
 
 	private JsonUtils(){}
 	

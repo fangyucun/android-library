@@ -25,23 +25,23 @@ import java.util.ArrayList;
  *
  * @author Jason Fang
  */
-public class BaseFragmentPagerAdapter<T extends Fragment> extends FragmentPagerAdapter {
+public class BaseFragmentPagerAdapter extends FragmentPagerAdapter {
 
 	private String[] mTitles;
-    private ArrayList<T> mFragments = new ArrayList<>();
+    private ArrayList<Fragment> mFragments = new ArrayList<>();
 	
-	public BaseFragmentPagerAdapter(FragmentManager fm, ArrayList<T> fragments) {
+	public BaseFragmentPagerAdapter(FragmentManager fm, ArrayList<Fragment> fragments) {
 		this(fm, null, fragments);
 	}
 	
-	public BaseFragmentPagerAdapter(FragmentManager fm, String[] titles, ArrayList<T> fragments) {
+	public BaseFragmentPagerAdapter(FragmentManager fm, String[] titles, ArrayList<Fragment> fragments) {
 		super(fm);
 		mTitles = titles;
 		mFragments = fragments;
 	}
 
     @Override
-	public T getItem(int position) {
+	public Fragment getItem(int position) {
 		return mFragments.get(position);
 	}
 

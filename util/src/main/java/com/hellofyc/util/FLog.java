@@ -23,7 +23,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 /**
  * Log Tool
@@ -138,6 +141,27 @@ public final class FLog {
     private static void printFile(String path, String text) {
         File file = new File(path);
         FileUtils.writeString(text, file.getParentFile(), file.getName());
+    }
+
+    public static String getLogCatInfoByTag(String tag) {
+        StringBuilder builder = new StringBuilder();
+        BufferedReader bufferedReader = null;
+        try {
+            Process mProcess = Runtime.getRuntime().exec(
+                    new String[]{"logcat", "-d", "AndroidRuntime:E" + tag + ":V *:S"});
+            bufferedReader = new BufferedReader(new InputStreamReader(mProcess.getInputStream()));
+            String line;
+            String separator = System.getProperty(LINE_SEPARATOR);
+            while ((line = bufferedReader.readLine()) != null) {
+                builder.append(line);
+                builder.append(separator);
+            }
+        } catch (IOException e) {
+            FLog.e(e);
+        } finally {
+            IoUtils.close(bufferedReader);
+        }
+        return builder.toString();
     }
 
     static class LogInfo {

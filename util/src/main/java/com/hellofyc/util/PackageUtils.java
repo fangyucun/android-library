@@ -192,10 +192,6 @@ public final class PackageUtils {
 //		return resultList;
 //	}
 	
-	public static boolean checkAppMd5(Context context) {
-		return "3622c786ba36d894aa2500d0f59ccd2b".equals(AndroidUtils.getSignatureMD5(context, context.getPackageName()));
-	}
-	
 	public static FeatureInfo[] getSystemAvailableFeatures(Context context) {
 		return getPackageManager(context).getSystemAvailableFeatures();
 	}

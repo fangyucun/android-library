@@ -17,6 +17,7 @@
 package com.hellofyc.base.content;
 
 import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.content.ClipData;
 import android.content.ComponentName;
 import android.content.ContentResolver;
@@ -26,6 +27,7 @@ import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Rect;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -572,6 +574,7 @@ public class IntentWrapper extends Intent {
         return mIntent.replaceExtras(src);
     }
 
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     @Override
     public Intent setTypeAndNormalize(String type) {
         return mIntent.setTypeAndNormalize(type);
@@ -582,6 +585,7 @@ public class IntentWrapper extends Intent {
         return mIntent.setType(type);
     }
 
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     @Override
     public Intent setDataAndNormalize(Uri data) {
         return mIntent.setDataAndNormalize(data);
@@ -612,6 +616,7 @@ public class IntentWrapper extends Intent {
         mIntent.setExtrasClassLoader(loader);
     }
 
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     @Override
     public ClipData getClipData() {
         return mIntent.getClipData();
@@ -692,6 +697,7 @@ public class IntentWrapper extends Intent {
         return mIntent.setDataAndType(data, type);
     }
 
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     @Override
     public Intent setDataAndTypeAndNormalize(Uri data, String type) {
         return mIntent.setDataAndTypeAndNormalize(data, type);
@@ -712,6 +718,7 @@ public class IntentWrapper extends Intent {
         mIntent.setSelector(selector);
     }
 
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     @Override
     public void setClipData(ClipData clip) {
         mIntent.setClipData(clip);

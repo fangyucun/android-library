@@ -55,12 +55,12 @@ import com.hellofyc.base.activity.SingleFragmentActivity;
 import com.hellofyc.base.content.IntentHelper;
 import com.hellofyc.base.helper.PermissionHelper;
 import com.hellofyc.base.text.SpanBuilder;
-import com.hellofyc.util.AndroidUtils;
-import com.hellofyc.util.FLog;
-import com.hellofyc.util.ToastUtils;
+import com.hellofyc.base.util.AndroidUtils;
+import com.hellofyc.base.util.FLog;
+import com.hellofyc.base.util.ToastUtils;
 
 /**
- * Create on 2015年4月24日 上午11:44:49
+ * Create on 2015-4-24 11:44:49
  *
  * @author Yucun Fang
  */
@@ -155,7 +155,11 @@ public class AppSupportDelegate implements ResourcesValue {
         String targetFragmentClassName = componentName.getClassName();
         intent.setComponent(new ComponentName(componentName.getPackageName(), SingleFragmentActivity.class.getName()));
         intent.putExtra(SingleFragmentActivity.EXTRA_FRAGMENT_CLASSNAME, targetFragmentClassName);
-        mActivity.startActivityForResult(intent, requestCode, options);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            mActivity.startActivityForResult(intent, requestCode, options);
+        } else {
+            mActivity.startActivityForResult(intent, requestCode);
+        }
     }
 	
 	public void forbidScreenshots(boolean trueOrFalse) {

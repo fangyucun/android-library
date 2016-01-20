@@ -27,7 +27,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Build;
 
-import com.hellofyc.util.FLog;
+import com.hellofyc.base.util.FLog;
 
 import java.io.IOException;
 import java.util.UUID;
