@@ -15,6 +15,7 @@
  */package com.hellofyc.base.util;
 
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
 import android.content.res.Resources;
 import android.graphics.drawable.BitmapDrawable;
@@ -98,6 +99,20 @@ public final class ResUtils {
     	}
     	return resId;
     }
+
+	public static CharSequence getString(@NonNull Context context, @NonNull String packageName, @NonNull String resName) {
+		PackageManager packageManager = context.getPackageManager();
+		try {
+			Resources resources = packageManager.getResourcesForApplication(packageName);
+			int resId = resources.getIdentifier(packageName.concat("/").concat(resName), null, null);
+			if(resId != 0) {
+				return packageManager.getText(packageName, resId, null);
+			}
+		} catch (PackageManager.NameNotFoundException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 
     public static Drawable getDrawableFromJar(@NonNull Context context, String resName) {
     	InputStream inStream = ResUtils.class.getResourceAsStream("/res/drawable-hdpi/" + resName);
