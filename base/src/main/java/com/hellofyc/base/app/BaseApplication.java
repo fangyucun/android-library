@@ -12,7 +12,7 @@
  *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
- */package com.hellofyc.base;
+ */package com.hellofyc.base.app;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -24,7 +24,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Process;
 
-import com.hellofyc.base.activity.ActivityStack;
+import com.hellofyc.base.app.activity.ActivityStack;
 import com.hellofyc.base.util.FLog;
 
 import java.util.List;

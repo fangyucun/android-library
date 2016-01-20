@@ -1,4 +1,4 @@
-package com.hellofyc.base;
+package com.hellofyc.base.app;
 
 import android.content.res.ColorStateList;
 import android.content.res.Resources;

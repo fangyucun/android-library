@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-package com.hellofyc.base.fragment;
+package com.hellofyc.base.app.fragment;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -34,8 +34,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 
-import com.hellofyc.base.AppSupportDelegate;
-import com.hellofyc.base.activity.BaseActivity;
+import com.hellofyc.base.app.AppSupportDelegate;
+import com.hellofyc.base.app.activity.BaseActivity;
 import com.hellofyc.base.util.FLog;
 
 /**

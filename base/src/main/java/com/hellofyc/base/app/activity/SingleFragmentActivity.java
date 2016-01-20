@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-package com.hellofyc.base.activity;
+package com.hellofyc.base.app.activity;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

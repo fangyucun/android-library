@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.hellofyc.base.service;
+package com.hellofyc.base.app.service;
 
 import android.app.Service;
 import android.content.Intent;

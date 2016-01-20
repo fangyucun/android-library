@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-package com.hellofyc.base;
+package com.hellofyc.base.app;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -51,7 +51,8 @@ import android.view.Window;
 import android.view.WindowManager.LayoutParams;
 import android.widget.EditText;
 
-import com.hellofyc.base.activity.SingleFragmentActivity;
+import com.hellofyc.base.R;
+import com.hellofyc.base.app.activity.SingleFragmentActivity;
 import com.hellofyc.base.content.IntentHelper;
 import com.hellofyc.base.helper.PermissionHelper;
 import com.hellofyc.base.text.SpanBuilder;

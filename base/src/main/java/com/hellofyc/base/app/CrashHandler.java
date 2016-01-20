@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-package com.hellofyc.base;
+package com.hellofyc.base.app;
 
 import android.content.Context;
 import android.os.Build;

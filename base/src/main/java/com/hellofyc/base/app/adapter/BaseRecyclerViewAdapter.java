@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-package com.hellofyc.base.adapter;
+package com.hellofyc.base.app.adapter;
 
 import android.annotation.TargetApi;
 import android.content.Context;
@@ -36,8 +36,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.hellofyc.base.ResourcesValue;
-import com.hellofyc.base.activity.BaseActivity;
+import com.hellofyc.base.app.ResourcesValue;
+import com.hellofyc.base.app.activity.BaseActivity;
 
 import java.util.ArrayList;
 import java.util.List;

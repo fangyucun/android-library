@@ -1,4 +1,4 @@
-package com.hellofyc.base.adapter;
+package com.hellofyc.base.app.adapter;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
@@ -15,7 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.hellofyc.base.ResourcesValue;
+import com.hellofyc.base.app.ResourcesValue;
 
 /**
  * Created on 2015/11/3.

@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-package com.hellofyc.base;
+package com.hellofyc.base.app;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
@@ -368,11 +368,10 @@ public class SystemBarTintManager {
 	private void setAttributesTrueOrFalse(Activity a, int flags, boolean trueOrFalse) {
 		Window win = a.getWindow();
         WindowManager.LayoutParams params = win.getAttributes();
-        final int bits = flags;
         if (trueOrFalse) {
-            params.flags |=  bits;
+            params.flags |=  flags;
         } else {
-            params.flags &= ~bits;
+            params.flags &= ~flags;
         }
         win.setAttributes(params);
 	}

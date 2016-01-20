@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-package com.hellofyc.base.activity;
+package com.hellofyc.base.app.activity;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -55,8 +55,8 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.EditText;
 
-import com.hellofyc.base.AppSupportDelegate;
-import com.hellofyc.base.SystemBarTintManager;
+import com.hellofyc.base.app.AppSupportDelegate;
+import com.hellofyc.base.app.SystemBarTintManager;
 import com.hellofyc.base.content.IntentWrapper;
 import com.hellofyc.base.util.FLog;
 import com.hellofyc.base.util.Reflect;

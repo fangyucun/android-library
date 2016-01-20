@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-package com.hellofyc.base.fragment;
+package com.hellofyc.base.app.fragment;
 
 import android.app.Dialog;
 import android.os.Bundle;
