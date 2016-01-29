@@ -112,9 +112,6 @@ public final class IntentHelper {
         return null;
     }
 
-    /**
-     * 打开网页搜索
-     */
     public static Intent getOpenWebSearchActivityIntent(@NonNull Context context, @NonNull String text) {
         Intent intent = new Intent(Intent.ACTION_WEB_SEARCH);
         intent.putExtra(SearchManager.QUERY, text);

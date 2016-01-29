@@ -137,9 +137,8 @@ public class DESUtils {
             SecureRandom random = new SecureRandom();
             DESKeySpec desKey = new DESKeySpec(passwordBytes);
             SecretKeyFactory keyFactory = SecretKeyFactory.getInstance(ALGORITHM_DES);
-            SecretKey securekey = keyFactory.generateSecret(desKey);
             Cipher cipher = Cipher.getInstance(TRANSFORMATION_DES);
-            cipher.init(Cipher.ENCRYPT_MODE, securekey, random);
+            cipher.init(Cipher.ENCRYPT_MODE, keyFactory.generateSecret(desKey), random);
             return cipher.doFinal(srcData);
         } catch (Exception e) {
             if (DEBUG) FLog.e(e);
@@ -161,9 +160,8 @@ public class DESUtils {
             SecureRandom random = new SecureRandom();
             DESKeySpec desKey = new DESKeySpec(passwordBytes);
             SecretKeyFactory keyFactory = SecretKeyFactory.getInstance(ALGORITHM_DES);
-            SecretKey securekey = keyFactory.generateSecret(desKey);
             Cipher cipher = Cipher.getInstance(TRANSFORMATION_DES);
-            cipher.init(Cipher.DECRYPT_MODE, securekey, random);
+            cipher.init(Cipher.DECRYPT_MODE, keyFactory.generateSecret(desKey), random);
             return cipher.doFinal(destData);
         } catch (Exception e) {
             e.printStackTrace();

@@ -20,9 +20,6 @@ public class ColorOsCompat {
     public static final String ACTIVITY_COLOROS_PERMISSION_MANAGER = "com.oppo.safe.permission.PermissionTopActivity";
     public static final String ACTIVITY_COLOROS_FLOAT_WINDOW = PACKAGE_COLOROS_PERMISSION_MANAGER + ".permission.floatwindow.FloatWindowListActivity";
 
-    /**
-     * 打开ColorOS纯净后台
-     */
     public static Intent getOpenPureBackgroundActivityIntent(@NonNull Context context) {
         Intent intent = new Intent();
         intent.setClassName(PACKAGE_COLOROS_PURE_BACKGROUND, ACTIVITY_COLOROS_PURE_BACKGROUND);

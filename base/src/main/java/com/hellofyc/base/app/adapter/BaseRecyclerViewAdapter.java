@@ -79,13 +79,10 @@ abstract public class BaseRecyclerViewAdapter<T> extends RecyclerView.Adapter<Ba
 	}
 	
 	@Override
-	public final void onBindViewHolder(AbsItemViewHolder holder, int position) {
+	public final void onBindViewHolder(final AbsItemViewHolder holder, final int position) {
 		onBindItemViewHolder(holder, position, getItemViewType(position));
-
-        if (mRecyclerViewItemClickListener != null) {
-            mRecyclerViewItemClickListener.onRecyclerViewItemClick(holder, position);
-        }
-	}
+        holder.itemView.setOnClickListener(new ItemClickListener(this, holder, position));
+    }
 
 	@Override
 	public int getItemCount() {
@@ -321,6 +318,26 @@ abstract public class BaseRecyclerViewAdapter<T> extends RecyclerView.Adapter<Ba
 
         public AbsItemViewHolder(View itemView) {
             super(itemView);
+        }
+    }
+
+    static class ItemClickListener implements View.OnClickListener {
+
+        BaseRecyclerViewAdapter mAdapter;
+        AbsItemViewHolder mHolder;
+        int mPosition;
+
+        public ItemClickListener(BaseRecyclerViewAdapter adapter, AbsItemViewHolder holder, int position) {
+            mAdapter = adapter;
+            mHolder = holder;
+            mPosition = position;
+        }
+
+        @Override
+        public void onClick(View v) {
+            if (mAdapter.mRecyclerViewItemClickListener != null) {
+                mAdapter.mRecyclerViewItemClickListener.onRecyclerViewItemClick(mHolder, mPosition);
+            }
         }
     }
 

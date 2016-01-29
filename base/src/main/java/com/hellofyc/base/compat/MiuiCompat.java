@@ -47,9 +47,6 @@ public class MiuiCompat {
         return IntentHelper.isIntentAvailable(context, intent) ? intent : null;
     }
 
-    /**
-     * 打开自身权限管理界面
-     */
     public static Intent getOpenPermissionActivityIntent(@NonNull Context context) {
         return getOpenPermissionActivityIntent(context, context.getPackageName());
     }

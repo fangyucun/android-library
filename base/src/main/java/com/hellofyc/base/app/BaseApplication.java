@@ -20,7 +20,6 @@ import android.app.ActivityManager;
 import android.app.ActivityManager.RunningAppProcessInfo;
 import android.app.Application;
 import android.content.Context;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Process;
 
@@ -49,15 +48,12 @@ public class BaseApplication extends Application {
 		init();
 	}
 	
-	@TargetApi(14)
 	private void init() {
 		mApplication = this;
 		
 		CrashHandler.startMonitor(getApplicationContext());
 		
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
-			registerActivityLifecycleCallbacks(new JasonActivityLifecycleCallbacks());
-		}
+		registerActivityLifecycleCallbacks(new JasonActivityLifecycleCallbacks());
 	}
 	
 	/**

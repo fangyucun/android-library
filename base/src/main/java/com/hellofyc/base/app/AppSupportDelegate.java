@@ -179,6 +179,7 @@ public class AppSupportDelegate implements ResourcesValue {
 		return getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT;
 	}
 
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     public void setSystemUiVisibility(int flag) {
         mActivity.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | flag);
     }

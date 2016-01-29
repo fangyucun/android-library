@@ -35,7 +35,6 @@ import java.io.InputStreamReader;
  * @author Jason Fang
  */
 public final class FLog {
-    private static final boolean ENABLE = true;
 
     public static final int VERBOSE      = Log.VERBOSE;
     public static final int DEBUG        = Log.DEBUG;
@@ -48,6 +47,30 @@ public final class FLog {
 
     public static final String LINE_SEPARATOR = System.getProperty("line.separator");
 	
+    public static void v() {
+        i(null, "");
+    }
+
+    public static void v(Object textObject) {
+        i(null, String.valueOf(textObject));
+    }
+
+    public static void v(String tag, Object text) {
+        printLog(VERBOSE, new LogInfo(tag, String.valueOf(text)));
+    }
+
+    public static void a() {
+        i(null, "");
+    }
+
+    public static void a(Object textObject) {
+        i(null, String.valueOf(textObject));
+    }
+
+    public static void a(String tag, Object text) {
+        printLog(ASSERT, new LogInfo(tag, String.valueOf(text)));
+    }
+
     public static void i() {
         i(null, "");
     }
@@ -56,8 +79,20 @@ public final class FLog {
         i(null, String.valueOf(textObject));
     }
 
-    public static void i(String tag, String text) {
-        printLog(INFO, new LogInfo(tag, text));
+    public static void i(String tag, Object text) {
+        printLog(INFO, new LogInfo(tag, String.valueOf(text)));
+    }
+
+    public static void w() {
+        i(null, "");
+    }
+
+    public static void w(Object textObject) {
+        i(null, String.valueOf(textObject));
+    }
+
+    public static void w(String tag, String textObject) {
+        printLog(WARN, new LogInfo(tag, textObject));
     }
 
     public static void e() {
@@ -68,8 +103,12 @@ public final class FLog {
         e(null, String.valueOf(textObject));
     }
 
-    public static void e(String tag, String text) {
-        printLog(ERROR, new LogInfo(tag, text));
+    public static void e(String tag, Object text) {
+        printLog(ERROR, new LogInfo(tag, String.valueOf(text)));
+    }
+
+    public static void e(String tag, Object text, Throwable e) {
+        printLog(ERROR, new LogInfo(tag, String.valueOf(text), e));
     }
 
     public static void json(String jsonText) {
@@ -77,13 +116,11 @@ public final class FLog {
     }
 
     public static void file(String path, String text) {
-        printLog(FILE, new LogInfo(null, text, path));
+        printLog(FILE, new LogInfo(null, text, path, null));
     }
 
     @SuppressWarnings("PointlessBooleanExpression")
-    private static void printLog(int type, @NonNull  LogInfo logInfo) {
-        if (!ENABLE) return;
-
+    private static void printLog(int type, @NonNull LogInfo logInfo) {
         String[] wrapContent = getWrappedContent(logInfo.tag, logInfo.text);
         logInfo.tag = wrapContent[0];
         String prefix = wrapContent[1];
@@ -164,19 +201,25 @@ public final class FLog {
         return builder.toString();
     }
 
-    static class LogInfo {
+    private static class LogInfo {
         String tag;
         String text;
         String path;
+        Throwable throwable;
 
         public LogInfo(String tag, String text) {
-            this(tag, text, null);
+            this(tag, text, null, null);
         }
 
-        public LogInfo(String tag, String text, String path) {
+        public LogInfo(String tag, String text, Throwable e) {
+            this(tag, text, null, e);
+        }
+
+        public LogInfo(String tag, String text, String path, Throwable e) {
             this.tag = tag;
             this.text = text;
             this.path = path;
+            this.throwable = e;
         }
     }
 }

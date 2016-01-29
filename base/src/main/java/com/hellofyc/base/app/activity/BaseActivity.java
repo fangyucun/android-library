@@ -56,6 +56,7 @@ import android.view.WindowManager;
 import android.widget.EditText;
 
 import com.hellofyc.base.app.AppSupportDelegate;
+import com.hellofyc.base.app.BaseApplication;
 import com.hellofyc.base.app.SystemBarTintManager;
 import com.hellofyc.base.content.IntentWrapper;
 import com.hellofyc.base.util.FLog;
@@ -83,13 +84,6 @@ abstract public class BaseActivity extends AppCompatActivity implements OnClickL
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		init();
-	}
-
-	private void init() {
-		if (VERSION < Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
-			ActivityStack.getInstance().add(this);
-		}
 	}
 
 	@Override
@@ -267,9 +261,6 @@ abstract public class BaseActivity extends AppCompatActivity implements OnClickL
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		if (VERSION < 14) {
-			ActivityStack.getInstance().remove(this);
-		}
 	}
 
 	@Override
@@ -422,7 +413,12 @@ abstract public class BaseActivity extends AppCompatActivity implements OnClickL
 			ToastUtils.showDefault(this, "再按一次退出" + getPackageManager().getApplicationLabel(getApplicationInfo()) + "!");
 			mPressTime = System.currentTimeMillis();
 		} else {
-			ActivityStack.getInstance().closeAllActivities();
+            if (getApplication() instanceof BaseApplication) {
+                ((BaseApplication)getApplication()).exit();
+            } else {
+                ActivityCompat.finishAffinity(this);
+                FLog.e("Application must extends BaseApplication!");
+            }
 		}
 	}
 
