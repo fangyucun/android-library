@@ -43,8 +43,8 @@ public final class PrefsHelper {
 	private String mFileName;
     private int mMode = Context.MODE_PRIVATE;
     private String mEncryptKey = "iJasonFang";
-
-	private Editor mEditor;
+    private String mKey;
+    private Object mValue;
 
 	private PrefsHelper(Context context) {
 		mContext = context;
@@ -96,22 +96,10 @@ public final class PrefsHelper {
     }
 
     public PrefsHelper putValue(@NonNull String key, @NonNull Object value) {
-		mEditor = getSharedPreferences().edit();
-        putValue(mEditor, key, value);
+        mKey = key;
+        mValue = value;
         return this;
 	}
-
-    public void putValueAndApply(@NonNull String key, @NonNull Object value) {
-        Editor editor = getSharedPreferences().edit();
-        putValue(editor, key, value);
-        editor.apply();
-    }
-
-    public boolean putValueAndCommit(@NonNull String key, @NonNull Object value) {
-        Editor editor = getSharedPreferences().edit();
-        putValue(editor, key, value);
-        return editor.commit();
-    }
 
     @SuppressWarnings("unchecked")
     private void putValue(Editor editor, String key, Object value) {
@@ -147,13 +135,15 @@ public final class PrefsHelper {
     }
 
 	public boolean commit() {
-		return mEditor != null && mEditor.commit();
+        Editor editor = getSharedPreferences().edit();
+        putValue(editor, mKey, mValue);
+		return editor.commit();
 	}
 
 	public void apply() {
-		if (mEditor != null) {
-			mEditor.apply();
-		}
+        Editor editor = getSharedPreferences().edit();
+        putValue(editor, mKey, mValue);
+        editor.apply();
 	}
 
     public boolean contain(String key) {
