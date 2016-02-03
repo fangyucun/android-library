@@ -5,8 +5,6 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.hellofyc.base.app.activity.BaseActivity;
-import com.hellofyc.base.util.FLog;
-import com.hellofyc.base.util.PrefsHelper;
 
 public class MainActivity extends BaseActivity {
 
@@ -38,19 +36,6 @@ public class MainActivity extends BaseActivity {
 //        });
 
 //        PrefsHelper.create(this).putValue("a1", "2").apply();
-        PrefsHelper.create(this).putValueAndApply("a1", 2);
-        PrefsHelper.create(this).putValueAndApply("a2", "3");
-        PrefsHelper.create(this).keyEncrypt().putValueAndApply("a3", "2");
-        PrefsHelper.create(this).valueEncrypt().putValue("a4", "2").apply();
-        PrefsHelper.create(this).valueEncrypt().putValue("a5", 3).apply();
-        PrefsHelper.create(this).keyEncrypt().valueEncrypt().putValue("a6", 3).apply();
-        PrefsHelper.create(this).keyEncrypt().valueEncrypt().setEncryptKey("12345678").putValue("a6", 3).apply();
-        PrefsHelper.create(this).setFileName("_File_Name" +
-                "").keyEncrypt().valueEncrypt().setEncryptKey("12345678").putValue("a6", 3).apply();
-
-        FLog.i("a3", PrefsHelper.create(this).keyEncrypt().getString("a3", "2"));
-        FLog.i("a4", PrefsHelper.create(this).valueEncrypt().getString("a4", "3"));
-        FLog.i("a6", PrefsHelper.create(this).setEncryptKey("12345678").keyEncrypt().valueEncrypt().getInt("a6", 2));
 
     }
 }
