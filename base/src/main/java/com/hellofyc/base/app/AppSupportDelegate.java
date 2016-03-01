@@ -20,7 +20,6 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
@@ -37,12 +36,10 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.PermissionChecker;
 import android.support.v4.content.res.ResourcesCompat;
-import android.support.v7.app.AlertDialog;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -51,11 +48,7 @@ import android.view.Window;
 import android.view.WindowManager.LayoutParams;
 import android.widget.EditText;
 
-import com.hellofyc.base.R;
 import com.hellofyc.base.app.activity.SingleFragmentActivity;
-import com.hellofyc.base.content.IntentHelper;
-import com.hellofyc.base.helper.PermissionHelper;
-import com.hellofyc.base.text.SpanBuilder;
 import com.hellofyc.base.util.AndroidUtils;
 import com.hellofyc.base.util.FLog;
 import com.hellofyc.base.util.ToastUtils;
@@ -71,7 +64,7 @@ public class AppSupportDelegate implements ResourcesValue {
 
 	private AppSupportDelegate() {
     }
-	
+
     private AppSupportDelegate(Activity activity) {
         mActivity = activity;
     }
@@ -112,12 +105,25 @@ public class AppSupportDelegate implements ResourcesValue {
 		return window != null ? window.findViewById(id) : null;
 	}
 
-	public void setViewsClickListener(@Nullable OnClickListener listener, @NonNull View... views) {
+	public void setViewsOnClickListener(@Nullable OnClickListener listener, @NonNull View... views) {
 		for (View view : views) {
 			if (view != null) {
 				view.setOnClickListener(listener);
 			} else {
 				FLog.e("Some Views are null!");
+			}
+		}
+	}
+
+	public void setViewsOnClickListener(@Nullable OnClickListener listener, int... viewResIds) {
+		for (int id : viewResIds) {
+			if (id != 0) {
+                View view = mActivity.findViewById(id);
+                if (view != null) {
+                    view.setOnClickListener(listener);
+                } else {
+                    FLog.e("Some Views are null!");
+                }
 			}
 		}
 	}
@@ -162,19 +168,19 @@ public class AppSupportDelegate implements ResourcesValue {
             mActivity.startActivityForResult(intent, requestCode);
         }
     }
-	
+
 	public void forbidScreenshots(boolean trueOrFalse) {
 		setAttributesFlag(LayoutParams.FLAG_SECURE, trueOrFalse);
 	}
-	
+
 	public void setScreenFull(boolean trueOrFalse) {
         setAttributesFlag(LayoutParams.FLAG_FULLSCREEN, trueOrFalse);
 	}
-	
+
 	public boolean isScreenLandscape() {
 		return getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
 	}
-	
+
 	public boolean isScreenPortrait() {
 		return getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT;
 	}
@@ -210,7 +216,7 @@ public class AppSupportDelegate implements ResourcesValue {
         }
         win.setAttributes(params);
 	}
-	
+
     @Override
     public Resources getResources() {
         return mActivity.getResources();
@@ -233,7 +239,7 @@ public class AppSupportDelegate implements ResourcesValue {
 
     @Override
     public int getColor(@ColorRes int id, @Nullable Resources.Theme theme) {
-        return new ResourcesCompat().getColor(getResources(), id, theme);
+        return ResourcesCompat.getColor(getResources(), id, theme);
     }
 
     @Override
@@ -243,7 +249,7 @@ public class AppSupportDelegate implements ResourcesValue {
 
     @Override
     public ColorStateList getColorStateList(@ColorRes int id, @Nullable Resources.Theme theme) {
-        return new ResourcesCompat().getColorStateList(getResources(), id, theme);
+        return ResourcesCompat.getColorStateList(getResources(), id, theme);
     }
 
     @Override
@@ -273,29 +279,6 @@ public class AppSupportDelegate implements ResourcesValue {
                 }
             }
         });
-    }
-
-    public void showRequestPermissionDeniedDialog(String permission) {
-        String permissionGroupName = PermissionHelper.getPermissionGroupName(permission);
-        AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
-        CharSequence title = SpanBuilder.create("没有访问" + permissionGroupName + "权限").setBold(permissionGroupName).build();
-        builder.setTitle(title);
-        builder.setMessage("如果要开启此功能, 可依次进入[设置-应用-" +
-                mActivity.getPackageManager().getApplicationLabel(mActivity.getApplicationInfo()) + "-权限], 打开[" + permissionGroupName + "]");
-        builder.setNegativeButton("知道了", null);
-        builder.setPositiveButton("跳转", new DialogInterface.OnClickListener() {
-
-            @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Intent intent = IntentHelper.getOpenAppDetailActivityIntent(mActivity, mActivity.getPackageName());
-                if (intent != null) {
-                    ActivityOptionsCompat options = ActivityOptionsCompat.makeCustomAnimation(mActivity, R.anim.right_enter, R.anim.slow_fade_exit);
-                    mActivity.startActivity(intent, options.toBundle());
-                }
-            }
-        });
-        builder.create().show();
     }
 
     public interface OnKeyboardVisibleListener {

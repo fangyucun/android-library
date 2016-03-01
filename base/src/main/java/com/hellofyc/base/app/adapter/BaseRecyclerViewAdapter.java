@@ -26,6 +26,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
+import android.support.annotation.IntRange;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
@@ -117,7 +118,9 @@ abstract public class BaseRecyclerViewAdapter<T> extends RecyclerView.Adapter<Ba
 
     public void updateItems(List<T> newItems) {
         mDataList.clear();
-        mDataList.addAll(newItems);
+        if (newItems != null && newItems.size() > 0) {
+            mDataList.addAll(newItems);
+        }
         notifyDataSetChanged();
     }
 
@@ -127,6 +130,7 @@ abstract public class BaseRecyclerViewAdapter<T> extends RecyclerView.Adapter<Ba
 	 * @param itemData data
 	 */
 	public void addItem(T itemData) {
+        if (itemData == null) return;
 		addItem(getItemCount(), itemData);
 	}
 	
@@ -145,8 +149,8 @@ abstract public class BaseRecyclerViewAdapter<T> extends RecyclerView.Adapter<Ba
 	 * remove item
 	 * @param position position
 	 */
-	public void removeItem(int position) {
-        if (position < 0 || position >= mDataList.size()) {
+	public void removeItem(@IntRange(from = 0, to = Integer.MAX_VALUE) int position) {
+        if (position >= mDataList.size()) {
             return;
         }
 		mDataList.remove(position);
@@ -158,6 +162,7 @@ abstract public class BaseRecyclerViewAdapter<T> extends RecyclerView.Adapter<Ba
 	 * @param itemDataList list
 	 */
 	public void addItems(List<T> itemDataList) {
+        if (itemDataList == null || itemDataList.size() == 0) return;
 		addItems(getItemCount(), itemDataList);
 	}
 	
@@ -184,10 +189,9 @@ abstract public class BaseRecyclerViewAdapter<T> extends RecyclerView.Adapter<Ba
 	 * @param newItem newItem
 	 */
 	public void updateItem(int position, T newItem) {
-        if (position < 0 || position >= mDataList.size()) {
+        if (newItem == null || position < 0 || position >= mDataList.size()) {
             return;
         }
-
 		mDataList.add(position, newItem);
 		notifyItemChanged(position);
 	}
@@ -254,8 +258,7 @@ abstract public class BaseRecyclerViewAdapter<T> extends RecyclerView.Adapter<Ba
 
     @Override
     public int getColor(@ColorRes int id, @Nullable Resources.Theme theme) {
-        //TODO need support by support v4!
-        return new ResourcesCompat().getColor(getResources(), id, theme);
+        return ResourcesCompat.getColor(getResources(), id, theme);
     }
 
     @Override
@@ -275,8 +278,7 @@ abstract public class BaseRecyclerViewAdapter<T> extends RecyclerView.Adapter<Ba
 
     @Override
     public ColorStateList getColorStateList(@ColorRes int id, @Nullable Resources.Theme theme) {
-        //TODO It's a bug! need support by support v4!
-        return new ResourcesCompat().getColorStateList(getResources(), id, theme);
+        return ResourcesCompat.getColorStateList(getResources(), id, theme);
     }
 
     @Override

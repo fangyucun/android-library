@@ -77,7 +77,7 @@ public class BaseDialogFragment extends DialogFragment implements OnClickListene
     }
 
 	public void setViewsClickListener(View... views) {
-        getAppSupportDelegate().setViewsClickListener(this, views);
+        getAppSupportDelegate().setViewsOnClickListener(this, views);
 	}
 	
 	protected int getColor(int resId) {

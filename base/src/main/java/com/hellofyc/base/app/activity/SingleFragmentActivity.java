@@ -20,7 +20,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.view.ViewGroup.LayoutParams;
 import android.widget.FrameLayout;
 
 import com.hellofyc.base.R;
@@ -43,36 +42,36 @@ public class SingleFragmentActivity extends BaseActivity {
 	public static final String EXTRA_FRAGMENT_EXTRA						 = "fragment_extra";
 	
 	private FragmentManager mFM;
-	
+
 	private String mFragmentClassName;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		FrameLayout layout = new FrameLayout(this);
 		layout.setId(R.id.fragment_container);
-		layout.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+		layout.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT));
 		setContentView(layout);
-		
+
 		init();
 		setActivityContent();
 	}
-	
+
 	private void init() {
 		mFM = getSupportFragmentManager();
-		
+
 		mFragmentClassName = getIntent().getStringExtra(EXTRA_FRAGMENT_CLASSNAME);
 	}
-	
+
 	private void setActivityContent() {
 		try {
 			Class<?> clazz = getClassLoader().loadClass(mFragmentClassName);
 			Fragment fragment = (Fragment) clazz.newInstance();
-			
+
 			FragmentTransaction transaction = mFM.beginTransaction();
 			transaction.replace(R.id.fragment_container, fragment);
 			transaction.commit();
-			
+
 		} catch (Exception e) {
 			if (DEBUG) FLog.e(e);
 		}

@@ -40,7 +40,7 @@ import java.util.Map;
 import java.util.UUID;
 
 public class HttpUtils {
-	static final boolean DEBUG = false;
+	private static final boolean DEBUG = false;
 	
 	private static final String HEADER_CONTENT_TYPE = "Content-Type";
 	private static final String HEADER_CHARSET = "Charset";
@@ -53,7 +53,12 @@ public class HttpUtils {
 	private static final int READ_TIME_OUT = 30 * 1000;
 	
 	private static String BOUNDARY = UUID.randomUUID().toString();
-	
+
+    public enum Method {
+        GET,
+        POST
+    }
+
 	public static HttpResponse doGet(String urlString) {
 		return doRequest(Method.GET, urlString, null);
 	}
@@ -62,7 +67,7 @@ public class HttpUtils {
 		return doRequest(Method.POST, urlString, params);
 	}
 	
-	public static HttpResponse doRequest(int method, String urlString, Map<String, String> params) {
+	public static HttpResponse doRequest(Method method, String urlString, Map<String, String> params) {
         HttpResponse response = new HttpResponse();
 		HttpURLConnection connection = null;
 		try {
@@ -132,15 +137,15 @@ public class HttpUtils {
 		return sb.toString();
 	}
 	
-	private static void setConnectionParametersForRequest(int method, HttpURLConnection connection, Map<String, String> paramsMap) throws IOException {
-		switch (method) {
-		case Method.GET:
-			connection.setRequestMethod("GET");
-			break;
-		case Method.POST:
-			connection.setRequestMethod("POST");
-			addBodyIfExists(connection, paramsMap);
-			break;
+	private static void setConnectionParametersForRequest(Method method, HttpURLConnection connection, Map<String, String> paramsMap) throws IOException {
+        switch (method) {
+            case GET:
+                connection.setRequestMethod("GET");
+                break;
+            case POST:
+                connection.setRequestMethod("POST");
+                addBodyIfExists(connection, paramsMap);
+                break;
 		default:
             throw new IllegalStateException("Unknown method type.");
 		}

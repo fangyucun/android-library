@@ -116,8 +116,7 @@ abstract public class BaseExpandableListAdapter<GVH extends BaseExpandableListAd
 
     @Override
     public int getColor(@ColorRes int id, @Nullable Resources.Theme theme) {
-        //TODO need support by support v4!
-        return new ResourcesCompat().getColor(getResources(), id, theme);
+        return ResourcesCompat.getColor(getResources(), id, theme);
     }
 
     @Override
@@ -137,8 +136,7 @@ abstract public class BaseExpandableListAdapter<GVH extends BaseExpandableListAd
 
     @Override
     public ColorStateList getColorStateList(@ColorRes int id, @Nullable Resources.Theme theme) {
-        //TODO It's a bug! need support by support v4!
-        return new ResourcesCompat().getColorStateList(getResources(), id, theme);
+        return ResourcesCompat.getColorStateList(getResources(), id, theme);
     }
 
     @Override

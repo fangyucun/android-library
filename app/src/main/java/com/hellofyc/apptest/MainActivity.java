@@ -1,6 +1,10 @@
 package com.hellofyc.apptest;
 
+import android.annotation.TargetApi;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.BottomSheetDialog;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -11,31 +15,61 @@ public class MainActivity extends BaseActivity {
     private TextView mTextView;
     private Button mBtn;
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mTextView = (TextView) findViewById(R.id.view);
-        mBtn = (Button) findViewById(R.id.btn);
 
-//        Drawable drawable = getDrawableCompat(R.drawable.ic_account_circle_24dp);
+        init();
+    }
+
+    private void init() {
+
+        setViewsOnClickListener(R.id.btn);
+//        CoordinatorLayout coordinatorLayout = (CoordinatorLayout) findViewById(R.id.bottom_sheet);
+//        View view = coordinatorLayout.findViewById(R.id.imageView);
+//        BottomSheetBehavior bottomSheetBehavior = BottomSheetBehavior.from(view);
+//        bottomSheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
 //
-//        mBtn.setOnClickListener(v -> {
+//            @Override
+//            public void onStateChanged(@NonNull View bottomSheet, int newState) {
+//                switch (newState) {
+//                    case BottomSheetBehavior.STATE_COLLAPSED:
+//                        FLog.i("newState:" + "STATE_COLLAPSED");
+//                        break;
+//                    case BottomSheetBehavior.STATE_DRAGGING:
+//                        FLog.i("newState:" + "STATE_DRAGGING");
+//                        break;
+//                    case BottomSheetBehavior.STATE_EXPANDED:
+//                        FLog.i("newState:" + "STATE_EXPANDED");
+//                        break;
+//                    case BottomSheetBehavior.STATE_HIDDEN:
+//                        FLog.i("newState:" + "STATE_HIDDEN");
+//                        break;
+//                    case BottomSheetBehavior.STATE_SETTLING:
+//                        FLog.i("newState:" + "STATE_SETTLING");
+//                        break;
+//                }
+//            }
 //
-//            List<String> list = new ArrayList<>();
-//            list.add("item1");
-//            list.add("item2");
-//            list.add("item3");
-//
-//            Stream.iterate(1, item -> item + 1).limit(10).forEach(System.out::print);
-//
-////            Stream.of(list).filter(item -> !item.equals("item1")).forEach(item -> FLog.i(item));
-//            List<String> splitUpNames = Arrays.asList("John Woo", "Jeff Dean", "Josh Bloch", "Josh Long");
-//            System.out.print(Stream.of(splitUpNames).map(name -> name.split(" ")).collect(Collectors.toList()).listIterator(0));
-//            FLog.i(Stream.of(splitUpNames).map(name -> name.split(" ")).collect(Collectors.toList()).listIterator(0))
+//            @Override
+//            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+////                FLog.i("slideOffset:" + slideOffset);
+//            }
 //        });
 
-//        PrefsHelper.create(this).putValue("a1", "2").apply();
+    }
 
+    @Override
+    public void onClick(View v) {
+        super.onClick(v);
+        switch (v.getId()) {
+            case R.id.btn:
+                BottomSheetDialog dialog = new BottomSheetDialog(this, R.style.BottomSheetDialog);
+                dialog.setContentView(R.layout.layout_bottom_sheet);
+                dialog.show();
+                break;
+        }
     }
 }

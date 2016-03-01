@@ -20,7 +20,6 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
 import android.content.res.ColorStateList;
 import android.content.res.Configuration;
@@ -37,9 +36,7 @@ import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.app.SharedElementCallback;
-import android.support.v4.content.Loader;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -59,6 +56,7 @@ import com.hellofyc.base.app.AppSupportDelegate;
 import com.hellofyc.base.app.BaseApplication;
 import com.hellofyc.base.app.SystemBarTintManager;
 import com.hellofyc.base.content.IntentWrapper;
+import com.hellofyc.base.helper.PermissionHelper;
 import com.hellofyc.base.util.FLog;
 import com.hellofyc.base.util.Reflect;
 import com.hellofyc.base.util.ResUtils;
@@ -74,7 +72,7 @@ abstract public class BaseActivity extends AppCompatActivity implements OnClickL
     private AppSupportDelegate mAppSupportDelegate;
 
 	protected View mRootView;
-	
+
 	private boolean mPressTwoExit = false;
 	private boolean mIsHighPriority = false;
     private long mPressTime = 0;
@@ -91,7 +89,7 @@ abstract public class BaseActivity extends AppCompatActivity implements OnClickL
         super.setContentView(layoutResID);
         mRootView = LayoutInflater.from(this).inflate(layoutResID, null);
     }
-	
+
 	@Override
 	public void setContentView(View view, LayoutParams params) {
 		super.setContentView(view, params);
@@ -104,17 +102,17 @@ abstract public class BaseActivity extends AppCompatActivity implements OnClickL
 		mRootView = view;
 	}
 
-    public void setViewsClickListener(View... views) {
-		getAppSupportDelegate().setViewsClickListener(this, views);
+    public void setViewsOnClickListener(View... views) {
+		getAppSupportDelegate().setViewsOnClickListener(this, views);
 	}
+
+    public void setViewsOnClickListener(int... viewResIds) {
+        getAppSupportDelegate().setViewsOnClickListener(this, viewResIds);
+    }
 
     public void setOnClickListener(@IdRes int id) {
         findViewById(id).setOnClickListener(this);
     }
-
-	public <D> Loader<D> startLoader(int id, Bundle args, LoaderCallbacks<D> callback) {
-		return getSupportLoaderManager().restartLoader(id, args, callback);
-	}
 
 	/**
 	 * @param resName name
@@ -145,7 +143,7 @@ abstract public class BaseActivity extends AppCompatActivity implements OnClickL
     public void showActionBarMenuIcon() {
         Reflect.on(Menu.class).set("sHasPermanentMenuKey", false);
     }
-	
+
 	/**
 	 * Finds a view that was identified by the name attribute from the XML that
 	 * @param resName name
@@ -286,39 +284,19 @@ abstract public class BaseActivity extends AppCompatActivity implements OnClickL
 		}
 		return super.stopService(name);
 	}
-	
-    /**
-     * {@link Activity#checkSelfPermission(String)}
-     */
-    public boolean checkSelfPermissionCompat(@NonNull String permission) {
-        return getAppSupportDelegate().checkSelfPermission(permission);
-    }
 
-    /**
-     * {@link Activity#requestPermissions(String[], int)}
-     */
-    public void requestPermissionsCompat(@NonNull String permission, int requestCode) {
-        ActivityCompat.requestPermissions(this, new String[]{permission}, requestCode);
+    public boolean checkPermission(int requestCode, String permission) {
+        if (!PermissionHelper.checkSelfPermission(this, permission)) {
+            PermissionHelper.requestPermission(this, requestCode, permission);
+            return false;
+        }
+        return true;
     }
-
-    /**
-     * {@link Activity#shouldShowRequestPermissionRationale(String)}
-     */
-    public boolean shouldShowRequestPermissionRationaleCompat(@NonNull String permission) {
-        return ActivityCompat.shouldShowRequestPermissionRationale(this, permission);
-    }
-
-    public void onRequestPermissionResult(int resultCode, String permission, boolean grantResult) {}
 
     @Override
     public final void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        String permission = permissions[0];
-        boolean grantResult = grantResults[0] == PackageManager.PERMISSION_GRANTED;
-        onRequestPermissionResult(requestCode, permission, grantResult);
-        if (!grantResult && !shouldShowRequestPermissionRationaleCompat(permission)) {
-            getAppSupportDelegate().showRequestPermissionDeniedDialog(permission);
-        }
+        PermissionHelper.onRequestPermissionsResult(this, requestCode, permissions, grantResults);
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -341,7 +319,7 @@ abstract public class BaseActivity extends AppCompatActivity implements OnClickL
 	public void forbidScreenshots(boolean trueOrFalse) {
 		getAppSupportDelegate().forbidScreenshots(trueOrFalse);
 	}
-	
+
 	public void setScreenFull(boolean on) {
 		getAppSupportDelegate().setScreenFull(on);
 	}
@@ -353,12 +331,12 @@ abstract public class BaseActivity extends AppCompatActivity implements OnClickL
     public boolean isScreenPortrait() {
         return getAppSupportDelegate().isScreenPortrait();
     }
-	
+
 	protected void setPressTwoExitEnable(boolean isHighPriority) {
 		mPressTwoExit = true;
 		mIsHighPriority = isHighPriority;
 	}
-	
+
 	public final AssetManager getAssets() {
 		return getResources().getAssets();
 	}
@@ -374,23 +352,23 @@ abstract public class BaseActivity extends AppCompatActivity implements OnClickL
     public final Configuration getConfiguration() {
 		return getResources().getConfiguration();
 	}
-	
+
 	public final float getDimensionCompat(@DimenRes int id) {
 		return getResources().getDimension(id);
 	}
-	
+
 	public final int getScreenWidth() {
 		return getAppSupportDelegate().getScreenWidth();
 	}
-	
+
 	public final int getScreenHeight() {
 		return getAppSupportDelegate().getScreenHeight();
 	}
-	
+
 	public final float getScreenDensity() {
 		return getAppSupportDelegate().getScreenDensity();
 	}
-	
+
 	public final Drawable getDrawableCompat(@DrawableRes int resId) {
 		return getAppSupportDelegate().getDrawable(resId);
 	}
@@ -407,7 +385,7 @@ abstract public class BaseActivity extends AppCompatActivity implements OnClickL
 			super.onBackPressed();
 		}
 	}
-	
+
 	void pressBackToExit() {
 		if (System.currentTimeMillis() - mPressTime > 2000) {
 			ToastUtils.showDefault(this, "再按一次退出" + getPackageManager().getApplicationLabel(getApplicationInfo()) + "!");
@@ -436,7 +414,7 @@ abstract public class BaseActivity extends AppCompatActivity implements OnClickL
     public boolean invalidateOptionsMenuCompat() {
         return ActivityCompat.invalidateOptionsMenu(this);
     }
-	
+
 	@Override
 	public boolean dispatchTouchEvent(@NonNull MotionEvent ev) {
 		return super.dispatchTouchEvent(ev);

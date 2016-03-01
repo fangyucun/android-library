@@ -1,12 +1,25 @@
 package com.hellofyc.base.helper;
 
 import android.Manifest;
+import android.annotation.TargetApi;
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ProviderInfo;
 import android.os.Build;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.content.PermissionChecker;
 import android.support.v4.util.ArrayMap;
+
+import com.hellofyc.base.R;
+import com.hellofyc.base.content.IntentHelper;
+import com.hellofyc.base.text.SpanBuilder;
 
 import java.util.List;
 
@@ -71,6 +84,49 @@ public class PermissionHelper {
         return sPermissionGroupMap.get(permission);
     }
 
+    public static boolean checkSelfPermission(@NonNull Activity activity, @NonNull String permission) {
+        return PermissionChecker.checkSelfPermission(activity, permission) == PackageManager.PERMISSION_GRANTED;
+    }
+
+    public static void requestPermission(@NonNull Activity activity, int requestCode, @NonNull String permission) {
+        ActivityCompat.requestPermissions(activity, new String[]{permission}, requestCode);
+    }
+
+    public static boolean shouldShowRequestPermissionRationale(@NonNull Activity activity, @NonNull String permission) {
+        return ActivityCompat.shouldShowRequestPermissionRationale(activity, permission);
+    }
+
+    public static void onRequestPermissionsResult(Activity activity, int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        String permission = permissions[0];
+        boolean grantResult = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+        if (!grantResult && !shouldShowRequestPermissionRationale(activity, permission)) {
+            showRequestPermissionDeniedDialog(activity, permission);
+        }
+    }
+
+    private static void showRequestPermissionDeniedDialog(@NonNull final Activity activity, String permission) {
+        String permissionGroupName = PermissionHelper.getPermissionGroupName(permission);
+        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+        CharSequence title = SpanBuilder.create("没有访问" + permissionGroupName + "权限").setBold(permissionGroupName).build();
+        builder.setTitle(title);
+        builder.setMessage("如果要开启此功能, 可依次进入[设置-应用-" +
+                activity.getPackageManager().getApplicationLabel(activity.getApplicationInfo()) + "-权限], 打开[" + permissionGroupName + "]");
+        builder.setNegativeButton("知道了", null);
+        builder.setPositiveButton("跳转", new DialogInterface.OnClickListener() {
+
+            @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Intent intent = IntentHelper.getOpenAppDetailActivityIntent(activity, activity.getPackageName());
+                if (intent != null) {
+                    ActivityOptionsCompat options = ActivityOptionsCompat.makeCustomAnimation(activity, R.anim.right_enter, R.anim.slow_fade_exit);
+                    activity.startActivity(intent, options.toBundle());
+                }
+            }
+        });
+        builder.create().show();
+    }
+
     public static String getAuthorityFromPermission(Context context) {
         List<PackageInfo> piList = context.getPackageManager().getInstalledPackages(PackageManager.GET_PROVIDERS);
         if (piList != null) {
@@ -87,4 +143,5 @@ public class PermissionHelper {
         }
         return "";
     }
+
 }

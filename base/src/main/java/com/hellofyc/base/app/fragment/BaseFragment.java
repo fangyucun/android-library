@@ -28,7 +28,6 @@ import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -46,7 +45,7 @@ import com.hellofyc.base.util.FLog;
  */
 public class BaseFragment extends Fragment implements OnClickListener {
 	private static final boolean DEBUG = false;
-	
+
 	protected static final int RESULT_CANCELED		 = 0;
     protected static final int RESULT_OK			 = -1;
 
@@ -60,7 +59,7 @@ public class BaseFragment extends Fragment implements OnClickListener {
         if (v == null) return null;
         return v.findViewById(resId);
 	}
-	
+
 	@Override
 	public void onActivityCreated(@Nullable Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
@@ -119,7 +118,7 @@ public class BaseFragment extends Fragment implements OnClickListener {
     public void setOnKeyboardVisibleListener (AppSupportDelegate.OnKeyboardVisibleListener listener) {
         getAppSupportDelegate().setOnKeyboardVisibileListener(listener);
     }
-	
+
 	public void onResumedVisible() {
 	}
 
@@ -191,20 +190,24 @@ public class BaseFragment extends Fragment implements OnClickListener {
     public void startFragmentForResult (Intent intent, int requestCode, Bundle options) {
         getAppSupportDelegate().startFragmentForResult(intent, requestCode, options);
     }
-	
+
 	public void finish() {
         getActivity().finish();
 	}
-	
+
 	@Override
 	public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 	}
-	
-	public void setViewsClickListener(View... views) {
-		getAppSupportDelegate().setViewsClickListener(this, views);
+
+	public void setViewsOnClickListener(View... views) {
+		getAppSupportDelegate().setViewsOnClickListener(this, views);
 	}
-	
+
+	public void setViewsOnClickListener(int... viewResIds) {
+		getAppSupportDelegate().setViewsOnClickListener(this, viewResIds);
+	}
+
 	public LayoutInflater getLayoutInflater() {
 		return LayoutInflater.from(getActivity());
 	}
@@ -212,27 +215,27 @@ public class BaseFragment extends Fragment implements OnClickListener {
 	public final int getScreenWidth() {
 		return getAppSupportDelegate().getScreenWidth();
 	}
-	
+
 	public final int getScreenHeight() {
 		return getAppSupportDelegate().getScreenWidth();
 	}
-	
+
 	public final float getScreenDensity() {
 		return getAppSupportDelegate().getScreenDensity();
 	}
-	
+
 	protected Intent getIntent() {
 		return getActivity().getIntent();
 	}
-	
+
 	public void setResult(int resultCode) {
 		getActivity().setResult(resultCode);
 	}
-	
+
 	public void onBackPressed() {
 		getActivity().onBackPressed();
 	}
-	
+
 	protected String[] getStringArray(@ArrayRes int id) {
 		return getActivity().getResources().getStringArray(id);
 	}
@@ -240,19 +243,15 @@ public class BaseFragment extends Fragment implements OnClickListener {
 	protected int getColorCompat(@ColorRes int id) {
         return getAppSupportDelegate().getColor(id);
 	}
-	
+
 	public Drawable getDrawableCompat(@DrawableRes int id) {
 		return getAppSupportDelegate().getDrawable(id);
 	}
-	
+
 	@Override
 	public void onClick(View v) {
 	}
-	
-	public <LC> void startLoader(int id, Bundle args, LoaderCallbacks<LC> callbacks) {
-		getLoaderManager().restartLoader(id, args, callbacks);
-	}
-	
+
 	public AppSupportDelegate getAppSupportDelegate() {
 		if (mActivityDelegate == null) {
 			mActivityDelegate = AppSupportDelegate.create(this);

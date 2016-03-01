@@ -39,8 +39,11 @@
     <item name="toolbar" type="id"/>
     <item name="title" type="id"/>
     <item name="swipe_refresh_layout" type="id"/>
+    <item name="swipe_refresh_view" type="id"/>
     <item name="scrollview" type="id"/>
     <item name="surfaceview" type="id"/>
+    <item name="empty" type="id"/>
+    <item name="list_recyclerview" type="id"/>
 
     <!-- Btn -->
     <item name="btn_ok" type="id"/>
