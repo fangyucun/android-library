@@ -1,5 +1,8 @@
 apply plugin: 'com.android.library'
 
+def getGitCommitCountCmd = 'git rev-list HEAD --first-parent --count'
+def gitCommitCount = getGitCommitCountCmd.execute().text.trim().toInteger()
+
 android {
     compileSdkVersion 23
     buildToolsVersion "23.0.2"
@@ -7,7 +10,7 @@ android {
     defaultConfig {
         minSdkVersion 16
         targetSdkVersion 23
-        versionCode 0
+        versionCode gitCommitCount
         versionName "0.9.9"
     }
 

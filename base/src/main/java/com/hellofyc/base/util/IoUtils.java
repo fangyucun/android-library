@@ -15,6 +15,7 @@
  */package com.hellofyc.base.util;
 
 import android.database.Cursor;
+import android.support.annotation.NonNull;
 
 import java.io.BufferedReader;
 import java.io.Closeable;
@@ -167,6 +168,23 @@ public final class IoUtils {
 			FLog.e("不支持的关闭!");
 			throw new RuntimeException("不支持的关闭!");
 		}
+	}
+
+	public static String readStream(@NonNull InputStream inputStream) {
+		StringBuilder sb = new StringBuilder();
+		BufferedReader br = null;
+		try {
+			br = new BufferedReader(new InputStreamReader(inputStream));
+			String line;
+			while ((line = br.readLine()) != null) {
+				sb.append(line);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			IoUtils.close(br);
+		}
+		return sb.toString();
 	}
 
 	public static InputStream getPhoneLogs() throws IOException, InterruptedException {

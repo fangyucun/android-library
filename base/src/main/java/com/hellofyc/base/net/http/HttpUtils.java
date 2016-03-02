@@ -16,9 +16,9 @@
 
 package com.hellofyc.base.net.http;
 
-import android.content.Context;
-import android.os.Build;
+import android.support.annotation.IntRange;
 import android.support.annotation.NonNull;
+import android.support.v4.util.ArrayMap;
 import android.text.TextUtils;
 
 import com.hellofyc.base.util.EncodeUtils;
@@ -26,64 +26,88 @@ import com.hellofyc.base.util.FLog;
 import com.hellofyc.base.util.FileUtils;
 import com.hellofyc.base.util.IoUtils;
 
-import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.lang.reflect.Field;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.Locale;
+import java.net.URLConnection;
 import java.util.Map;
 import java.util.UUID;
 
 public class HttpUtils {
-	private static final boolean DEBUG = false;
-	
+
 	private static final String HEADER_CONTENT_TYPE = "Content-Type";
 	private static final String HEADER_CHARSET = "Charset";
 	private static final String HEADER_CONNECTION = "connection";
-	
+
+	private static final String BODY_CONTENT_TYPE = "application/x-www-form-urlencoded";
+
 	private static final String PREFIX = "--";
 	private static final String LINE_END = "\r\n";
 	
-	private static final int CONNECT_TIME_OUT = 30 * 1000;
-	private static final int READ_TIME_OUT = 30 * 1000;
-	
 	private static String BOUNDARY = UUID.randomUUID().toString();
 
-    public enum Method {
-        GET,
-        POST
+    private boolean mDebug = false;
+    private HttpRequest mRequestParams = HttpRequest.create();
+    private Method mMethod = Method.POST;
+    private String mUrlString;
+    private int mConnectTimeout = 30 * 1000;
+    private int mReadTimeout = 30 * 1000;
+
+    protected HttpUtils() {
     }
 
-	public static HttpResponse doGet(String urlString) {
-		return doRequest(Method.GET, urlString, null);
-	}
-	
-	public static HttpResponse doPost(String urlString, Map<String, String> params) {
-		return doRequest(Method.POST, urlString, params);
-	}
-	
-	public static HttpResponse doRequest(Method method, String urlString, Map<String, String> params) {
+    public static HttpUtils create() {
+        return new HttpUtils();
+    }
+
+    public HttpUtils setReqeustParams(@NonNull HttpRequest requestParams) {
+        mRequestParams = requestParams;
+        return this;
+    }
+
+    public HttpUtils setMethod(@NonNull Method method) {
+        mMethod = method;
+        return this;
+    }
+
+    public HttpUtils setUrl(@NonNull String urlString) {
+        mUrlString = urlString;
+        return this;
+    }
+
+    public HttpUtils setReadTimeout(@IntRange(from = 1) int readTimeoutInMillis) {
+        mReadTimeout = readTimeoutInMillis;
+        return this;
+    }
+
+    public HttpUtils setConnectTimeout(@IntRange(from = 1) int connectTimeoutInMills) {
+        mConnectTimeout = connectTimeoutInMills;
+        return this;
+    }
+
+    public HttpUtils setDebugEnable() {
+        mDebug = true;
+        return this;
+    }
+
+	public HttpResponse request(){
         HttpResponse response = new HttpResponse();
 		HttpURLConnection connection = null;
 		try {
-			connection = openConnection(new URL(urlString));
-			setConnectionParametersForRequest(method, connection, params);
+			connection = getConnection();
             response.code = connection.getResponseCode();
-			if (DEBUG) FLog.i("===responseCode:" + response.code);
+			if (mDebug) FLog.i("===responseCode:" + response.code);
 			if (response.code == HttpURLConnection.HTTP_OK) {
-				String responseText = readStream(connection.getInputStream());
-				if (DEBUG) FLog.i("===responseText:" + responseText);
+				String responseText = IoUtils.readStream(connection.getInputStream());
+				if (mDebug) FLog.i("===responseText:" + responseText);
                 response.text = responseText;
 			} else {
                 response.text = connection.getResponseMessage();
             }
 		} catch (IOException e) {
-            if (DEBUG) FLog.e(e);
+            if (mDebug) FLog.e(e);
             response.code = HttpResponse.STATUS_CODE_UNKNOWN;
             response.text = "未知错误";
             return response;
@@ -95,24 +119,24 @@ public class HttpUtils {
         return response;
 	}
 	
-	public static String uploadFile(String urlString, Map<String, String> stringParams, Map<String, File> fileParams) {
+	public String uploadFile(Map<String, File> fileParams) {
 		HttpURLConnection connection = null;
 		try {
-			connection = openConnection(new URL(urlString));
+			connection = getConnection();
 			connection.setDoOutput(true);
 			
 			DataOutputStream dos = new DataOutputStream(connection.getOutputStream());
 			
-			addStringParams(dos, stringParams);
+			addStringParams(dos, mRequestParams.getArrayMap());
 			addFileParams(dos, fileParams);
 			addEndParams(dos);
             
 			int responseCode = connection.getResponseCode();
 			if (responseCode == HttpURLConnection.HTTP_OK) {
-				return readStream(connection.getInputStream());
+				return IoUtils.readStream(connection.getInputStream());
 			}
 		} catch (Exception e) {
-			if (DEBUG) FLog.e(e);
+			if (mDebug) FLog.e(e);
 		} finally {
 			if (connection != null) {
 				connection.disconnect();
@@ -121,75 +145,41 @@ public class HttpUtils {
 		return null;
 	}
 
-	public static String readStream(InputStream inputStream)
-			throws IOException {
-		StringBuilder sb = new StringBuilder();
-		BufferedReader br = null;
-		try {
-			br = new BufferedReader(new InputStreamReader(inputStream));
-			String line;
-			while ((line = br.readLine()) != null) {
-				sb.append(line);
-			}
-		} finally {
-			IoUtils.close(br);
-		}
-		return sb.toString();
-	}
-	
-	private static void setConnectionParametersForRequest(Method method, HttpURLConnection connection, Map<String, String> paramsMap) throws IOException {
-        switch (method) {
-            case GET:
-                connection.setRequestMethod("GET");
-                break;
-            case POST:
-                connection.setRequestMethod("POST");
-                addBodyIfExists(connection, paramsMap);
-                break;
-		default:
-            throw new IllegalStateException("Unknown method type.");
-		}
-	}
-	
-	private static HttpURLConnection openConnection(URL url) throws IOException {
-		HttpURLConnection connection = createConnection(url);
-		connection.setConnectTimeout(CONNECT_TIME_OUT);
-        connection.setReadTimeout(READ_TIME_OUT);
+    protected HttpURLConnection getConnection() throws IOException {
+        HttpURLConnection connection = (HttpURLConnection)new URL(mUrlString).openConnection();
+        connection.setConnectTimeout(mConnectTimeout);
+        connection.setReadTimeout(mReadTimeout);
         connection.setUseCaches(false);
         connection.setDoInput(true);
         connection.setRequestProperty(HEADER_CHARSET, EncodeUtils.getDefultCharset());
         connection.setRequestProperty(HEADER_CONNECTION, "keep-alive");
+        connection.setRequestMethod(mMethod.name());
+        addPostBodyData(connection);
         return connection;
-	}
+    }
 	
-	private static HttpURLConnection createConnection(URL url) throws IOException {
-		return (HttpURLConnection) url.openConnection();
-	}
-	
-    private static void addBodyIfExists(@NonNull HttpURLConnection connection, Map<String, String> params)
+    private void addPostBodyData(@NonNull URLConnection connection)
             throws IOException {
-        String body = parseMapToUrlParamsString(params);
-        connection.setDoOutput(true);
-        connection.addRequestProperty(HEADER_CONTENT_TYPE, getBodyContentType());
-        DataOutputStream out = new DataOutputStream(connection.getOutputStream());
-        out.write(body.getBytes());
-        out.close();
-    }
-    
-    private static String getBodyContentType() {
-        return "application/x-www-form-urlencoded";
-    }
-    
-    private static void addStringParams(DataOutputStream dos, Map<String, String> stringParamsMap) throws IOException {
-        for (Map.Entry<String, String> entry : stringParamsMap.entrySet()) {
-        	dos.writeBytes(PREFIX + BOUNDARY + LINE_END);
-            dos.writeBytes("Content-Disposition: form-data; name=\"" + entry.getKey() + "\"" + LINE_END);
-            dos.writeBytes(LINE_END);
-            dos.writeBytes(EncodeUtils.encode(entry.getValue()) + "\r\n");
+        if (mMethod == Method.POST) {
+            String body = parseMapToUrlParamsString(mRequestParams.getArrayMap());
+            connection.setDoOutput(true);
+            connection.addRequestProperty(HEADER_CONTENT_TYPE, BODY_CONTENT_TYPE);
+            DataOutputStream out = new DataOutputStream(connection.getOutputStream());
+            out.write(body.getBytes());
+            out.close();
         }
     }
     
-    private static void addFileParams(DataOutputStream dos, Map<String, File> fileParamsMap) throws Exception {
+    private void addStringParams(DataOutputStream dos, Map<String, Object> params) throws IOException {
+        for (Map.Entry<String, Object> entry : params.entrySet()) {
+        	dos.writeBytes(PREFIX + BOUNDARY + LINE_END);
+            dos.writeBytes("Content-Disposition: form-data; name=\"" + entry.getKey() + "\"" + LINE_END);
+            dos.writeBytes(LINE_END);
+            dos.writeBytes(EncodeUtils.encode(String.valueOf(entry.getValue())) + "\r\n");
+        }
+    }
+    
+    private void addFileParams(DataOutputStream dos, Map<String, File> fileParamsMap) throws Exception {
     	for(Map.Entry<String, File> entry : fileParamsMap.entrySet()) {
     		if (entry.getValue() == null || !entry.getValue().exists()) continue;
     		
@@ -209,17 +199,17 @@ public class HttpUtils {
      * 添加Http尾部
      * @throws IOException
      */
-    private static void addEndParams(DataOutputStream dos) throws IOException {
+    private void addEndParams(DataOutputStream dos) throws IOException {
     	dos.writeBytes(PREFIX + BOUNDARY + PREFIX + LINE_END);  
     	dos.writeBytes(LINE_END);
     }
 
-    public static String parseMapToUrlParamsString(Map<String, String> paramsMap) {
+    public String parseMapToUrlParamsString(ArrayMap<String, Object> paramsMap) {
         if (paramsMap == null || paramsMap.size() == 0) return "";
 
         StringBuilder sb = new StringBuilder();
         int size = paramsMap.size();
-        for (Map.Entry<String, String> entry : paramsMap.entrySet()) {
+        for (Map.Entry<String, Object> entry : paramsMap.entrySet()) {
             size--;
             if (TextUtils.isEmpty(entry.getKey())) continue;
             sb.append(entry.getKey());
@@ -229,65 +219,4 @@ public class HttpUtils {
         }
         return sb.toString();
     }
-    
-    /**
-     * @param context if null, use the default format
-     *                (Mozilla/5.0 (Linux; U; Android %s) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 %sSafari/534.30).
-     */
-    public static String getUserAgent(Context context) {
-        String webUserAgent = null;
-        if (context != null) {
-            try {
-                Class<?> sysResCls = Class.forName("com.android.internal.R$string");
-                Field webUserAgentField = sysResCls.getDeclaredField("web_user_agent");
-                Integer resId = (Integer) webUserAgentField.get(null);
-                webUserAgent = context.getString(resId);
-            } catch (Throwable ignored) {
-            }
-        }
-        
-        if (TextUtils.isEmpty(webUserAgent)) {
-            webUserAgent = "Mozilla/5.0 (Linux; U; Android %s) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 %sSafari/533.1";
-        }
-
-        Locale locale = Locale.getDefault();
-        StringBuffer buffer = new StringBuffer();
-        // Add version
-        final String version = Build.VERSION.RELEASE;
-        if (version.length() > 0) {
-            buffer.append(version);
-        } else {
-            // default to "1.0"
-            buffer.append("1.0");
-        }
-        buffer.append("; ");
-        final String language = locale.getLanguage();
-        if (language != null) {
-            buffer.append(language.toLowerCase(Locale.CHINA));
-            final String country = locale.getCountry();
-            if (country != null) {
-                buffer.append("-");
-                buffer.append(country.toLowerCase(Locale.CHINA));
-            }
-        } else {
-            // default to "en"
-            buffer.append("en");
-        }
-        // add the model for the release build
-        if ("REL".equals(Build.VERSION.CODENAME)) {
-            final String model = Build.MODEL;
-            if (model.length() > 0) {
-                buffer.append("; ");
-                buffer.append(model);
-            }
-        }
-        final String id = Build.ID;
-        if (id.length() > 0) {
-            buffer.append(" Build/");
-            buffer.append(id);
-        }
-        return String.format(webUserAgent, buffer, "Mobile ");
-    }
-    
-	private HttpUtils(){}
 }
