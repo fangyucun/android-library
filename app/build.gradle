@@ -36,5 +36,6 @@ dependencies {
     compile 'com.android.support:design:23.2.0'
     compile 'com.github.zhaokaiqiang.klog:library:1.3.0'
     compile 'com.android.support:support-v4:23.2.0'
+    compile 'com.github.bumptech:glide:v3.7.0'
     compile project(':base')
 }

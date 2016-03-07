@@ -48,11 +48,11 @@ public final class FLog {
     public static final String LINE_SEPARATOR = System.getProperty("line.separator");
 	
     public static void v() {
-        i(null, "");
+        v(null, "");
     }
 
     public static void v(Object textObject) {
-        i(null, String.valueOf(textObject));
+        v(null, String.valueOf(textObject));
     }
 
     public static void v(String tag, Object text) {
@@ -60,11 +60,11 @@ public final class FLog {
     }
 
     public static void a() {
-        i(null, "");
+        a(null, "");
     }
 
     public static void a(Object textObject) {
-        i(null, String.valueOf(textObject));
+        a(null, String.valueOf(textObject));
     }
 
     public static void a(String tag, Object text) {
@@ -84,11 +84,11 @@ public final class FLog {
     }
 
     public static void w() {
-        i(null, "");
+        w(null, "");
     }
 
     public static void w(Object textObject) {
-        i(null, String.valueOf(textObject));
+        w(null, String.valueOf(textObject));
     }
 
     public static void w(String tag, String textObject) {

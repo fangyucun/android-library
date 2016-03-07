@@ -3,9 +3,9 @@ package com.hellofyc.apptest;
 import android.annotation.TargetApi;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.util.ArrayMap;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hellofyc.base.app.activity.BaseActivity;
@@ -27,6 +27,9 @@ public class MainActivity extends BaseActivity {
     }
 
     private void init() {
+
+        ImageView img = (ImageView) findViewById(R.id.img);
+        img.setImageResource(R.drawable.testwebp);
 
         setViewsOnClickListener(R.id.btn);
 //        CoordinatorLayout coordinatorLayout = (CoordinatorLayout) findViewById(R.id.bottom_sheet);
@@ -76,10 +79,7 @@ public class MainActivity extends BaseActivity {
 
                     @Override
                     public void run() {
-                        ArrayMap<String, Object> params = new ArrayMap<>();
-                        params.put("page", 2);
-                        params.put("timestamp", 1456908238);
-                        HttpUtils.create().setReqeustParams(HttpRequest.create().add("page", 2).add("time:", 22)).setDebugEnable().setUrl("http://106.38.193.197/Api/getAllInfo").request();
+                        HttpUtils.create().setReqeustParams(HttpRequest.create().add("page", 2).add("time:", 1456908238)).setDebugEnable().setUrl("http://106.38.193.197/Api/getAllInfo").request();
                     }
                 }).start();
                 break;

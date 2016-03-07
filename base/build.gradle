@@ -11,12 +11,14 @@ android {
         minSdkVersion 16
         targetSdkVersion 23
         versionCode gitCommitCount
-        versionName "1.0.0"
-    }
+        versionName "1.0.1"
+        resConfigs "zh"
+}
 
     buildTypes {
         release {
             minifyEnabled false
+            shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
