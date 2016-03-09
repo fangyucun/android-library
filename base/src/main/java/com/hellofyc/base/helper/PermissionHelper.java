@@ -28,9 +28,33 @@ import java.util.List;
  *
  * @author Yucun Fang
  */
+@TargetApi(Build.VERSION_CODES.KITKAT_WATCH)
 public class PermissionHelper {
 
     private static final ArrayMap<String, String> sPermissionGroupMap;
+
+    public static final int REQUEST_CODE_LOCATION        = 200;
+    public static final int REQUEST_CODE_PHONE           = 201;
+    public static final int REQUEST_CODE_SENSORS         = 202;
+    public static final int REQUEST_CODE_CAMERA          = 203;
+    public static final int REQUEST_CODE_CONTACTS        = 204;
+    public static final int REQUEST_CODE_CALENDAR        = 205;
+    public static final int REQUEST_CODE_STORAGE         = 206;
+    public static final int REQUEST_CODE_SMS             = 207;
+    public static final int REQUEST_CODE_AUDIO           = 208;
+
+    public static final int PERMISSION_GRANTED       = PackageManager.PERMISSION_GRANTED;
+    public static final int PERMISSION_DENIED        = PackageManager.PERMISSION_DENIED;
+
+    public static final String PERMISSION_LOCATION   = Manifest.permission.ACCESS_FINE_LOCATION;
+    public static final String PERMISSION_PHONE      = Manifest.permission.CALL_PHONE;
+    public static final String PERMISSION_SENSORS    = Manifest.permission.BODY_SENSORS;
+    public static final String PERMISSION_CAMERA     = Manifest.permission.CAMERA;
+    public static final String PERMISSION_CONTACTS   = Manifest.permission.READ_CONTACTS;
+    public static final String PERMISSION_CALENDAR   = Manifest.permission.READ_CALENDAR;
+    public static final String PERMISSION_STORAGE    = Manifest.permission.READ_EXTERNAL_STORAGE;
+    public static final String PERMISSION_SMS        = Manifest.permission.READ_SMS;
+    public static final String PERMISSION_AUDIO      = Manifest.permission.RECORD_AUDIO;
 
     static {
         sPermissionGroupMap = new ArrayMap<>();

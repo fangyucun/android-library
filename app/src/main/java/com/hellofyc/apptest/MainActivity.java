@@ -3,14 +3,14 @@ package com.hellofyc.apptest;
 import android.annotation.TargetApi;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hellofyc.base.app.activity.BaseActivity;
-import com.hellofyc.base.net.http.HttpRequest;
-import com.hellofyc.base.net.http.HttpUtils;
+import com.hellofyc.base.helper.PermissionHelper;
+import com.hellofyc.base.util.FLog;
 
 public class MainActivity extends BaseActivity {
 
@@ -27,9 +27,6 @@ public class MainActivity extends BaseActivity {
     }
 
     private void init() {
-
-        ImageView img = (ImageView) findViewById(R.id.img);
-        img.setImageResource(R.drawable.testwebp);
 
         setViewsOnClickListener(R.id.btn);
 //        CoordinatorLayout coordinatorLayout = (CoordinatorLayout) findViewById(R.id.bottom_sheet);
@@ -75,14 +72,30 @@ public class MainActivity extends BaseActivity {
 //                dialog.setContentView(R.layout.layout_bottom_sheet);
 //                dialog.show();
 
-                new Thread(new Runnable() {
+                if (checkPermission(PermissionHelper.REQUEST_CODE_CALENDAR, PermissionHelper.PERMISSION_CALENDAR)) {
+                    doPermissionGranted();
+                }
 
-                    @Override
-                    public void run() {
-                        HttpUtils.create().setReqeustParams(HttpRequest.create().add("page", 2).add("time:", 1456908238)).setDebugEnable().setUrl("http://106.38.193.197/Api/getAllInfo").request();
-                    }
-                }).start();
                 break;
         }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case PermissionHelper.REQUEST_CODE_CALENDAR:
+                if (grantResults[0] == PermissionHelper.PERMISSION_GRANTED) {
+                    FLog.i("授权了!");
+                    doPermissionGranted();
+                } else {
+                    FLog.i("未授权");
+                }
+                break;
+        }
+    }
+
+    private void doPermissionGranted() {
+        FLog.i("授权之后的事!");
     }
 }
