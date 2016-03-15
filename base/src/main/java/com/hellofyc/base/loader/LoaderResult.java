@@ -26,10 +26,6 @@ public class LoaderResult<T> {
 	private String text;
     private T value;
 
-    public boolean isSuccess() {
-        return code == 200;
-    }
-
     public int getCode() {
         return code;
     }

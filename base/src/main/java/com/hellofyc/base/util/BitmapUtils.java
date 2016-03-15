@@ -42,7 +42,12 @@ import android.net.Uri;
 import android.opengl.GLES20;
 import android.opengl.GLException;
 import android.os.Build;
+import android.renderscript.Allocation;
+import android.renderscript.Element;
+import android.renderscript.RenderScript;
+import android.renderscript.ScriptIntrinsicBlur;
 import android.support.annotation.DrawableRes;
+import android.support.annotation.FloatRange;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
@@ -59,12 +64,29 @@ import java.nio.IntBuffer;
  * @author Fang Yucun
  * @since 2014年1月26日
  */
-public final class ImageUtils {
+public final class BitmapUtils {
 	private static final boolean DEBUG = false;
 
     private static final Canvas sCanvas = new Canvas();
 	
 	public static final ColorDrawable TRANSPARENT_COLOR_DRAWABLE = new ColorDrawable(Color.TRANSPARENT);
+
+	@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
+	public static Bitmap blur(@NonNull Context context,
+							  @NonNull Bitmap srcBitmap,
+							  @FloatRange(from = 0f, to = 25f, fromInclusive = false) float radius) {
+		Bitmap destBitmap = srcBitmap.copy(srcBitmap.getConfig(), true);
+		RenderScript renderScript = RenderScript.create(context);
+		Allocation inputAllocation = Allocation.createFromBitmap(
+				renderScript, srcBitmap, Allocation.MipmapControl.MIPMAP_NONE, Allocation.USAGE_SCRIPT);
+		Allocation outputAllocation = Allocation.createTyped(renderScript, inputAllocation.getType());
+		ScriptIntrinsicBlur script = ScriptIntrinsicBlur.create(renderScript, Element.U8_4(renderScript));
+		script.setRadius(radius);
+		script.setInput(inputAllocation);
+		script.forEach(outputAllocation);
+		outputAllocation.copyTo(destBitmap);
+		return destBitmap;
+	}
 
     public static Bitmap createBitmap(int width, int height, @NonNull Config config, int retryCount) {
         try {
@@ -334,5 +356,5 @@ public final class ImageUtils {
 		return p;
 	}
 	
-	private ImageUtils(){/*Do not new me*/}
+	private BitmapUtils(){/*Do not new me*/}
 }

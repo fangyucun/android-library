@@ -143,7 +143,7 @@ public class PermissionHelper {
             public void onClick(DialogInterface dialog, int which) {
                 Intent intent = IntentHelper.getOpenAppDetailActivityIntent(activity, activity.getPackageName());
                 if (intent != null) {
-                    ActivityOptionsCompat options = ActivityOptionsCompat.makeCustomAnimation(activity, R.anim.right_enter, R.anim.slow_fade_exit);
+                    ActivityOptionsCompat options = ActivityOptionsCompat.makeCustomAnimation(activity, R.anim.base_right_enter, R.anim.base_slow_fade_exit);
                     activity.startActivity(intent, options.toBundle());
                 }
             }

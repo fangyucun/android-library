@@ -11,8 +11,9 @@ android {
         minSdkVersion 16
         targetSdkVersion 23
         versionCode gitCommitCount
-        versionName "1.0.1"
+        versionName "1.0.3"
         resConfigs "zh"
+        vectorDrawables.useSupportLibrary(true)
 }
 
     buildTypes {
@@ -28,10 +29,14 @@ android {
     }
 }
 
+ext {
+    androidSupportVersion = '23.2.1'
+}
+
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.android.support:appcompat-v7:23.2.0'
-    compile 'com.android.support:recyclerview-v7:23.2.0'
+    compile "com.android.support:design:${androidSupportVersion}"
+    compile "com.android.support:support-v4:${androidSupportVersion}"
     compile 'com.alibaba:fastjson:1.1.46.android'
 }
 

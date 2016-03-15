@@ -64,7 +64,7 @@ public class CustomTabsHelper {
 //            CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder(session);
 //            builder.setToolbarColor(ContextCompat.getColor(mActivity, R.color.primary));
 //            builder.setCloseButtonIcon(((BitmapDrawable) ContextCompat.getDrawable(mActivity, R.drawable.ic_btn_back)).getBitmap());
-//            builder.setStartAnimations(mActivity, R.anim.right_enter, R.anim.slow_fade_exit);
+//            builder.setStartAnimations(mActivity, R.anim.base_right_enter, R.anim.base_slow_fade_exit);
 //            builder.setExitAnimations(mActivity, 0, R.anim.right_exit);
 //            builder.build().launchUrl(mActivity, mUri);
 //        }
