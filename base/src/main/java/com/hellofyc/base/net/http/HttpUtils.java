@@ -32,6 +32,7 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
+import java.net.UnknownHostException;
 import java.util.Map;
 import java.util.UUID;
 
@@ -93,6 +94,11 @@ public class HttpUtils {
     }
 
 	public HttpResponse request(){
+        if (mDebug) {
+            FLog.i("URL:" + mUrlString);
+            FLog.i("REQUEST PARAMS:" + mRequestParams.getArrayMap().toString());
+        }
+
         HttpResponse response = new HttpResponse();
 		HttpURLConnection connection = null;
 		try {
@@ -106,10 +112,15 @@ public class HttpUtils {
 			} else {
                 response.text = connection.getResponseMessage();
             }
-		} catch (IOException e) {
+		} catch (UnknownHostException e) {
+            if (mDebug) FLog.e(e);
+            response.code = HttpResponse.STATUS_CODE_NET;
+            response.text = "网络错误";
+            return response;
+        } catch (IOException e) {
             if (mDebug) FLog.e(e);
             response.code = HttpResponse.STATUS_CODE_UNKNOWN;
-            response.text = "未知错误";
+            response.text = "未知错误!";
             return response;
 		} finally {
 			if (connection != null) {

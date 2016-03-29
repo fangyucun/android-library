@@ -39,8 +39,7 @@ import java.util.Map;
  * @since 2015年4月14日 下午2:33:11
  */
 public class CrashHandler implements UncaughtExceptionHandler {
-	static final boolean DEBUG = true;
-	
+
 	private Context mContext;
 	private UncaughtExceptionHandler mDefaultHandler;
 	
@@ -52,7 +51,6 @@ public class CrashHandler implements UncaughtExceptionHandler {
 	private CrashHandler(Context context) {
 		mContext = context;
 		mDefaultHandler = Thread.getDefaultUncaughtExceptionHandler();
-//		uploadLog();
 	}
 	
 	public static CrashHandler startMonitor(Context context) {
@@ -63,10 +61,6 @@ public class CrashHandler implements UncaughtExceptionHandler {
 		return mInstance;
 	}
 	
-//	private void uploadLog() {
-//		FLog.getInstance(mContext).uploadCrashLogByFtp(null);
-//	}
-
 	@Override
 	public void uncaughtException(Thread thread, Throwable ex) {
 		FLog.e(ex);
@@ -74,18 +68,14 @@ public class CrashHandler implements UncaughtExceptionHandler {
 		if (!handleException(ex) && mDefaultHandler != null) {
 			mDefaultHandler.uncaughtException(thread, ex);
 		} else {
-//			startMainActivity();
+			onExit();
 			exit();
 		}
 	}
 
-//	void startMainActivity() {
-//		Intent intent = new Intent(mContext.getApplicationContext(), TestActivity.class);
-//        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//        Bundle options = ActivityOptionsCompat.makeCustomAnimation(mContext, android.R.anim.fade_in, android.R.anim.fade_out).toBundle();
-//        ActivityCompat.startActivities(mContext, new Intent[]{intent}, options);
-//	}
-	
+	protected void onExit() {
+	}
+
 	private boolean handleException(Throwable ex) {
 		collectDeviceInfo();
 		saveCrashInfoToFile(ex);
@@ -142,7 +132,6 @@ public class CrashHandler implements UncaughtExceptionHandler {
 	}
 	
 	private void exit() {
-		if (DEBUG) FLog.i("exit");
 		android.os.Process.killProcess(android.os.Process.myPid());
 		System.exit(1);
 	}

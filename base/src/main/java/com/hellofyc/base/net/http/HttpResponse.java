@@ -9,6 +9,7 @@ public class HttpResponse {
 
     public static final int STATUS_CODE_OK       = 200;
     public static final int STATUS_CODE_UNKNOWN  = -1;
+    public static final int STATUS_CODE_NET      = -2;
 
     public int code;
     public String text;

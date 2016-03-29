@@ -46,7 +46,7 @@ public final class FLog {
     public static final int FILE         = 9;
 
     public static final String LINE_SEPARATOR = System.getProperty("line.separator");
-	
+
     public static void v() {
         v(null, "");
     }
@@ -103,12 +103,16 @@ public final class FLog {
         e(null, String.valueOf(textObject));
     }
 
-    public static void e(String tag, Object text) {
-        printLog(ERROR, new LogInfo(tag, String.valueOf(text)));
+    public static void e(Throwable tr) {
+        Log.e(getInvokeStackTraceElement().getFileName(), "", tr);
     }
 
-    public static void e(String tag, Object text, Throwable e) {
-        printLog(ERROR, new LogInfo(tag, String.valueOf(text), e));
+    public static void e(String tag, Object textObject) {
+        printLog(ERROR, new LogInfo(tag, String.valueOf(textObject)));
+    }
+
+    public static void e(String tag, Object textObject, Throwable e) {
+        printLog(ERROR, new LogInfo(tag, String.valueOf(textObject), e));
     }
 
     public static void json(String jsonText) {
@@ -143,13 +147,29 @@ public final class FLog {
     }
 
     private static String[] getWrappedContent(String tag, String text) {
-        StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
-        String className = stackTrace[5].getFileName();
-        String methodName = stackTrace[5].getMethodName();
-        int lineNumber = stackTrace[5].getLineNumber();
+        StackTraceElement element = getInvokeStackTraceElement();
+        String className = element.getFileName();
+        String methodName = element.getMethodName();
+        int lineNumber = element.getLineNumber();
         String methodNameShort = methodName.substring(0, 1).toUpperCase() + methodName.substring(1);
-        String textPrefix = ("[ (").concat(className).concat(":").concat(lineNumber + "").concat(")#").concat(methodNameShort).concat(" ] ");
+        String textPrefix = ("【 (").concat(className)
+                .concat(":")
+                .concat(lineNumber + "")
+                .concat(")#")
+                .concat(methodNameShort)
+                .concat(" 】 ");
         return new String[]{tag == null ? className : tag, textPrefix, text == null ? "NULL" : text};
+    }
+
+    private static StackTraceElement getInvokeStackTraceElement() {
+        StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();
+        int lastFindIndex = -1;
+        for (int i=0; i<stackTraceElements.length; i++) {
+            if (stackTraceElements[i].getClassName().equals(FLog.class.getName())) {
+                lastFindIndex = i;
+            }
+        }
+        return stackTraceElements[lastFindIndex + 1];
     }
 
     private static void printJson(String tag, String prefix, String jsonText) {

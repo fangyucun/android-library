@@ -16,26 +16,20 @@
 
 package com.hellofyc.base.app.fragment;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.ArrayRes;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
 
 import com.hellofyc.base.app.AppSupportDelegate;
 import com.hellofyc.base.app.activity.BaseActivity;
-import com.hellofyc.base.util.FLog;
 
 /**
  *
@@ -44,7 +38,6 @@ import com.hellofyc.base.util.FLog;
  * @author Yucun Fang
  */
 public class BaseFragment extends Fragment implements OnClickListener {
-	private static final boolean DEBUG = false;
 
 	protected static final int RESULT_CANCELED		 = 0;
     protected static final int RESULT_OK			 = -1;
@@ -58,32 +51,6 @@ public class BaseFragment extends Fragment implements OnClickListener {
         View v = getView();
         if (v == null) return null;
         return v.findViewById(resId);
-	}
-
-	@Override
-	public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-		super.onActivityCreated(savedInstanceState);
-	}
-
-	@Override
-	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
-	}
-
-	@Override
-	public void onAttach(Context context) {
-		super.onAttach(context);
-	}
-
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-	}
-
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-		return super.onCreateView(inflater, container, savedInstanceState);
 	}
 
     public void setScreenFull(boolean full) {
@@ -102,14 +69,8 @@ public class BaseFragment extends Fragment implements OnClickListener {
     }
 
 	@Override
-	public void onHiddenChanged(boolean hidden) {
-		super.onHiddenChanged(hidden);
-	}
-
-	@Override
 	public void setUserVisibleHint(boolean isVisibleToUser) {
 		super.setUserVisibleHint(isVisibleToUser);
-		if (DEBUG) FLog.i("===setUserVisibleHint:" + isVisibleToUser);
 		if (isResumed() && isVisibleToUser) {
 			onResumedVisible();
 		}
@@ -123,57 +84,12 @@ public class BaseFragment extends Fragment implements OnClickListener {
 	}
 
 	@Override
-	public void onStart() {
-		super.onStart();
-	}
-
-	@Override
 	public void onResume() {
 		super.onResume();
 		if (getUserVisibleHint()) {
 			onResumedVisible();
 		}
 	}
-
-	@Override
-	public void onStop() {
-		super.onStop();
-	}
-
-	@Override
-	public void onDestroy() {
-		super.onDestroy();
-	}
-
-	@Override
-	public void onDestroyView() {
-		super.onDestroyView();
-	}
-
-	@Override
-	public void onDetach() {
-		super.onDetach();
-	}
-
-	@Override
-	public void startActivity(Intent intent) {
-		startActivityForResult(intent, -1);
-	}
-
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-    public void startActivity(Intent intent, Bundle options) {
-        getActivity().startActivity(intent, options);
-    }
-
-	@Override
-	public void startActivityForResult(Intent intent, int requestCode) {
-		super.startActivityForResult(intent, requestCode);
-	}
-
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-    public void startActivityForResult(Intent intent, int requestCode, Bundle options) {
-        getActivity().startActivityForResult(intent, requestCode, options);
-    }
 
     public void startFragment(Intent intent) {
         getAppSupportDelegate().startFragment(intent);
@@ -190,15 +106,6 @@ public class BaseFragment extends Fragment implements OnClickListener {
     public void startFragmentForResult (Intent intent, int requestCode, Bundle options) {
         getAppSupportDelegate().startFragmentForResult(intent, requestCode, options);
     }
-
-	public void finish() {
-        getActivity().finish();
-	}
-
-	@Override
-	public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-		super.onViewCreated(view, savedInstanceState);
-	}
 
 	public void setViewsOnClickListener(View... views) {
 		getAppSupportDelegate().setViewsOnClickListener(this, views);
