@@ -22,6 +22,7 @@ import android.content.SharedPreferences.Editor;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Size;
+import android.support.v4.util.ArrayMap;
 import android.text.TextUtils;
 
 import java.util.HashSet;
@@ -43,8 +44,7 @@ public final class PrefsHelper {
 	private String mFileName;
     private int mMode = Context.MODE_PRIVATE;
     private String mEncryptKey = "iJasonFang";
-    private String mKey;
-    private Object mValue;
+    private ArrayMap<String, Object> mKeyValueMap;
 
 	private PrefsHelper(Context context) {
 		mContext = context;
@@ -96,8 +96,10 @@ public final class PrefsHelper {
     }
 
     public PrefsHelper putValue(@NonNull String key, @NonNull Object value) {
-        mKey = key;
-        mValue = value;
+        if (mKeyValueMap == null) {
+            mKeyValueMap = new ArrayMap<>();
+        }
+        mKeyValueMap.put(key, value);
         return this;
 	}
 
@@ -129,20 +131,29 @@ public final class PrefsHelper {
             } else if (value instanceof Set) {
                 editor.putStringSet(key, (Set<String>)value);
             } else {
-                throw new IllegalArgumentException("Value type is not support!");
+                editor.putString(key, String.valueOf(value));
             }
         }
     }
 
+    /**
+     * advise use {@link #apply()}
+     *
+     * @return success or failure
+     */
 	public boolean commit() {
         Editor editor = getSharedPreferences().edit();
-        putValue(editor, mKey, mValue);
+        for (Map.Entry<String, Object> entry : mKeyValueMap.entrySet()) {
+            putValue(editor, entry.getKey(), entry.getValue());
+        }
 		return editor.commit();
 	}
 
 	public void apply() {
         Editor editor = getSharedPreferences().edit();
-        putValue(editor, mKey, mValue);
+        for (Map.Entry<String, Object> entry : mKeyValueMap.entrySet()) {
+            putValue(editor, entry.getKey(), entry.getValue());
+        }
         editor.apply();
 	}
 
