@@ -41,6 +41,7 @@ public final class TimeUtils {
     public static final String TEMPLATE_DATE							 = "yyyy-MM-dd";
     public static final String TEMPLATE_DATE_TIME_EXCLUDE_YEAR_SECOND	 = "MM-dd HH:mm";
     public static final String TEMPLATE_TIME							 = "HH:mm:ss";
+    public static final String TEMPLATE_TIME_EXCLUDE_SECOND				 = "HH:mm";
     public static final String TEMPLATE_DATE_TIME_FILENAME_WITH_MILLIS	 = "yyyyMMdd_HHmmssS";
     public static final String TEMPLATE_DATE_TIME_FILENAME 				 = "yyyyMMdd_HHmmss";
     public static final String TEMPLATE_DATE_FILENAME					 = "yyyyMMdd";
@@ -170,19 +171,34 @@ public final class TimeUtils {
 		return 0;
 	}
 	
-	public static String parseToHumnanizeTime(long timeInMillis) {
-		if (TimeUtils.isToday(timeInMillis)) {
-			return "今天 " + TimeUtils.getTime(timeInMillis, TimeUtils.TEMPLATE_TIME);
-		} else if (TimeUtils.isYestoday(timeInMillis)) {
-			return "昨天 " + TimeUtils.getTime(timeInMillis, TimeUtils.TEMPLATE_TIME);
-		} else {
-			return TimeUtils.getDateTime(timeInMillis);
-		}
-	}
-	
 	public static long getTimestamp(String dateStr) {
 		return getTimestamp(TEMPLATE_DATE_TIME, dateStr);
 	}
-	
+
+	public static String getShowTime(long timestamp) {
+		if (TimeUtils.isToday(timestamp)) {
+			return "今天 " + TimeUtils.getTime(timestamp, TEMPLATE_TIME_EXCLUDE_SECOND);
+		} else if (TimeUtils.isYestoday(timestamp)) {
+			return "昨天 " + TimeUtils.getTime(timestamp, TEMPLATE_TIME_EXCLUDE_SECOND);
+		} else {
+			return TimeUtils.getTime(timestamp, TEMPLATE_DATE_TIME_EXCLUDE_SECOND);
+		}
+	}
+
+	public static String getShowTimeFromNow(long timestamp) {
+		long duration = getCurrentTimeMillis() - timestamp;
+		if (duration < TimeUnit.MINUTES.toMillis(1)) {
+			return TimeUnit.MILLISECONDS.toSeconds(duration) + " 秒前";
+		} else if (duration < TimeUnit.HOURS.toMillis(1)) {
+			return TimeUnit.MILLISECONDS.toMinutes(duration) + " 分钟前";
+		} else if (duration < TimeUnit.DAYS.toMillis(1)) {
+			return TimeUnit.MILLISECONDS.toHours(duration) + " 小时前";
+		} else if (duration < TimeUnit.DAYS.toMillis(7)) {
+			return TimeUnit.MILLISECONDS.toDays(duration) + " 天前";
+		} else {
+			return TimeUtils.getTime(timestamp, TEMPLATE_DATE);
+		}
+	}
+
 	private TimeUtils() {/*Do not new me*/}
 }

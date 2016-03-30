@@ -1,23 +1,25 @@
 package com.hellofyc.apptest;
 
 import android.annotation.TargetApi;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatDialog;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.hellofyc.base.app.activity.BaseActivity;
 import com.hellofyc.base.helper.PermissionHelper;
 import com.hellofyc.base.util.FLog;
+import com.hellofyc.base.util.TimeUtils;
+import com.hellofyc.base.util.ToastUtils;
 
 public class MainActivity extends BaseActivity {
 
     private TextView mTextView;
     private Button mBtn;
+    private EditText mInputTime;
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -29,6 +31,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void init() {
+        mInputTime = (EditText) findViewById(R.id.input_time);
 
 //        CoordinatorLayout coordinatorLayout = (CoordinatorLayout) findViewById(R.id.bottom_sheet);
 //        View view = coordinatorLayout.findViewById(R.id.imageView);
@@ -102,17 +105,19 @@ public class MainActivity extends BaseActivity {
         switch (v.getId()) {
             case R.id.btn:
 
-                AppCompatDialog dialog = new AppCompatDialog(this, android.support.design.R.style.Theme_Design_Light_BottomSheetDialog);
-                dialog.setTitle("Hello!");
-                TextView tv = new TextView(this);
-                tv.setBackgroundColor(Color.RED);
-                tv.setText("Hello World!");
-                dialog.setContentView(tv);
-                dialog.show();
-
-                dialog.getWindow().setLayout(900, 1800);
+//                AppCompatDialog dialog = new AppCompatDialog(this, android.support.design.R.style.Theme_Design_Light_BottomSheetDialog);
+//                dialog.setTitle("Hello!");
+//                TextView tv = new TextView(this);
+//                tv.setBackgroundColor(Color.RED);
+//                tv.setText("Hello World!");
+//                dialog.setContentView(tv);
+//                dialog.show();
+//
+//                dialog.getWindow().setLayout(900, 1800);
 
 //                enterPictureInPicture();
+
+                ToastUtils.showDefault(this, TimeUtils.getShowTimeFromNow((System.currentTimeMillis() - Long.parseLong(mInputTime.getText().toString()) * 1000)));
 
                 break;
         }
