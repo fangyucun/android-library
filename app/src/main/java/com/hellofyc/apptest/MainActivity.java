@@ -9,6 +9,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONException;
+import com.alibaba.fastjson.TypeReference;
 import com.hellofyc.base.app.activity.BaseActivity;
 import com.hellofyc.base.helper.PermissionHelper;
 import com.hellofyc.base.util.FLog;
@@ -33,37 +36,14 @@ public class MainActivity extends BaseActivity {
     private void init() {
         mInputTime = (EditText) findViewById(R.id.input_time);
 
-//        CoordinatorLayout coordinatorLayout = (CoordinatorLayout) findViewById(R.id.bottom_sheet);
-//        View view = coordinatorLayout.findViewById(R.id.imageView);
-//        BottomSheetBehavior bottomSheetBehavior = BottomSheetBehavior.from(view);
-//        bottomSheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
-//
-//            @Override
-//            public void onStateChanged(@NonNull View bottomSheet, int newState) {
-//                switch (newState) {
-//                    case BottomSheetBehavior.STATE_COLLAPSED:
-//                        FLog.i("newState:" + "STATE_COLLAPSED");
-//                        break;
-//                    case BottomSheetBehavior.STATE_DRAGGING:
-//                        FLog.i("newState:" + "STATE_DRAGGING");
-//                        break;
-//                    case BottomSheetBehavior.STATE_EXPANDED:
-//                        FLog.i("newState:" + "STATE_EXPANDED");
-//                        break;
-//                    case BottomSheetBehavior.STATE_HIDDEN:
-//                        FLog.i("newState:" + "STATE_HIDDEN");
-//                        break;
-//                    case BottomSheetBehavior.STATE_SETTLING:
-//                        FLog.i("newState:" + "STATE_SETTLING");
-//                        break;
-//                }
-//            }
-//
-//            @Override
-//            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
-////                FLog.i("slideOffset:" + slideOffset);
-//            }
-//        });
+        String jsonText = "{\"code\":1,\"errmsg\":\"Hello\", \"data\":{\"id\":\"121\"}}";
+
+        try {
+            DataResult<User> result = JSON.parseObject(jsonText, new TypeReference<DataResult<User>>(){});
+            FLog.i();
+        } catch (JSONException e) {
+            FLog.e(e);
+        }
 
         setViewsOnClickListener(R.id.btn);
 
@@ -105,6 +85,7 @@ public class MainActivity extends BaseActivity {
         switch (v.getId()) {
             case R.id.btn:
 
+
 //                AppCompatDialog dialog = new AppCompatDialog(this, android.support.design.R.style.Theme_Design_Light_BottomSheetDialog);
 //                dialog.setTitle("Hello!");
 //                TextView tv = new TextView(this);
@@ -136,16 +117,6 @@ public class MainActivity extends BaseActivity {
                 }
                 break;
         }
-    }
-
-    @Override
-    public void onMultiWindowChanged(boolean inMultiWindow) {
-        super.onMultiWindowChanged(inMultiWindow);
-    }
-
-    @Override
-    public void onPictureInPictureChanged(boolean inPictureInPicture) {
-        super.onPictureInPictureChanged(inPictureInPicture);
     }
 
     private void doPermissionGranted() {

@@ -11,17 +11,9 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".MainActivity"
-            android:resizeableActivity="true"
-            android:supportsPictureInPicture="true">
-            <layout
-                android:defaultHeight="50dp"
-                android:defaultWidth="50dp"
-                android:gravity="center"
-                android:minimalSize="25dp" />
+            android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

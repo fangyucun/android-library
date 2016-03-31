@@ -16,6 +16,7 @@
 
 package com.hellofyc.base.util;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -25,7 +26,9 @@ import android.support.annotation.Size;
 import android.support.v4.util.ArrayMap;
 import android.text.TextUtils;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -45,6 +48,7 @@ public final class PrefsHelper {
     private int mMode = Context.MODE_PRIVATE;
     private String mEncryptKey = "iJasonFang";
     private ArrayMap<String, Object> mKeyValueMap;
+    private List<String> mRemoveKeyList;
 
 	private PrefsHelper(Context context) {
 		mContext = context;
@@ -95,6 +99,7 @@ public final class PrefsHelper {
         getSharedPreferences().unregisterOnSharedPreferenceChangeListener(listener);
     }
 
+    @SuppressLint("CommitPrefEdits")
     public PrefsHelper putValue(@NonNull String key, @NonNull Object value) {
         if (mKeyValueMap == null) {
             mKeyValueMap = new ArrayMap<>();
@@ -136,23 +141,20 @@ public final class PrefsHelper {
         }
     }
 
-    /**
-     * advise use {@link #apply()}
-     *
-     * @return success or failure
-     */
-	public boolean commit() {
-        Editor editor = getSharedPreferences().edit();
-        for (Map.Entry<String, Object> entry : mKeyValueMap.entrySet()) {
-            putValue(editor, entry.getKey(), entry.getValue());
-        }
-		return editor.commit();
-	}
-
 	public void apply() {
         Editor editor = getSharedPreferences().edit();
-        for (Map.Entry<String, Object> entry : mKeyValueMap.entrySet()) {
-            putValue(editor, entry.getKey(), entry.getValue());
+        if (mKeyValueMap != null && mKeyValueMap.size() > 0) {
+            for (Map.Entry<String, Object> entry : mKeyValueMap.entrySet()) {
+                putValue(editor, entry.getKey(), entry.getValue());
+            }
+            mKeyValueMap.clear();
+            mKeyValueMap = null;
+        } else if (mRemoveKeyList != null && mRemoveKeyList.size() > 0) {
+            for (String key : mRemoveKeyList) {
+                editor.remove(key);
+            }
+            mRemoveKeyList.clear();
+            mRemoveKeyList = null;
         }
         editor.apply();
 	}
@@ -165,8 +167,13 @@ public final class PrefsHelper {
         getSharedPreferences().edit().clear().apply();
     }
 
-	public void removeKey(String key) {
-		getSharedPreferences().edit().remove(getEncodeKey(key)).apply();
+	@SuppressLint("CommitPrefEdits")
+    public PrefsHelper removeKey(String key) {
+        if (mRemoveKeyList == null) {
+            mRemoveKeyList = new ArrayList<>();
+        }
+        mRemoveKeyList.add(key);
+        return this;
 	}
 
     public Map<String, ?> getAll() {
