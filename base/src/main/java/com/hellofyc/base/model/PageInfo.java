@@ -12,6 +12,7 @@ public class PageInfo implements Parcelable {
 
     private int totalPage;
     private int currentPage;
+    private int totalCount;
     private long refreshTimestamp;
 
     public PageInfo(){}
@@ -19,6 +20,7 @@ public class PageInfo implements Parcelable {
     protected PageInfo(Parcel in) {
         totalPage = in.readInt();
         currentPage = in.readInt();
+        totalCount = in.readInt();
         refreshTimestamp = in.readLong();
     }
 
@@ -50,6 +52,14 @@ public class PageInfo implements Parcelable {
         this.currentPage = currentPage;
     }
 
+    public int getTotalCount() {
+        return totalCount;
+    }
+
+    public void setTotalCount(int totalCount) {
+        this.totalCount = totalCount;
+    }
+
     public long getRefreshTimestamp() {
         return refreshTimestamp;
     }
@@ -67,6 +77,7 @@ public class PageInfo implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(totalPage);
         dest.writeInt(currentPage);
+        dest.writeInt(totalCount);
         dest.writeLong(refreshTimestamp);
     }
 }
