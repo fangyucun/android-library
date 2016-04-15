@@ -39,7 +39,8 @@
     <color name="gray_f2">#F2F2F2</color>
     <color name="dark_gray">#444444</color>
 	<color name="red">#FF0000</color>  
-	<color name="red_cc">#cc0000</color>  
+	<color name="red_pressed">#CC0000</color>
+	<color name="red_cc">#cc0000</color>
 	<color name="red_e6">#e60000</color>
 	<color name="red_b3">#b30000</color>
     <color name="spring_red">#e60012</color>

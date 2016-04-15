@@ -14,6 +14,7 @@ import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.app.Fragment;
 import android.support.v4.content.PermissionChecker;
 import android.support.v4.util.ArrayMap;
 
@@ -116,15 +117,23 @@ public class PermissionHelper {
         ActivityCompat.requestPermissions(activity, new String[]{permission}, requestCode);
     }
 
-    public static boolean shouldShowRequestPermissionRationale(@NonNull Activity activity, @NonNull String permission) {
-        return ActivityCompat.shouldShowRequestPermissionRationale(activity, permission);
+    public static void requestPermission(@NonNull Fragment fragment, int requestCode, @NonNull String permission) {
+        fragment.requestPermissions(new String[]{permission}, requestCode);
     }
 
     public static void onRequestPermissionsResult(Activity activity, int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         String permission = permissions[0];
         boolean grantResult = grantResults[0] == PackageManager.PERMISSION_GRANTED;
-        if (!grantResult && !shouldShowRequestPermissionRationale(activity, permission)) {
+        if (!grantResult && !ActivityCompat.shouldShowRequestPermissionRationale(activity, permission)) {
             showRequestPermissionDeniedDialog(activity, permission);
+        }
+    }
+
+    public static void onRequestPermissionsResult(@NonNull Fragment fragment, int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        String permission = permissions[0];
+        boolean grantResult = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+        if (!grantResult && !fragment.shouldShowRequestPermissionRationale(permission)) {
+            showRequestPermissionDeniedDialog(fragment.getActivity(), permission);
         }
     }
 

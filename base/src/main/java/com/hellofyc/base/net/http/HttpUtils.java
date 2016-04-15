@@ -16,6 +16,7 @@
 
 package com.hellofyc.base.net.http;
 
+import android.graphics.Bitmap;
 import android.support.annotation.IntRange;
 import android.support.annotation.NonNull;
 import android.support.v4.util.ArrayMap;
@@ -23,31 +24,32 @@ import android.text.TextUtils;
 
 import com.hellofyc.base.util.EncodeUtils;
 import com.hellofyc.base.util.FLog;
-import com.hellofyc.base.util.FileUtils;
 import com.hellofyc.base.util.IoUtils;
 
+import java.io.BufferedInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLConnection;
 import java.net.UnknownHostException;
 import java.util.Map;
 import java.util.UUID;
 
 public class HttpUtils {
 
-	private static final String HEADER_CONTENT_TYPE = "Content-Type";
-	private static final String HEADER_CHARSET = "Charset";
-	private static final String HEADER_CONNECTION = "connection";
+    private static final int TYPE_TEXT       = 1;
+    private static final int TYPE_BITMAP     = 2;
+    private static final int TYPE_FILE       = 3;
 
-	private static final String BODY_CONTENT_TYPE = "application/x-www-form-urlencoded";
+    private static final String BOUNDARY = UUID.randomUUID().toString();
 
-	private static final String PREFIX = "--";
+    private static final String CONTENT_TYPE_TEXT     = "application/x-www-form-urlencoded";
+	private static final String CONTENT_TYPE_FILE     = "multipart/form-data; boundary=" + BOUNDARY;
+    private static final String PREFIX = "--";
+
 	private static final String LINE_END = "\r\n";
-	
-	private static String BOUNDARY = UUID.randomUUID().toString();
 
     private boolean mDebug = false;
     private HttpRequest mRequestParams = HttpRequest.create();
@@ -55,6 +57,10 @@ public class HttpUtils {
     private String mUrlString;
     private int mConnectTimeout = 30 * 1000;
     private int mReadTimeout = 30 * 1000;
+    private Bitmap mBitmap;
+    private ArrayMap<String, File> mFileMap;
+    private int mType = TYPE_TEXT;
+    private String mUserAgent = "Android";
 
     protected HttpUtils() {
     }
@@ -93,6 +99,26 @@ public class HttpUtils {
         return this;
     }
 
+    public HttpUtils setBitmap(@NonNull Bitmap bitmap) {
+        mType = TYPE_BITMAP;
+        mBitmap = bitmap;
+        return this;
+    }
+
+    public HttpUtils setFiles(@NonNull Map<String, File> fileMap) {
+        mType = TYPE_FILE;
+        if (mFileMap == null) {
+            mFileMap = new ArrayMap<>();
+        }
+        mFileMap.putAll(fileMap);
+        return this;
+    }
+
+    public HttpUtils setUserAgent(@NonNull String userAgent) {
+        mUserAgent = userAgent;
+        return this;
+    }
+
 	public HttpResponse request(){
         if (mDebug) {
             FLog.i("URL:" + mUrlString);
@@ -102,7 +128,8 @@ public class HttpUtils {
         HttpResponse response = new HttpResponse();
 		HttpURLConnection connection = null;
 		try {
-			connection = getConnection();
+			connection = (HttpURLConnection) new URL(mUrlString).openConnection();
+            configConnection(connection);
             response.code = connection.getResponseCode();
 			if (mDebug) FLog.i("===responseCode:" + response.code);
 			if (response.code == HttpURLConnection.HTTP_OK) {
@@ -120,7 +147,7 @@ public class HttpUtils {
         } catch (IOException e) {
             if (mDebug) FLog.e(e);
             response.code = HttpResponse.STATUS_CODE_UNKNOWN;
-            response.text = "未知错误!";
+            response.text = "UNKNOWN";
             return response;
 		} finally {
 			if (connection != null) {
@@ -129,90 +156,109 @@ public class HttpUtils {
 		}
         return response;
 	}
-	
-	public String uploadFile(Map<String, File> fileParams) {
-		HttpURLConnection connection = null;
-		try {
-			connection = getConnection();
-			connection.setDoOutput(true);
-			
-			DataOutputStream dos = new DataOutputStream(connection.getOutputStream());
-			
-			addStringParams(dos, mRequestParams.getArrayMap());
-			addFileParams(dos, fileParams);
-			addEndParams(dos);
-            
-			int responseCode = connection.getResponseCode();
-			if (responseCode == HttpURLConnection.HTTP_OK) {
-				return IoUtils.readStream(connection.getInputStream());
-			}
-		} catch (Exception e) {
-			if (mDebug) FLog.e(e);
-		} finally {
-			if (connection != null) {
-				connection.disconnect();
-			}
-		}
-		return null;
-	}
 
-    protected HttpURLConnection getConnection() throws IOException {
-        HttpURLConnection connection = (HttpURLConnection)new URL(mUrlString).openConnection();
+    private static byte[] bitmapToBytes(@NonNull Bitmap bitmap) {
+        byte[] bytes = new byte[bitmap.getWidth() * bitmap.getHeight()];
+        for (int i=0; i<bitmap.getWidth(); i++) {
+            for (int j=0; j<bitmap.getHeight(); j++) {
+                bytes[i+j] = (byte)(bitmap.getPixel(i, j) & 0x80 >> 7);
+            }
+        }
+        return bytes;
+    }
+
+    protected void configConnection(HttpURLConnection connection) throws IOException {
         connection.setConnectTimeout(mConnectTimeout);
         connection.setReadTimeout(mReadTimeout);
         connection.setUseCaches(false);
         connection.setDoInput(true);
-        connection.setRequestProperty(HEADER_CHARSET, EncodeUtils.getDefultCharset());
-        connection.setRequestProperty(HEADER_CONNECTION, "keep-alive");
-        connection.setRequestMethod(mMethod.name());
-        addPostBodyData(connection);
-        return connection;
-    }
-	
-    private void addPostBodyData(@NonNull URLConnection connection)
-            throws IOException {
-        if (mMethod == Method.POST) {
-            String body = parseMapToUrlParamsString(mRequestParams.getArrayMap());
-            connection.setDoOutput(true);
-            connection.addRequestProperty(HEADER_CONTENT_TYPE, BODY_CONTENT_TYPE);
-            DataOutputStream out = new DataOutputStream(connection.getOutputStream());
-            out.write(body.getBytes());
-            out.close();
+        connection.setRequestProperty("Charset", EncodeUtils.getDefultCharset());
+        connection.setRequestProperty("Connection", "Keep-Alive");
+        connection.setRequestProperty("User-Agent", mUserAgent);
+        switch (mType) {
+            case TYPE_TEXT: {
+                connection.setRequestMethod(mMethod.name());
+                if (mMethod == Method.POST) {
+                    connection.setDoOutput(true);
+                    connection.setRequestProperty("Content-Type", CONTENT_TYPE_TEXT);
+                    String paramsString = parseMapToUrlParamsString(mRequestParams.getArrayMap());
+                    DataOutputStream outputStream = new DataOutputStream(connection.getOutputStream());
+                    outputStream.write(paramsString.getBytes());
+                    outputStream.flush();
+                    outputStream.close();
+                }
+                break;
+            }
+            case TYPE_BITMAP: {
+                connection.setRequestMethod(Method.POST.name());
+                connection.setDoOutput(true);
+                connection.setRequestProperty("Content-Type", CONTENT_TYPE_FILE);
+                DataOutputStream outputStream = new DataOutputStream(connection.getOutputStream());
+
+                StringBuilder builder = new StringBuilder();
+                for (Map.Entry<String, Object> entry : mRequestParams.getArrayMap().entrySet()) {
+                    builder.append(PREFIX).append(BOUNDARY).append(LINE_END);
+                    builder.append("Content-Disposition: form-data; name=\"").append(entry.getKey()).append("\"").append(LINE_END);
+                    builder.append("Content-Type: text/plain; charset=\"utf-8\"").append(LINE_END);
+                    builder.append("Content-Transfer-Encoding: 8bit").append(LINE_END);
+                    builder.append(LINE_END);
+                    builder.append(entry.getValue());
+                    builder.append(LINE_END);
+                }
+                outputStream.write(builder.toString().getBytes());
+
+                outputStream.writeBytes(PREFIX + BOUNDARY + LINE_END);
+                outputStream.writeBytes("Content-Disposition: form-data; name=\"" + "bitmap" + "\";filename=\"" +
+                        "bitmap.jpg" + "\"" + LINE_END);
+                outputStream.writeBytes(LINE_END);
+                outputStream.write(bitmapToBytes(mBitmap));
+                outputStream.writeBytes(LINE_END);
+                outputStream.writeBytes(PREFIX + BOUNDARY + PREFIX + LINE_END);
+                outputStream.flush();
+                outputStream.close();
+                break;
+            }
+            case TYPE_FILE: {
+                connection.setRequestMethod(Method.POST.name());
+                connection.setDoOutput(true);
+                connection.setRequestProperty("Content-Type", CONTENT_TYPE_FILE);
+
+                DataOutputStream outputStream = new DataOutputStream(connection.getOutputStream());
+
+                StringBuilder builder = new StringBuilder();
+                for (Map.Entry<String, Object> entry : mRequestParams.getArrayMap().entrySet()) {
+                    builder.append(PREFIX).append(BOUNDARY).append(LINE_END);
+                    builder.append("Content-Disposition: form-data; name=\"").append(entry.getKey()).append("\"").append(LINE_END);
+                    builder.append("Content-Type: text/plain; charset=\"utf-8\"").append(LINE_END);
+                    builder.append("Content-Transfer-Encoding: 8bit").append(LINE_END);
+                    builder.append(LINE_END);
+                    builder.append(entry.getValue());
+                    builder.append(LINE_END);
+                }
+
+                for (ArrayMap.Entry<String, File> entry : mFileMap.entrySet()) {
+                    String text = PREFIX + BOUNDARY + LINE_END +
+                            "Content-Disposition: form-data; name=\"" + entry.getKey() + "\"; filename=\"" + entry.getValue().getName() + "\"" + LINE_END +
+                            "Content-Type:" + "application/octet-stream" + LINE_END +
+                            "Content-Transfer-Encoding: binary" + LINE_END + LINE_END;
+                    outputStream.writeBytes(builder.append(text).toString());
+
+                    BufferedInputStream inputStream = new BufferedInputStream(new FileInputStream(entry.getValue()));
+                    int length;
+                    byte[] bytes = new byte[1024 * 1024];
+                    while ((length = inputStream.read(bytes)) != -1) {
+                        outputStream.write(bytes, 0, length);
+                    }
+                    inputStream.close();
+                }
+
+                String endTag = LINE_END + PREFIX + BOUNDARY + PREFIX + LINE_END;
+                outputStream.writeBytes(endTag);
+                outputStream.flush();
+                outputStream.close();
+                break;
+            }
         }
-    }
-    
-    private void addStringParams(DataOutputStream dos, Map<String, Object> params) throws IOException {
-        for (Map.Entry<String, Object> entry : params.entrySet()) {
-        	dos.writeBytes(PREFIX + BOUNDARY + LINE_END);
-            dos.writeBytes("Content-Disposition: form-data; name=\"" + entry.getKey() + "\"" + LINE_END);
-            dos.writeBytes(LINE_END);
-            dos.writeBytes(EncodeUtils.encode(String.valueOf(entry.getValue())) + "\r\n");
-        }
-    }
-    
-    private void addFileParams(DataOutputStream dos, Map<String, File> fileParamsMap) throws Exception {
-    	for(Map.Entry<String, File> entry : fileParamsMap.entrySet()) {
-    		if (entry.getValue() == null || !entry.getValue().exists()) continue;
-    		
-			dos.writeBytes(PREFIX + BOUNDARY + LINE_END);
-    		dos.writeBytes("Content-Disposition: form-data; name=\"" + 
-    							entry.getKey() + "\"; filename=\"" + 
-    							EncodeUtils.encode(entry.getValue().getName()) + "\"" + LINE_END);
-    		dos.writeBytes("Content-Type: application/octet-stream" + LINE_END);
-    		dos.writeBytes(LINE_END);
-    		dos.write(FileUtils.getBytes(entry.getValue()));
-    		dos.writeBytes(LINE_END);
-    		
-    	}
-    }
-    
-    /**
-     * 添加Http尾部
-     * @throws IOException
-     */
-    private void addEndParams(DataOutputStream dos) throws IOException {
-    	dos.writeBytes(PREFIX + BOUNDARY + PREFIX + LINE_END);  
-    	dos.writeBytes(LINE_END);
     }
 
     public String parseMapToUrlParamsString(ArrayMap<String, Object> paramsMap) {

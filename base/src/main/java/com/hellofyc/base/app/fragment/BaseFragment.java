@@ -23,6 +23,7 @@ import android.os.Bundle;
 import android.support.annotation.ArrayRes;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,6 +31,7 @@ import android.view.View.OnClickListener;
 
 import com.hellofyc.base.app.AppSupportDelegate;
 import com.hellofyc.base.app.activity.BaseActivity;
+import com.hellofyc.base.helper.PermissionHelper;
 
 /**
  *
@@ -153,6 +155,22 @@ public class BaseFragment extends Fragment implements OnClickListener {
 
 	public Drawable getDrawableCompat(@DrawableRes int id) {
 		return getAppSupportDelegate().getDrawable(id);
+	}
+
+	public boolean checkPermission(int requestCode, String permission) {
+		if (!PermissionHelper.checkSelfPermission(getActivity(), permission)) {
+			PermissionHelper.requestPermission(this, requestCode, permission);
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+		super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+		if (!(getActivity() instanceof BaseActivity)) {
+			PermissionHelper.onRequestPermissionsResult(this, requestCode, permissions, grantResults);
+		}
 	}
 
 	@Override

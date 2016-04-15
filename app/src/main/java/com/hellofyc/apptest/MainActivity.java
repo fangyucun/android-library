@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
@@ -17,12 +16,13 @@ import com.hellofyc.base.helper.PermissionHelper;
 import com.hellofyc.base.util.FLog;
 import com.hellofyc.base.util.TimeUtils;
 import com.hellofyc.base.util.ToastUtils;
+import com.hellofyc.base.widget.ClearableEditText;
 
 public class MainActivity extends BaseActivity {
 
     private TextView mTextView;
     private Button mBtn;
-    private EditText mInputTime;
+    private ClearableEditText mInputTime;
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -34,7 +34,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void init() {
-        mInputTime = (EditText) findViewById(R.id.input_time);
+        mInputTime = (ClearableEditText) findViewById(R.id.input_time);
 
         String jsonText = "{\"code\":1,\"errmsg\":\"Hello\", \"data\":{\"id\":\"121\"}}";
 

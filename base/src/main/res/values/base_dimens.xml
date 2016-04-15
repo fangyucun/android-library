@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="base_btn_frame_top_bottom_padding">5dp</dimen>
+    <dimen name="base_btn_frame_left_right_padding">16dp</dimen>
+    <dimen name="base_btn_corner_radius">5dp</dimen>
+</resources>

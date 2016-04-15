@@ -14,7 +14,7 @@ public class HttpRequest {
 
     private ArrayMap<String, Object> mParams = new ArrayMap<>();
 
-    private HttpRequest() {
+    public HttpRequest() {
     }
 
     public static HttpRequest create() {

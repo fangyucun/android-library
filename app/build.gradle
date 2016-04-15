@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 23
-    buildToolsVersion '24.0.0 rc1'
+    buildToolsVersion '23.0.2'
 
     defaultConfig {
         applicationId "com.hellofyc.apptest"
@@ -12,7 +12,6 @@ android {
         versionName "1.0"
     }
     buildTypes {
-        //noinspection GroovyAssignabilityCheck
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
@@ -33,15 +32,15 @@ android {
 }
 
 ext {
-    androidSupportVersion = '23.2.1'
+    androidSupportVersion = '23.3.0'
 }
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile "com.android.support:design:${androidSupportVersion}"
     compile "com.android.support:support-v4:${androidSupportVersion}"
-//    compile 'com.github.bumptech:glide:v3.7.0'
-//    compile 'com.google.code.gson:gson:2.6.2'
+    //    compile 'com.github.bumptech:glide:v3.7.0'
+    //    compile 'com.google.code.gson:gson:2.6.2'
     compile 'com.alibaba:fastjson:1.1.46.android'
     compile project(':base')
 }

@@ -8,10 +8,10 @@ android {
     buildToolsVersion "23.0.2"
 
     defaultConfig {
-        minSdkVersion 16
+        minSdkVersion 17
         targetSdkVersion 23
         versionCode gitCommitCount
-        versionName "1.1.5"
+        versionName "1.1.8"
         resConfigs "zh"
         vectorDrawables.useSupportLibrary(true)
 }

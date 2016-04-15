@@ -9,7 +9,7 @@ import com.hellofyc.base.util.IoUtils;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URLConnection;
+import java.net.HttpURLConnection;
 import java.security.InvalidKeyException;
 import java.security.KeyManagementException;
 import java.security.KeyStore;
@@ -77,23 +77,21 @@ public class HttpsUtils extends HttpUtils {
     }
 
     @Override
-    protected HttpsURLConnection getConnection() throws IOException {
-        URLConnection urlConnection = super.getConnection();
-        if (urlConnection instanceof HttpsURLConnection) {
+    protected void configConnection(HttpURLConnection connection) throws IOException {
+        super.configConnection(connection);
+        if (connection instanceof HttpsURLConnection) {
             if (mSSLContext == null) {
                 throw new IllegalArgumentException("Must setCertificate()");
             }
-            HttpsURLConnection httpsURLConnection = (HttpsURLConnection)urlConnection;
+            HttpsURLConnection httpsURLConnection = (HttpsURLConnection) connection;
             httpsURLConnection.setSSLSocketFactory(mSSLContext.getSocketFactory());
             if (mHostnameVerifier != null) {
                 httpsURLConnection.setHostnameVerifier(mHostnameVerifier);
             } else {
                 httpsURLConnection.setHostnameVerifier(HttpsURLConnection.getDefaultHostnameVerifier());
             }
-            return httpsURLConnection;
         } else {
             FLog.e("Just support https://");
-            return null;
         }
     }
 
