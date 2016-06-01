@@ -22,6 +22,8 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ShapeDrawable;
+import android.graphics.drawable.shapes.OvalShape;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
@@ -34,10 +36,7 @@ import android.text.TextPaint;
 import android.text.TextUtils.TruncateAt;
 import android.util.TypedValue;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 /**
@@ -47,6 +46,14 @@ import android.widget.TextView;
  */
 public final class ViewUtils {
 	private static final boolean DEBUG = false;
+
+	public static ShapeDrawable make(int size, int color) {
+		ShapeDrawable indicator = new ShapeDrawable(new OvalShape());
+		indicator.setIntrinsicWidth(size);
+		indicator.setIntrinsicHeight(size);
+		indicator.getPaint().setColor(color);
+		return indicator;
+	}
 
 	/**
 	 * Set the view alpha gradient
@@ -82,28 +89,6 @@ public final class ViewUtils {
 
         ViewGroup.LayoutParams params = view.getLayoutParams();
         params.height = height;
-    }
-
-    /**
-     * set SearchView OnClickListener
-     */
-    public static void setSearchViewOnClickListener(View v, OnClickListener listener) {
-        if (v instanceof ViewGroup) {
-            ViewGroup group = (ViewGroup)v;
-            int count = group.getChildCount();
-            for (int i = 0; i < count; i++) {
-                View child = group.getChildAt(i);
-                if (child instanceof LinearLayout || child instanceof RelativeLayout) {
-                    setSearchViewOnClickListener(child, listener);
-                }
-
-                if (child instanceof TextView) {
-                    TextView text = (TextView)child;
-                    text.setFocusable(false);
-                }
-                child.setOnClickListener(listener);
-            }
-        }
     }
 
     /**

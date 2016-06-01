@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/AppLib.iml" filepath="$PROJECT_DIR$/AppLib.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/base/base.iml" filepath="$PROJECT_DIR$/base/base.iml" />
+      <module fileurl="file://$PROJECT_DIR$/qrcode/qrcode.iml" filepath="$PROJECT_DIR$/qrcode/qrcode.iml" />
     </modules>
   </component>
 </project>

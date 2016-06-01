@@ -54,9 +54,8 @@ import android.widget.EditText;
 
 import com.hellofyc.base.app.AppSupportDelegate;
 import com.hellofyc.base.app.BaseApplication;
-import com.hellofyc.base.app.SystemBarTintManager;
 import com.hellofyc.base.content.IntentWrapper;
-import com.hellofyc.base.helper.PermissionHelper;
+import com.hellofyc.base.content.PermissionHelper;
 import com.hellofyc.base.util.FLog;
 import com.hellofyc.base.util.Reflect;
 import com.hellofyc.base.util.ResUtils;
@@ -111,7 +110,10 @@ abstract public class BaseActivity extends AppCompatActivity implements OnClickL
     }
 
     public void setOnClickListener(@IdRes int id) {
-        findViewById(id).setOnClickListener(this);
+        View view = findViewById(id);
+        if (view != null) {
+            view.setOnClickListener(this);
+        }
     }
 
 	/**
@@ -285,10 +287,12 @@ abstract public class BaseActivity extends AppCompatActivity implements OnClickL
 		return super.stopService(name);
 	}
 
-    public boolean checkPermission(int requestCode, String permission) {
-        if (!PermissionHelper.checkSelfPermission(this, permission)) {
-            PermissionHelper.requestPermission(this, requestCode, permission);
-            return false;
+    public boolean checkPermissions(String[] permissions, int requestCode) {
+        PermissionHelper.requestPermissions(this, permissions, requestCode);
+        for (String permission : permissions) {
+            if (!PermissionHelper.checkSelfPermission(this, permission)) {
+                return false;
+            }
         }
         return true;
     }
@@ -311,8 +315,6 @@ abstract public class BaseActivity extends AppCompatActivity implements OnClickL
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             window.setStatusBarColor(Color.TRANSPARENT);
             window.setNavigationBarColor(Color.TRANSPARENT);
-        } else {
-            SystemBarTintManager.newInstance(this).setTintResource(id);
         }
     }
 
@@ -388,7 +390,7 @@ abstract public class BaseActivity extends AppCompatActivity implements OnClickL
 
 	void pressBackToExit() {
 		if (System.currentTimeMillis() - mPressTime > 2000) {
-			ToastUtils.showDefault(this, "再按一次退出" + getPackageManager().getApplicationLabel(getApplicationInfo()) + "!");
+			ToastUtils.show(this, "再按一次退出" + getPackageManager().getApplicationLabel(getApplicationInfo()) + "!");
 			mPressTime = System.currentTimeMillis();
 		} else {
             if (getApplication() instanceof BaseApplication) {

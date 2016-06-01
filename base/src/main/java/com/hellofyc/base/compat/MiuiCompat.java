@@ -12,6 +12,7 @@ import android.os.Binder;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v4.app.NotificationCompat;
+import android.view.Window;
 
 import com.hellofyc.base.content.IntentHelper;
 import com.hellofyc.base.util.AndroidUtils;
@@ -20,6 +21,7 @@ import com.hellofyc.base.util.ParseUtils;
 import com.hellofyc.base.util.Reflect;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 
 /**
  * Created on 2015/11/23.
@@ -121,6 +123,24 @@ public class MiuiCompat {
             FLog.e("Below API 19 cannot invoke!");
         }
         return false;
+    }
+
+    @SuppressWarnings("unchecked")
+    public static void setStatusBarMode(@NonNull Window window, boolean dark) {
+        try {
+            int darkModeFlag;
+            Class layoutParams = Class.forName("android.view.MiuiWindowManager$LayoutParams");
+            Field  field = layoutParams.getField("EXTRA_FLAG_STATUS_BAR_DARK_MODE");
+            darkModeFlag = field.getInt(layoutParams);
+            Method extraFlagField = window.getClass().getMethod("setExtraFlags", int.class, int.class);
+            if(dark) {
+                extraFlagField.invoke(window,darkModeFlag,darkModeFlag);//状态栏透明且黑色字体
+            } else{
+                extraFlagField.invoke(window, 0, darkModeFlag);//清除黑色字体
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
 }

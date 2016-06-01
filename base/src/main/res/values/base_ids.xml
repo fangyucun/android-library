@@ -18,32 +18,34 @@
 <resources>
 
     <!-- Widget -->
-    <item name="progressbar" type="id"/>
+    <item name="progress" type="id"/>
+    <item name="progress_bar" type="id"/>
     <item name="list" type="id"/>
-    <item name="recyclerview" type="id"/>
+    <item name="recycler_view" type="id"/>
     <item name="web_view" type="id"/>
     <item name="vs_toolbar" type="id"/>
     <item name="cardview" type="id"/>
     <item name="viewpager" type="id"/>
-    <item name="calendarview" type="id"/>
+    <item name="calendar_view" type="id"/>
     <item name="text" type="id"/>
     <item name="btn" type="id"/>
     <item name="fragment_pager" type="id"/>
     <item name="fragment_container" type="id"/>
-    <item name="layout_container" type="id"/>
     <item name="viewpager_indicator" type="id"/>
-    <item name="radiogroup" type="id"/>
-    <item name="radiobutton" type="id"/>
-    <item name="navigationview" type="id"/>
-    <item name="tablayout" type="id"/>
+    <item name="radio_group" type="id"/>
+    <item name="radio_button" type="id"/>
+    <item name="navigation_view" type="id"/>
+    <item name="tab_layout" type="id"/>
     <item name="toolbar" type="id"/>
     <item name="title" type="id"/>
     <item name="swipe_refresh_layout" type="id"/>
-    <item name="swipe_refresh_view" type="id"/>
     <item name="scrollview" type="id"/>
-    <item name="surfaceview" type="id"/>
     <item name="empty" type="id"/>
     <item name="list_recyclerview" type="id"/>
+    <item name="icon" type="id"/>
+    <item name="empty_text_container" type="id"/>
+    <item name="root" type="id"/>
+    <item name="empty_view" type="id"/>
 
     <!-- Btn -->
     <item name="btn_ok" type="id"/>

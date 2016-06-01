@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
+import android.view.Window;
 
 import com.hellofyc.base.content.IntentHelper;
 import com.hellofyc.base.util.AndroidUtils;
@@ -39,6 +40,7 @@ public class OsCompat {
         Intent getOpenPureBackgroundActivityIntent(Context context);
         void setLauncherIconCornerMark(Context context, int notifyId, int count);
         boolean isFloatWindowPermissionAllowed(Context context);
+        void setStatusBarMode(@NonNull Window window, boolean dark);
     }
 
     private static final OsCompatImpl IMPL;
@@ -72,6 +74,11 @@ public class OsCompat {
         @Override
         public boolean isFloatWindowPermissionAllowed(Context context) {
             return true;
+        }
+
+        @Override
+        public void setStatusBarMode(@NonNull Window window, boolean dark) {
+            AndroidCompat.setStatusBarMode(window, dark);
         }
 
     }
@@ -110,9 +117,19 @@ public class OsCompat {
         public boolean isFloatWindowPermissionAllowed(Context context) {
             return MiuiCompat.isFloatWindowPermissionAllowed(context);
         }
+
+        @Override
+        public void setStatusBarMode(@NonNull Window window, boolean dark) {
+            MiuiCompat.setStatusBarMode(window, dark);
+        }
     }
 
     static class OsCompatImplFlyme extends OsCompatImplBase {
+
+        @Override
+        public void setStatusBarMode(@NonNull Window window, boolean dark) {
+            FlymeCompat.setStatusBarMode(window, dark);
+        }
     }
 
     static class OsCompatImplFuntouchOs extends OsCompatImplBase {
@@ -165,6 +182,10 @@ public class OsCompat {
 
     public static boolean isFloatWindowPermissionAllowed(@NonNull Context context) {
         return IMPL.isFloatWindowPermissionAllowed(context);
+    }
+
+    public static void setStatusBarMode(@NonNull Window window, boolean dark) {
+        IMPL.setStatusBarMode(window, dark);
     }
 
     static {

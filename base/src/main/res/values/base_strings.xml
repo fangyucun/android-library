@@ -1,6 +1,8 @@
 <resources>
     <string name="btn_ok">确定</string>
     <string name="btn_cancel">取消</string>
+    <string name="base_no_data">没有数据</string>
+    <string name="base_no_network">没有网络</string>
     <string name="opacity_alpha_map">
         100% - FF
         95%  - F2

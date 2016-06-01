@@ -97,7 +97,7 @@ artifacts {
     archives sourcesJar
 }
 
-// javadoc configuration
+//noinspection GroovyAssignabilityCheck
 javadoc {
     failOnError false
 

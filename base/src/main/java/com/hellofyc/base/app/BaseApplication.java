@@ -53,7 +53,7 @@ public class BaseApplication extends Application {
 		
 		CrashHandler.startMonitor(getApplicationContext());
 		
-		registerActivityLifecycleCallbacks(new JasonActivityLifecycleCallbacks());
+		registerActivityLifecycleCallbacks(new DefaultActivityLifecycleCallbacks());
 	}
 	
 	/**
@@ -72,7 +72,7 @@ public class BaseApplication extends Application {
 	}
 	
 	@TargetApi(14)
-	class JasonActivityLifecycleCallbacks implements ActivityLifecycleCallbacks {
+	class DefaultActivityLifecycleCallbacks implements ActivityLifecycleCallbacks {
 
 		@Override
 		public void onActivityCreated(Activity activity, Bundle savedInstanceState) {

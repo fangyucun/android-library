@@ -199,7 +199,7 @@ public class AppSupportDelegate implements ResourcesValue {
     }
 
     public void showToast(Context context, CharSequence text) {
-        ToastUtils.showDefault(context, text);
+        ToastUtils.show(context, text);
     }
 
     public void hideInputMethod(@NonNull EditText editText) {

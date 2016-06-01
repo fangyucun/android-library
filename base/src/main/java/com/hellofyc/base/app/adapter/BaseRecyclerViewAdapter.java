@@ -16,18 +16,15 @@
 
 package com.hellofyc.base.app.adapter;
 
-import android.annotation.TargetApi;
 import android.content.Context;
-import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
-import android.os.Bundle;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
+import android.support.annotation.IdRes;
 import android.support.annotation.IntRange;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.v4.content.ContextCompat;
@@ -36,6 +33,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.hellofyc.base.app.ResourcesValue;
 import com.hellofyc.base.app.activity.BaseActivity;
@@ -49,7 +48,7 @@ import java.util.List;
  *
  * @author Jason Fang
  */
-abstract public class BaseRecyclerViewAdapter<T> extends RecyclerView.Adapter<BaseRecyclerViewAdapter.AbsItemViewHolder>
+abstract public class BaseRecyclerViewAdapter<T, VH extends BaseRecyclerViewAdapter.ViewHolder> extends RecyclerView.Adapter<VH>
         implements ResourcesValue {
 
     private BaseActivity mActivity;
@@ -71,16 +70,16 @@ abstract public class BaseRecyclerViewAdapter<T> extends RecyclerView.Adapter<Ba
         }
 	}
 	
-	abstract public AbsItemViewHolder onCreateItemViewHolder(LayoutInflater inflater, ViewGroup parent, int viewType);
-	abstract public void onBindItemViewHolder(AbsItemViewHolder absItemViewHolder, int position, int viewType);
+	abstract public VH onCreateItemViewHolder(LayoutInflater inflater, ViewGroup parent, int viewType);
+	abstract public void onBindItemViewHolder(VH itemHolder, int position, int viewType);
 	
 	@Override
-	public final AbsItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+	public final VH onCreateViewHolder(ViewGroup parent, int viewType) {
 		return onCreateItemViewHolder(mInflater, parent, viewType);
 	}
 	
 	@Override
-	public final void onBindViewHolder(final AbsItemViewHolder holder, final int position) {
+	public final void onBindViewHolder(final VH holder, final int position) {
 		onBindItemViewHolder(holder, position, getItemViewType(position));
         holder.itemView.setOnClickListener(new ItemClickListener(this, holder, position));
     }
@@ -107,7 +106,7 @@ abstract public class BaseRecyclerViewAdapter<T> extends RecyclerView.Adapter<Ba
 	}
 	
 	@Override
-	public void onViewRecycled(AbsItemViewHolder holder) {
+	public void onViewRecycled(VH holder) {
 		super.onViewRecycled(holder);
 	}
 
@@ -286,50 +285,13 @@ abstract public class BaseRecyclerViewAdapter<T> extends RecyclerView.Adapter<Ba
         return ResourcesCompat.getDrawableForDensity(getResources(), id, density, theme);
     }
 
-    public void startFragment(@NonNull Intent intent) {
-        if (mActivity != null) {
-            mActivity.startFragment(intent);
-        }
-    }
-
-    public void startFragment(@NonNull Intent intent, Bundle options) {
-        if (mActivity != null) {
-            mActivity.startFragment(intent, options);
-        }
-    }
-
-    public void startActivity(@NonNull Intent intent) {
-        mContext.startActivity(intent);
-    }
-
-    public void startActivities(@NonNull Intent[] intents) {
-        mContext.startActivities(intents);
-    }
-
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-    public void startActivity(@NonNull Intent intent, Bundle options) {
-        mContext.startActivity(intent, options);
-
-    }
-
-    public void startActivities(@NonNull Intent[] intents, Bundle options) {
-        ContextCompat.startActivities(mContext, intents, options);
-    }
-
-    public static abstract class AbsItemViewHolder extends RecyclerView.ViewHolder {
-
-        public AbsItemViewHolder(View itemView) {
-            super(itemView);
-        }
-    }
-
     static class ItemClickListener implements View.OnClickListener {
 
         BaseRecyclerViewAdapter mAdapter;
-        AbsItemViewHolder mHolder;
+        RecyclerView.ViewHolder mHolder;
         int mPosition;
 
-        public ItemClickListener(BaseRecyclerViewAdapter adapter, AbsItemViewHolder holder, int position) {
+        public ItemClickListener(BaseRecyclerViewAdapter adapter, RecyclerView.ViewHolder holder, int position) {
             mAdapter = adapter;
             mHolder = holder;
             mPosition = position;
@@ -343,8 +305,29 @@ abstract public class BaseRecyclerViewAdapter<T> extends RecyclerView.Adapter<Ba
         }
     }
 
+	public static abstract class ViewHolder extends RecyclerView.ViewHolder {
+
+		public ViewHolder(View itemView) {
+			super(itemView);
+		}
+
+		public void setText(@IdRes int id, CharSequence text) {
+			TextView textView = (TextView)itemView.findViewById(id);
+			if (textView != null) {
+				textView.setText(text);
+			}
+		}
+
+		public void setImage(@IdRes int id, Bitmap bitmap) {
+			ImageView imageView = (ImageView)itemView.findViewById(id);
+			if (imageView != null) {
+				imageView.setImageBitmap(bitmap);
+			}
+		}
+	}
+
     public interface OnRecyclerViewItemClickListener {
-        void onRecyclerViewItemClick(AbsItemViewHolder absItemViewHolder, int position);
+        void onRecyclerViewItemClick(RecyclerView.ViewHolder absItemViewHolder, int position);
     }
 
 }

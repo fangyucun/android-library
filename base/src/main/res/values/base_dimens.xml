@@ -3,4 +3,5 @@
     <dimen name="base_btn_frame_top_bottom_padding">5dp</dimen>
     <dimen name="base_btn_frame_left_right_padding">16dp</dimen>
     <dimen name="base_btn_corner_radius">5dp</dimen>
+    <dimen name="base_bottom_bar_height">56dp</dimen>
 </resources>

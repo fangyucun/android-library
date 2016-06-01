@@ -55,7 +55,18 @@ public final class PackageUtils {
 	public static final int FLAG_SYSTEM 	= 1;
 	public static final int FLAG_NOT_SYSTEM = 1<<1;
 	public static final int FLAG_ALL 		= FLAG_SYSTEM | FLAG_NOT_SYSTEM;
-	
+
+    public static boolean isNewUser(@NonNull Context context) {
+        PackageManager pm = context.getPackageManager();
+        try {
+            PackageInfo pi = pm.getPackageInfo(context.getPackageName(), 0);
+            return pi.firstInstallTime == pi.lastUpdateTime;
+        } catch (NameNotFoundException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
 	public static FeatureInfo[] getSystemAvailableFeatures(Context context) {
 		return getPackageManager(context).getSystemAvailableFeatures();
 	}
@@ -419,8 +430,10 @@ public final class PackageUtils {
         return false;
     }
     
-	public static boolean isApplicationInstalled(Context context, String packageName) {
-		List<PackageInfo> pakageinfos = context.getPackageManager().getInstalledPackages(PackageManager.GET_UNINSTALLED_PACKAGES);
+	@SuppressWarnings("WrongConstant")
+    public static boolean isApplicationInstalled(Context context, String packageName) {
+		List<PackageInfo> pakageinfos = context.getPackageManager()
+                .getInstalledPackages(PackageManager.GET_UNINSTALLED_PACKAGES);
         for (PackageInfo pi : pakageinfos) {
             String pi_packageName = pi.packageName;
             if(packageName.endsWith(pi_packageName)){
@@ -467,7 +480,7 @@ public final class PackageUtils {
     /**
      * 获取签名信息
      */
-    public static Map<String, String> getSingnatureInfo(Context context) {
+    public static Map<String, String> getSingnatureInfo(@NonNull Context context) {
 		try {
 			PackageInfo packageInfo = context.getPackageManager()
 					.getPackageInfo(context.getPackageName(), PackageManager.GET_SIGNATURES);

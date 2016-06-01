@@ -90,6 +90,12 @@ import java.util.Locale;
 public final class AndroidUtils {
 	private static final boolean DEBUG = false;
 
+	public static boolean isNightMode(Context context) {
+		int currentNightMode = context.getResources().getConfiguration().uiMode
+				& Configuration.UI_MODE_NIGHT_MASK;
+		return currentNightMode == Configuration.UI_MODE_NIGHT_YES;
+	}
+
     public static void killProcess(int pid) {
         Process.killProcess(pid);
     }

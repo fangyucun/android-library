@@ -31,7 +31,7 @@ import android.view.View.OnClickListener;
 
 import com.hellofyc.base.app.AppSupportDelegate;
 import com.hellofyc.base.app.activity.BaseActivity;
-import com.hellofyc.base.helper.PermissionHelper;
+import com.hellofyc.base.content.PermissionHelper;
 
 /**
  *
@@ -157,10 +157,12 @@ public class BaseFragment extends Fragment implements OnClickListener {
 		return getAppSupportDelegate().getDrawable(id);
 	}
 
-	public boolean checkPermission(int requestCode, String permission) {
-		if (!PermissionHelper.checkSelfPermission(getActivity(), permission)) {
-			PermissionHelper.requestPermission(this, requestCode, permission);
-			return false;
+	public boolean checkPermissions(String[] permissions, int requestCode) {
+		PermissionHelper.requestPermissions(this, permissions, requestCode);
+		for (String permission : permissions) {
+			if (!PermissionHelper.checkSelfPermission(getActivity(), permission)) {
+				return false;
+			}
 		}
 		return true;
 	}

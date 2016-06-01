@@ -19,10 +19,7 @@ package com.hellofyc.base.util;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Looper;
-import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.view.Gravity;
-import android.widget.TextView;
 import android.widget.Toast;
 
 /**
@@ -34,26 +31,24 @@ import android.widget.Toast;
 public final class ToastUtils {
 	static final boolean DEBUG = false;
 	
-	private static final int TYPE_DEFAULT			 = 1;
-	private static final int TYPE_SIMPLE_TEXT_CENTER = 2;
-	
-	private static Toast mToast;
-	private static Toast mCustomToast;
+	private static final int TYPE_DEFAULT				 = 1;
 
-    public static void showDefault(Fragment fragment, CharSequence text) {
+	private static Toast mToast;
+
+    public static void show(Fragment fragment, CharSequence text) {
         if (fragment == null) return;
-        showDefault(fragment.getActivity(), text);
+        show(fragment.getActivity(), text);
     }
 
-	public static void showDefault(Context context, CharSequence text) {
-		showDefault(context, text, false);
+	public static void show(Context context, CharSequence text) {
+		show(context, text, false);
 	}
 	
-	public static void showDefault(final Context context, final CharSequence text, final boolean isLongTime) {
+	public static void show(final Context context, final CharSequence text, final boolean isLongTime) {
 		showInMainThread(context, text, isLongTime, TYPE_DEFAULT);
 	}
 	
-	static void doShowDefault(Context context, CharSequence text, boolean isLongTime) {
+	private static void doShow(Context context, CharSequence text, boolean isLongTime) {
 		if (context == null) {
 			throw new IllegalArgumentException("context can not be null");
 		}
@@ -69,35 +64,6 @@ public final class ToastUtils {
 		mToast.show();
 	}
 
-    public static void show(Fragment fragment, CharSequence text) {
-        if (fragment == null) return;
-        show(fragment.getActivity(), text);
-    }
-	
-	public static void show(final Context context, final CharSequence text) {
-		show(context, text, false);
-	}
-
-	public static void show(final Context context, final CharSequence text, final boolean isLongTime) {
-		showInMainThread(context, text, isLongTime, TYPE_SIMPLE_TEXT_CENTER);
-	}
-
-	static void doShow(@NonNull Context context, CharSequence text, boolean isLongTime) {
-		if (text == null) text = "";
-		
-		if(mToast == null) {
-			mCustomToast = new Toast(context);
-			TextView textView = new TextView(context);
-			mCustomToast.setView(textView);
-			textView.setText(text);
-		} else {
-			((TextView)mCustomToast.getView()).setText(text);
-		}
-		mCustomToast.setDuration(isLongTime ? Toast.LENGTH_LONG : Toast.LENGTH_SHORT);
-		mCustomToast.setGravity(Gravity.CENTER, 0, 0);
-		mCustomToast.show();
-	}
-	
 	static void showInMainThread(final Context context, final CharSequence text, final boolean isLongTime, final int type) {
 		if (Looper.myLooper() != Looper.getMainLooper()) {
 			if (context instanceof Activity) {
@@ -118,9 +84,6 @@ public final class ToastUtils {
 	static void chooseToInvoke(final Context context, final CharSequence text, final boolean isLongTime, final int type) {
 		switch (type) {
 		case TYPE_DEFAULT:
-			doShowDefault(context, text, isLongTime);
-			break;
-		case TYPE_SIMPLE_TEXT_CENTER:
 			doShow(context, text, isLongTime);
 			break;
 		}
