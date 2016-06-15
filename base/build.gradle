@@ -5,14 +5,14 @@ def gitCommitCount = getGitCommitCountCmd.execute().text.trim().toInteger()
 
 android {
     compileSdkVersion 23
-    buildToolsVersion '24.0.0 rc4'
+    buildToolsVersion '23.0.3'
 
     //noinspection GroovyAssignabilityCheck
     defaultConfig {
         minSdkVersion 17
         targetSdkVersion 23
         versionCode gitCommitCount
-        versionName "1.1.9"
+        versionName "1.2.0"
         resConfigs "zh"
         vectorDrawables.useSupportLibrary(true)
 }

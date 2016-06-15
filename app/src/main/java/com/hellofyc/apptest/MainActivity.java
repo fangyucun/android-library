@@ -2,8 +2,6 @@ package com.hellofyc.apptest;
 
 import android.annotation.TargetApi;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -21,7 +19,6 @@ import com.hellofyc.base.content.PermissionHelper;
 import com.hellofyc.base.util.FLog;
 import com.hellofyc.base.widget.ClearableEditText;
 import com.hellofyc.base.widget.SwipeRefreshRecyclerView;
-import com.hellofyc.qrcode.QRCodeHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,6 +39,7 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FLog.i("===onCreate===");
         setContentView(R.layout.activity_main);
         mImageView = (ImageView) findViewById(R.id.image);
         mList = (SwipeRefreshRecyclerView) findViewById(R.id.list);
@@ -97,31 +95,37 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onPause() {
         super.onPause();
+        FLog.i("===onPause===");
     }
 
     @Override
     protected void onRestart() {
         super.onRestart();
+        FLog.i("===onRestart===");
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        FLog.i("===onResume===");
     }
 
     @Override
     protected void onStart() {
         super.onStart();
+        FLog.i("===onStart===");
     }
 
     @Override
     protected void onStop() {
         super.onStop();
+        FLog.i("===onStop===");
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        FLog.i("===onDestroy===");
     }
 
     @Override
@@ -144,12 +148,14 @@ public class MainActivity extends BaseActivity {
 //                                });
 //                }
 
-                Bitmap bitmap = QRCodeHelper.newInstance()
-                        .setMargin(2)
-                        .setLogo(((BitmapDrawable)getDrawableCompat(R.mipmap.ic_launcher)).getBitmap())
-                        .setContent("http://www.so.com")
-                        .generate();
-                mImageView.setImageBitmap(bitmap);
+//                Bitmap bitmap = QRCodeHelper.newInstance()
+//                        .setMargin(2)
+//                        .setLogo(((BitmapDrawable)getDrawableCompat(R.mipmap.ic_launcher)).getBitmap())
+//                        .setContent("http://www.so.com")
+//                        .generate();
+//                mImageView.setImageBitmap(bitmap);
+
+                startActivity(new Intent(this, Test1Activity.class));
 
 //                startActivity(new Intent(this, QRCodeActivity.class));
 

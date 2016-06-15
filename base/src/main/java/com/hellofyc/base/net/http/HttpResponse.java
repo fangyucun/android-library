@@ -1,5 +1,8 @@
 package com.hellofyc.base.net.http;
 
+import java.net.HttpCookie;
+import java.util.List;
+
 /**
  * Created on 2015/10/9.
  *
@@ -13,6 +16,7 @@ public class HttpResponse {
 
     public int code;
     public String text;
+    public List<HttpCookie> cookies;
 
     public boolean isSuccess() {
         return code == STATUS_CODE_OK;

@@ -17,15 +17,12 @@
 package com.hellofyc.base.content;
 
 import android.annotation.TargetApi;
-import android.app.Activity;
 import android.app.admin.DeviceAdminReceiver;
 import android.app.admin.DevicePolicyManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
-
-import com.hellofyc.base.util.FLog;
 
 /**
  * 设备管理器管理类
@@ -36,26 +33,24 @@ public class DevicePolicyHelper {
 	
 	public static final int REQUEST_CODE_ENABLE_ADMIN = 1;
 
-	private static DevicePolicyHelper sInstance;
-	private Activity mActivity;
+	private Context mContext;
 	private DevicePolicyManager mDPManager;
-	private ComponentName mConponentName;
-	
-	public DevicePolicyHelper(Context context) {
-		if (context instanceof Activity) {
-			mActivity = (Activity)context;
-		} else {
-			FLog.e("context is not the instance of Activity!");
-		}
-		mDPManager = (DevicePolicyManager)context.getSystemService(Context.DEVICE_POLICY_SERVICE);
-		mConponentName = new ComponentName(context, JasonDeviceAdminReceiver.class);
+	private DeviceAdminReceiver mDeviceAdminReceiver;
+	private ComponentName mComponentName;
+
+	private DevicePolicyHelper(Context context) {
+		mContext = context;
+		mDPManager = (DevicePolicyManager) context.getSystemService(Context.DEVICE_POLICY_SERVICE);
+		mDeviceAdminReceiver = new DeviceAdminReceiver();
 	}
 	
-	public static DevicePolicyHelper getInstance(Context context) {
-		if (sInstance == null) {
-			sInstance = new DevicePolicyHelper(context);
-		}
-		return sInstance;
+	public static DevicePolicyHelper newInstance(Context context) {
+		return new DevicePolicyHelper(context);
+	}
+
+	public DevicePolicyHelper setReceiver(DeviceAdminReceiver receiver) {
+		mDeviceAdminReceiver = receiver;
+		return this;
 	}
 	
 	/**
@@ -63,15 +58,16 @@ public class DevicePolicyHelper {
 	 */
 	public void activieAdmin () {
 		Intent intent = new Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN);
-        intent.putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN, mConponentName);
-        mActivity.startActivity(intent);
+		mComponentName = new ComponentName(mContext, mDeviceAdminReceiver.getClass());
+        intent.putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN, mComponentName);
+        mContext.startActivity(intent);
 	}
 	
 	/**
 	 * 取消激活设备管理器
 	 */
 	public void removeActiveAdmin() {
-		mDPManager.removeActiveAdmin(mConponentName);
+		mDPManager.removeActiveAdmin(mComponentName);
 	}
 	
 	public boolean isActivePasswordSufficient() {
@@ -79,8 +75,9 @@ public class DevicePolicyHelper {
 	}
 	
 	@TargetApi(Build.VERSION_CODES.LOLLIPOP)
-	public void setProfileEnabled() {
-		mDPManager.setProfileEnabled(mConponentName);
+	public DevicePolicyHelper setProfileEnabled() {
+		mDPManager.setProfileEnabled(mComponentName);
+		return this;
 	}
 	
 	public DevicePolicyManager getDevicePolicyManager() {
@@ -91,21 +88,23 @@ public class DevicePolicyHelper {
 	 * 设备是否激活
 	 */
 	public boolean isAdminActive() {
-		return mDPManager.isAdminActive(mConponentName);
+		return mDPManager.isAdminActive(mComponentName);
 	}
 	
 	/**
 	 * 立即锁屏
 	 */
-	public void lockNow() {
+	public DevicePolicyHelper lockNow() {
 		mDPManager.lockNow();
+		return this;
 	}
 	
 	/**
 	 * 清除数据
 	 */
-	public void wipeData(boolean isWipeAllData) {
+	public DevicePolicyHelper wipeData(boolean isWipeAllData) {
 		mDPManager.wipeData(isWipeAllData ? DevicePolicyManager.WIPE_EXTERNAL_STORAGE : 0);
+		return this;
 	}
 	
 	/**
@@ -113,7 +112,7 @@ public class DevicePolicyHelper {
 	 */
 	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	public long getPasswordExpiration() {
-		return mDPManager.getPasswordExpiration(mConponentName);
+		return mDPManager.getPasswordExpiration(mComponentName);
 	}
 	
 	/**
@@ -122,78 +121,4 @@ public class DevicePolicyHelper {
 	public boolean isPasswordExpired() {
 		return getPasswordExpiration() - System.currentTimeMillis() < 0L;
 	}
-	
-	/**
-	 * 设备监听器
-	 * @author Jason Fang
-	 */
-	public class JasonDeviceAdminReceiver extends DeviceAdminReceiver {
-
-		@Override
-		public DevicePolicyManager getManager(Context context) {
-			return super.getManager(context);
-		}
-
-		@Override
-		public ComponentName getWho(Context context) {
-			return super.getWho(context);
-		}
-
-		@Override
-		public void onEnabled(Context context, Intent intent) {
-			super.onEnabled(context, intent);
-		}
-
-		@Override
-		public CharSequence onDisableRequested(Context context, Intent intent) {
-			return super.onDisableRequested(context, intent);
-		}
-
-		@Override
-		public void onDisabled(Context context, Intent intent) {
-			super.onDisabled(context, intent);
-		}
-
-		@Override
-		public void onPasswordChanged(Context context, Intent intent) {
-			super.onPasswordChanged(context, intent);
-		}
-
-		@Override
-		public void onPasswordFailed(Context context, Intent intent) {
-			super.onPasswordFailed(context, intent);
-		}
-
-		@Override
-		public void onPasswordSucceeded(Context context, Intent intent) {
-			super.onPasswordSucceeded(context, intent);
-		}
-
-		@TargetApi(Build.VERSION_CODES.HONEYCOMB)
-		@Override
-		public void onPasswordExpiring(Context context, Intent intent) {
-			super.onPasswordExpiring(context, intent);
-		}
-
-		@TargetApi(Build.VERSION_CODES.LOLLIPOP)
-		@Override
-		public void onProfileProvisioningComplete(Context context, Intent intent) {
-			super.onProfileProvisioningComplete(context, intent);
-		}
-
-		@TargetApi(Build.VERSION_CODES.LOLLIPOP)
-		@Override
-		public void onLockTaskModeEntering(Context context, Intent intent,
-				String pkg) {
-			super.onLockTaskModeEntering(context, intent, pkg);
-		}
-
-		@TargetApi(Build.VERSION_CODES.LOLLIPOP)
-		@Override
-		public void onLockTaskModeExiting(Context context, Intent intent) {
-			super.onLockTaskModeExiting(context, intent);
-		}
-		
-	}
-	
 }

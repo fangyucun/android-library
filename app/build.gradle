@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 23
-    buildToolsVersion '24.0.0 rc4'
+    buildToolsVersion '23.0.3'
 
     //noinspection GroovyAssignabilityCheck
     defaultConfig {
@@ -35,9 +35,9 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.android.support:design:23.4.0'
     compile 'com.android.support:support-v4:23.4.0'
+    compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha3'
     //    compile 'com.github.bumptech:glide:v3.7.0'
     compile 'com.google.code.gson:gson:2.6.2'
     compile project(':base')
-    compile project(':qrcode')
-//    compile 'com.google.firebase:firebase-core:9.0.0'
+    //    compile 'com.google.firebase:firebase-core:9.0.0'
 }

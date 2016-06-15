@@ -31,6 +31,7 @@ import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.net.HttpCookie;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.UnknownHostException;
@@ -52,7 +53,7 @@ public class HttpUtils {
 	private static final String LINE_END = "\r\n";
 
     private boolean mDebug = false;
-    private HttpRequest mRequestParams = HttpRequest.create();
+    private HttpRequest mRequestParams = new HttpRequest();
     private Method mMethod = Method.POST;
     private String mUrlString;
     private int mConnectTimeout = 30 * 1000;
@@ -134,7 +135,10 @@ public class HttpUtils {
 			if (mDebug) FLog.i("===responseCode:" + response.code);
 			if (response.code == HttpURLConnection.HTTP_OK) {
 				String responseText = IoUtils.readStream(connection.getInputStream());
+                String cookie = connection.getHeaderField("Set-Cookie");
 				if (mDebug) FLog.i("===responseText:" + responseText);
+                if (mDebug) FLog.i("===cookie:" + cookie);
+                response.cookies = HttpCookie.parse(cookie);
                 response.text = responseText;
 			} else {
                 response.text = connection.getResponseMessage();
@@ -175,13 +179,21 @@ public class HttpUtils {
         connection.setRequestProperty("Charset", EncodeUtils.getDefultCharset());
         connection.setRequestProperty("Connection", "Keep-Alive");
         connection.setRequestProperty("User-Agent", mUserAgent);
+        connection.setInstanceFollowRedirects(false);
+        connection.setRequestProperty("Cookie", CookieHelper.parse(mRequestParams.getCookies()));
+
         switch (mType) {
             case TYPE_TEXT: {
                 connection.setRequestMethod(mMethod.name());
                 if (mMethod == Method.POST) {
                     connection.setDoOutput(true);
                     connection.setRequestProperty("Content-Type", CONTENT_TYPE_TEXT);
-                    String paramsString = parseMapToUrlParamsString(mRequestParams.getArrayMap());
+                    String paramsString;
+                    if (!TextUtils.isEmpty(mRequestParams.getString())) {
+                        paramsString = mRequestParams.getString();
+                    } else {
+                        paramsString = parseMapToUrlParamsString(mRequestParams.getArrayMap());
+                    }
                     DataOutputStream outputStream = new DataOutputStream(connection.getOutputStream());
                     outputStream.write(paramsString.getBytes());
                     outputStream.flush();

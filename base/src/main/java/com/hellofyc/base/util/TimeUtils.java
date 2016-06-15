@@ -14,8 +14,11 @@
  *  limitations under the License.
  */package com.hellofyc.base.util;
 
+import android.os.Handler;
+import android.os.Message;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
+import android.widget.TextView;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -32,6 +35,9 @@ import java.util.concurrent.TimeUnit;
  */
 public final class TimeUtils {
 	static final boolean DEBUG = false;
+
+	private static final int MSG_WHAT_CURRENT_TIME = 1;
+	private static TimeHandler sTimeHandler;
 	
 	public static final long DEFAULT_RAW_OFFSET = -8 * TimeUnit.HOURS.toMillis(1);
 
@@ -197,6 +203,48 @@ public final class TimeUtils {
 			return TimeUnit.MILLISECONDS.toDays(duration) + " 天前";
 		} else {
 			return TimeUtils.getTime(timestamp, TEMPLATE_DATE);
+		}
+	}
+
+	public static void showTimeDynamically(TextView textView, String format) {
+		if (sTimeHandler == null) {
+			sTimeHandler = new TimeHandler();
+		}
+		Message msg = sTimeHandler.obtainMessage(MSG_WHAT_CURRENT_TIME);
+		msg.obj = new HandlerResult(textView, format);
+		msg.sendToTarget();
+	}
+
+	private static class HandlerResult {
+		TextView mTextView;
+		String mFormat;
+
+		private HandlerResult(TextView tv, String format) {
+			mTextView = tv;
+			mFormat = format;
+		}
+	}
+
+	private static class TimeHandler extends Handler {
+
+		@Override
+		public void handleMessage(Message msg) {
+			super.handleMessage(msg);
+			switch (msg.what) {
+				case MSG_WHAT_CURRENT_TIME:
+					HandlerResult result = (HandlerResult) msg.obj;
+					TextView textView = result.mTextView;
+					if (textView != null) {
+						textView.setText(TimeUtils.getTime(TimeUtils.getCurrentTimeMillis(), result.mFormat));
+
+						Message message = sTimeHandler.obtainMessage(MSG_WHAT_CURRENT_TIME);
+						message.obj = textView;
+						sTimeHandler.sendMessageDelayed(message, TimeUnit.SECONDS.toMillis(1));
+					} else {
+						sTimeHandler.removeMessages(MSG_WHAT_CURRENT_TIME);
+					}
+					break;
+			}
 		}
 	}
 
