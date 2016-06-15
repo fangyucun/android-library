@@ -45,7 +45,13 @@ public final class FLog {
     public static final int JSON         = 8;
     public static final int FILE         = 9;
 
+    private static boolean mIsShow = true;
+
     public static final String LINE_SEPARATOR = System.getProperty("line.separator");
+
+    public static void setLogEnabled(boolean enabled) {
+        mIsShow = enabled;
+    }
 
     public static void v() {
         v(null, "");
@@ -125,6 +131,8 @@ public final class FLog {
 
     @SuppressWarnings("PointlessBooleanExpression")
     private static void printLog(int type, @NonNull LogInfo logInfo) {
+        if (!mIsShow) return;
+
         String[] wrapContent = getWrappedContent(logInfo.tag, logInfo.text);
         logInfo.tag = wrapContent[0];
         String prefix = wrapContent[1];
