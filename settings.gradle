@@ -1,1 +1,3 @@
-include ':app', ':base'
+include ':base'
+include ':app'
+//include ':qrcode'

@@ -2,9 +2,8 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 23
-    buildToolsVersion '23.0.3'
+    buildToolsVersion '24.0.0'
 
-    //noinspection GroovyAssignabilityCheck
     defaultConfig {
         applicationId "com.hellofyc.apptest"
         minSdkVersion 17
@@ -16,28 +15,27 @@ android {
             enabled false
         }
     }
-    //noinspection GroovyAssignabilityCheck
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    //noinspection GroovyAssignabilityCheck
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_7
         targetCompatibility JavaVersion.VERSION_1_7
     }
 }
 
-//noinspection GroovyAssignabilityCheck
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.android.support:design:23.4.0'
-    compile 'com.android.support:support-v4:23.4.0'
+    //noinspection GradleCompatible
+    compile 'com.android.support:design:24.0.0'
+    //noinspection GradleCompatible
+    compile 'com.android.support:support-v4:24.0.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha3'
+    compile 'com.alibaba:fastjson:1.1.52.android'
     //    compile 'com.github.bumptech:glide:v3.7.0'
-    compile 'com.google.code.gson:gson:2.6.2'
     compile project(':base')
     //    compile 'com.google.firebase:firebase-core:9.0.0'
 }

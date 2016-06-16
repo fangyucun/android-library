@@ -209,25 +209,6 @@ public class ParseUtils {
 		return format.format(number);
 	}
     
-	/**
-	 * Map To String
-	 */
-//	public static String mapToUrlParamsString(Map<String, String> paramsMap) {
-//		if (paramsMap == null || paramsMap.isEmpty()) return "";
-//
-//		StringBuilder sb = new StringBuilder();
-//		int size = paramsMap.size();
-//		for (Map.Entry<String, String> entry : paramsMap.entrySet()) {
-//			size--;
-//			if (TextUtils.isEmpty(entry.getKey())) continue;
-//			sb.append(entry.getKey());
-//			sb.append("=");
-//			sb.append(entry.getValue() == null ? "" : EncodeUtils.encode(String.valueOf(entry.getValue())));
-//			sb.append(size == 0 ? "" : "&");
-//		}
-//		return sb.toString();
-//	}
-	
 	public static String mapToString(@NonNull Map<String, String> paramsMap) {
 		StringBuilder sb = new StringBuilder();
 		for (Map.Entry<String, String> entry : paramsMap.entrySet()) {
@@ -235,7 +216,6 @@ public class ParseUtils {
 			sb.append(entry.getValue() == null ? "" : EncodeUtils.encode(entry.getValue()));
 		}
 		return sb.toString();
-		
 	}
 	
 	/**
