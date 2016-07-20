@@ -28,10 +28,12 @@ public class AESUtils {
         byte[] data;
         StringBuilder sb = new StringBuilder();
         sb.append(password);
-        while (sb.length() < 16)
+        while (sb.length() < 16) {
             sb.append("0");
-        if (sb.length() > 16)
+        }
+        if (sb.length() > 16) {
             sb.setLength(16);
+        }
         try {
             data = sb.toString().getBytes("UTF-8");
             return new SecretKeySpec(data, ALGORITHM_AES);

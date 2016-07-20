@@ -46,15 +46,15 @@ public class PermissionHelper {
     public static final int PERMISSION_GRANTED       = PackageManager.PERMISSION_GRANTED;
     public static final int PERMISSION_DENIED        = PackageManager.PERMISSION_DENIED;
 
-    public static final String PERMISSION_LOCATION   = Manifest.permission.ACCESS_FINE_LOCATION;
-    public static final String PERMISSION_PHONE      = Manifest.permission.CALL_PHONE;
-    public static final String PERMISSION_SENSORS    = Manifest.permission.BODY_SENSORS;
-    public static final String PERMISSION_CAMERA     = Manifest.permission.CAMERA;
-    public static final String PERMISSION_CONTACTS   = Manifest.permission.READ_CONTACTS;
-    public static final String PERMISSION_CALENDAR   = Manifest.permission.READ_CALENDAR;
-    public static final String PERMISSION_STORAGE    = Manifest.permission.READ_EXTERNAL_STORAGE;
-    public static final String PERMISSION_SMS        = Manifest.permission.READ_SMS;
-    public static final String PERMISSION_AUDIO      = Manifest.permission.RECORD_AUDIO;
+//    public static final String PERMISSION_LOCATION   = Manifest.permission.ACCESS_FINE_LOCATION;
+//    public static final String PERMISSION_PHONE      = Manifest.permission.CALL_PHONE;
+//    public static final String PERMISSION_SENSORS    = Manifest.permission.BODY_SENSORS;
+//    public static final String PERMISSION_CAMERA     = Manifest.permission.CAMERA;
+//    public static final String PERMISSION_CONTACTS   = Manifest.permission.READ_CONTACTS;
+//    public static final String PERMISSION_CALENDAR   = Manifest.permission.READ_CALENDAR;
+//    public static final String PERMISSION_STORAGE    = Manifest.permission.READ_EXTERNAL_STORAGE;
+//    public static final String PERMISSION_SMS        = Manifest.permission.READ_SMS;
+//    public static final String PERMISSION_AUDIO      = Manifest.permission.RECORD_AUDIO;
 
     static {
         sPermissionGroupMap = new ArrayMap<>();

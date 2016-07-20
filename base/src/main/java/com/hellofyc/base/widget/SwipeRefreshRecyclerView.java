@@ -11,8 +11,6 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.AttributeSet;
 import android.view.View;
 
-import com.hellofyc.base.util.FLog;
-
 /**
  * Created on 2016/5/11.
  *
@@ -179,13 +177,12 @@ public class SwipeRefreshRecyclerView extends SwipeRefreshLayout {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        FLog.i("onDraw");
+//        FLog.i("onDraw");
     }
 
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         super.onLayout(changed, left, top, right, bottom);
-        FLog.i("onLayout");
     }
 
     class DataChangedObserver extends RecyclerView.AdapterDataObserver {

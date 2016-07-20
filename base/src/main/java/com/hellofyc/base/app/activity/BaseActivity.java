@@ -37,13 +37,10 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.SharedElementCallback;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewConfiguration;
@@ -62,8 +59,6 @@ import com.hellofyc.base.util.ResUtils;
 import com.hellofyc.base.util.ToastUtils;
 
 abstract public class BaseActivity extends AppCompatActivity implements OnClickListener {
-
-    public static final int VERSION = Build.VERSION.SDK_INT;
 
     public static final String EXTRA_REFERRER = "android.intent.extra.REFERRER";
     public static final String EXTRA_REFERRER_NAME = "android.intent.extra.REFERRER_NAME";
@@ -304,8 +299,8 @@ abstract public class BaseActivity extends AppCompatActivity implements OnClickL
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public void setStatusBarColor(@ColorRes int id) {
-        if (VERSION >= Build.VERSION_CODES.LOLLIPOP) {
+    public void setStatusBarColorTransparent() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
                     | WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
@@ -402,25 +397,12 @@ abstract public class BaseActivity extends AppCompatActivity implements OnClickL
 		}
 	}
 
-    public ActionBar getActionBarCompat() {
-        return getSupportActionBar();
-    }
-
-    public void setActionBarCompat(Toolbar toolbar) {
-        setSupportActionBar(toolbar);
-    }
-
     /**
      * {@link Activity#invalidateOptionsMenu()}
      */
     public boolean invalidateOptionsMenuCompat() {
         return ActivityCompat.invalidateOptionsMenu(this);
     }
-
-	@Override
-	public boolean dispatchTouchEvent(@NonNull MotionEvent ev) {
-		return super.dispatchTouchEvent(ev);
-	}
 
 	@Override
 	public boolean dispatchKeyEvent(@NonNull KeyEvent event) {
@@ -436,10 +418,6 @@ abstract public class BaseActivity extends AppCompatActivity implements OnClickL
 		}
 		return super.dispatchKeyEvent(event);
 	}
-
-    public void showToast(CharSequence text) {
-        getAppSupportDelegate().showToast(this, text);
-    }
 
 	@Override
 	public void onClick(View v) {

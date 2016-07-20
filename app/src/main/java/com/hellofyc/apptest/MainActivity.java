@@ -2,11 +2,11 @@ package com.hellofyc.apptest;
 
 import android.annotation.TargetApi;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
@@ -20,8 +20,6 @@ import com.hellofyc.base.util.FLog;
 import com.hellofyc.base.widget.ClearableEditText;
 import com.hellofyc.base.widget.SwipeRefreshRecyclerView;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends BaseActivity {
@@ -40,15 +38,19 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FLog.i("===onCreate===");
+        setStatusBarColorTransparent();
+        getWindow().setStatusBarColor(Color.BLUE);
+
         setContentView(R.layout.activity_main);
-        mImageView = (ImageView) findViewById(R.id.image);
-        mList = (SwipeRefreshRecyclerView) findViewById(R.id.list);
-        mList.setLayoutManager(new LinearLayoutManager(this));
-        mList.setSupportRefresh(false);
-        List<String> list = new ArrayList<>();
-        for (int i=0; i<200; i++) {
-            list.add("Hello" + i);
-        }
+        setViewsOnClickListener(R.id.text);
+//        mImageView = (ImageView) findViewById(R.id.image);
+//        mList = (SwipeRefreshRecyclerView) findViewById(R.id.list);
+//        mList.setLayoutManager(new LinearLayoutManager(this));
+//        mList.setSupportRefresh(false);
+//        List<String> list = new ArrayList<>();
+//        for (int i=0; i<200; i++) {
+//            list.add("Hello" + i);
+//        }
 //        mAdapter = new BaseRecyclerViewAdapter<String, ItemViewHolder>(this, list) {
 //
 //            @Override
@@ -65,6 +67,7 @@ public class MainActivity extends BaseActivity {
         init();
 //        mCameraHelper = CameraHelper.newInstance(this);
     }
+
 
     public static class ItemViewHolder extends RecyclerView.ViewHolder {
 
@@ -95,43 +98,41 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        FLog.i("===onPause===");
     }
 
     @Override
     protected void onRestart() {
         super.onRestart();
-        FLog.i("===onRestart===");
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        FLog.i("===onResume===");
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        FLog.i("===onStart===");
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        FLog.i("===onStop===");
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        FLog.i("===onDestroy===");
     }
 
     @Override
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
+            case R.id.text:
+                Intent intent = new Intent(this, Test1Activity.class);
+                startActivity(intent);
+                break;
             case R.id.btn:
 //                if (checkPermissions(
 //                        new String[]{PermissionHelper.PERMISSION_CAMERA, PermissionHelper.PERMISSION_STORAGE},
@@ -155,7 +156,7 @@ public class MainActivity extends BaseActivity {
 //                        .generate();
 //                mImageView.setImageBitmap(bitmap);
 
-                startActivity(new Intent(this, Test1Activity.class));
+                startActivity(new Intent(this, DatabindingActivity.class));
 
 //                startActivity(new Intent(this, QRCodeActivity.class));
 

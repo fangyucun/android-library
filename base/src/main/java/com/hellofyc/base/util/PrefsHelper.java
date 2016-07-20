@@ -58,13 +58,9 @@ public final class PrefsHelper {
 		return new PrefsHelper(context);
 	}
 
-	public PrefsHelper keyEncrypt() {
-		mIsKeyEncrypt = true;
-		return this;
-	}
-
-	public PrefsHelper valueEncrypt() {
-		mIsValueEncrypt = true;
+	public PrefsHelper encrypt(boolean keyEncrypt, boolean valueEncrypt) {
+		mIsKeyEncrypt = keyEncrypt;
+		mIsValueEncrypt = valueEncrypt;
 		return this;
 	}
 

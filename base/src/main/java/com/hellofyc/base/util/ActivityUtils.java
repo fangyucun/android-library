@@ -14,10 +14,18 @@ import android.support.v4.app.FragmentTransaction;
 public class ActivityUtils {
 
     public static void addFragmentToActivity(@NonNull FragmentManager fragmentManager,
-                                             @IdRes int containerId,
-                                             @NonNull Fragment fragment) {
+                                             @NonNull Fragment fragment,
+                                             @IdRes int containerId) {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.add(containerId, fragment);
+        transaction.commit();
+    }
+
+    public static void addFragmentToActivity(@NonNull FragmentManager fragmentManager,
+                                             @NonNull Fragment fragment,
+                                             String fragmentTag) {
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.add(fragment, fragmentTag);
         transaction.commit();
     }
 }

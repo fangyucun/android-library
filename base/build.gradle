@@ -4,17 +4,16 @@ def getGitCommitCountCmd = 'git rev-list HEAD --first-parent --count'
 def gitCommitCount = getGitCommitCountCmd.execute().text.trim().toInteger()
 
 android {
-    compileSdkVersion 24
-    buildToolsVersion '24.0.0'
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
 
     //noinspection GroovyAssignabilityCheck
     defaultConfig {
-        minSdkVersion 17
-        targetSdkVersion 24
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode gitCommitCount
-        versionName "1.2.2"
+        versionName "1.2.3"
         resConfigs "zh"
-        vectorDrawables.useSupportLibrary(true)
 }
 
     buildTypes {
@@ -31,9 +30,8 @@ android {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.android.support:design:24.0.0'
-    compile 'com.android.support:support-v4:24.0.0'
+//    compile fileTree(include: ['*.jar'], dir: 'libs')
+    //noinspection GradleCompatible
+    compile "com.android.support:design:$rootProject.ext.supportLibraryVersion"
 }
-
 apply from: rootProject.file("release.gradle")
