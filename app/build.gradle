@@ -1,13 +1,13 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion '24.0.0'
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
 
     defaultConfig {
         applicationId "com.hellofyc.apptest"
-        minSdkVersion 17
-        targetSdkVersion 23
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
 
@@ -26,7 +26,7 @@ android {
         targetCompatibility JavaVersion.VERSION_1_7
     }
 
-    dataBinding.enabled = true
+    dataBinding.enabled = false
 }
 
 dependencies {
@@ -34,7 +34,5 @@ dependencies {
     compile project(':base')
     compile 'com.alibaba:fastjson:1.1.52.android'
     //    compile 'com.github.bumptech:glide:v3.7.0'
-    //noinspection GradleCompatible
-    compile 'com.android.support:support-v13:24.0.0'
-    compile files('libs/mysql-connector-java-5.0-nightly-20071116-bin.jar')
+    compile "com.android.support:support-v13:$rootProject.ext.supportLibraryVersion"
 }

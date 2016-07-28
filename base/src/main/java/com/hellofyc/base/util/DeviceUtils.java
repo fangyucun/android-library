@@ -27,12 +27,15 @@ import android.content.res.Configuration;
 import android.graphics.Point;
 import android.os.Build;
 import android.provider.Settings.Secure;
+import android.support.annotation.NonNull;
 import android.support.annotation.RequiresPermission;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.text.format.Formatter;
 import android.util.TypedValue;
 import android.view.WindowManager;
+
+import static android.content.Context.ACTIVITY_SERVICE;
 
 /**
  * Device tool
@@ -65,22 +68,14 @@ public final class DeviceUtils {
 		return Build.DEVICE.startsWith("vbox86");
 	}
 
-	public static long getAvailableMemorySize(Context context) {
-        if (context == null) {
-            throw new RuntimeException("context cannot be null!");
-        }
-
-		ActivityManager aManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
-		MemoryInfo info = new MemoryInfo();
-		aManager.getMemoryInfo(info);
-		return info.availMem;
+	public static ActivityManager.MemoryInfo getMemoryInfo(@NonNull Context context) {
+		ActivityManager.MemoryInfo memoryInfo = new ActivityManager.MemoryInfo();
+		ActivityManager activityManager = (ActivityManager) context.getSystemService(ACTIVITY_SERVICE);
+		activityManager.getMemoryInfo(memoryInfo);
+		return memoryInfo;
 	}
 
-	public static int getHeapSize(Context context) {
-        if (context == null) {
-            throw new RuntimeException("context cannot be null!");
-        }
-
+	public static int getHeapSize(@NonNull Context context) {
 		ActivityManager aManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
 		return aManager.getMemoryClass();
 	}

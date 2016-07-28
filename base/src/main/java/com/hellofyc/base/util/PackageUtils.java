@@ -14,6 +14,8 @@
  *  limitations under the License.
  */package com.hellofyc.base.util;
 
+import android.Manifest;
+import android.annotation.TargetApi;
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningTaskInfo;
 import android.content.Context;
@@ -26,7 +28,10 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.pm.Signature;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
+import android.os.PowerManager;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresPermission;
 import android.text.TextUtils;
 
 import java.io.ByteArrayInputStream;
@@ -64,6 +69,23 @@ public final class PackageUtils {
         } catch (NameNotFoundException e) {
             e.printStackTrace();
             return false;
+        }
+    }
+
+    public static boolean isPowerBoot(@NonNull Context context, @NonNull String packageName) {
+        return context.getPackageManager()
+                .checkPermission(android.Manifest.permission.RECEIVE_BOOT_COMPLETED, packageName)
+                == PackageManager.PERMISSION_GRANTED;
+    }
+
+    @TargetApi(Build.VERSION_CODES.M)
+    @RequiresPermission(Manifest.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS)
+    public static boolean isIgnoringBatteryOptimizations(Context context, @NonNull String packageName) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            PowerManager powerManager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
+            return powerManager.isIgnoringBatteryOptimizations(packageName);
+        } else {
+            return true;
         }
     }
 

@@ -1,5 +1,10 @@
 package com.hellofyc.base.util;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.support.annotation.NonNull;
+
 import java.util.regex.Pattern;
 
 /**
@@ -36,4 +41,12 @@ public class NetUtils {
     public static boolean isIPv6Address(final String input) {
         return isIPv6StdAddress(input) || isIPv6HexCompressedAddress(input);
     }
+
+    public static boolean isNetworkAvailable(@NonNull Context context) {
+        ConnectivityManager connectivityManager = (ConnectivityManager) context
+                .getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        return networkInfo != null && networkInfo.isAvailable();
+    }
+
 }
