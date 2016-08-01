@@ -17,6 +17,7 @@
 package com.hellofyc.base.util;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.ActivityManager;
 import android.app.ActivityManager.MemoryInfo;
@@ -51,11 +52,12 @@ public final class DeviceUtils {
 
 	private static String sDeviceUniqueId;
 
-	public static boolean isTablet(Context context) {
-        if (context == null) {
-            throw new RuntimeException("context cannot be null!");
-        }
+	public static boolean isPhone(@NonNull Context context) {
+		TelephonyManager telephony = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+		return telephony.getPhoneType() != TelephonyManager.PHONE_TYPE_NONE;
+	}
 
+	public static boolean isTablet(@NonNull Context context) {
 		return (context.getResources().getConfiguration().screenLayout
 				& Configuration.SCREENLAYOUT_SIZE_MASK) >= Configuration.SCREENLAYOUT_SIZE_LARGE;
 	}
@@ -90,7 +92,8 @@ public final class DeviceUtils {
 	/**
 	 * 获取IMEI
 	 */
-    @RequiresPermission(Manifest.permission.READ_PHONE_STATE)
+    @SuppressLint("HardwareIds")
+	@RequiresPermission(Manifest.permission.READ_PHONE_STATE)
 	public static String getIMEI(Context context) {
         if (context == null) {
             throw new RuntimeException("context cannot be null!");
@@ -105,6 +108,7 @@ public final class DeviceUtils {
 		return DEFAULT_IMEI;
 	}
 
+	@SuppressLint("HardwareIds")
 	public static String getAndroidId(Context context) {
 		if (context == null) {
 			throw new RuntimeException("context cannot be null!");
