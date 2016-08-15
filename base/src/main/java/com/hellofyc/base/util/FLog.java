@@ -77,10 +77,6 @@ public final class FLog {
         printLog(ASSERT, new LogInfo(tag, String.valueOf(text)));
     }
 
-    public static void i() {
-        i(null, "");
-    }
-
     public static void i(Object textObject) {
         i(null, String.valueOf(textObject));
     }

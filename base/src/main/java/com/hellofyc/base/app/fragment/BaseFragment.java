@@ -157,21 +157,19 @@ public class BaseFragment extends Fragment implements OnClickListener {
 		return getAppSupportDelegate().getDrawable(id);
 	}
 
-	public boolean checkPermissions(String[] permissions, int requestCode) {
-		PermissionHelper.requestPermissions(this, permissions, requestCode);
-		for (String permission : permissions) {
-			if (!PermissionHelper.checkSelfPermission(getActivity(), permission)) {
-				return false;
-			}
-		}
-		return true;
+	public final boolean checkPermission(String permission) {
+		return getAppSupportDelegate().checkPermission(permission);
+	}
+
+	public final void requestPermission(String permission) {
+		getAppSupportDelegate().requestPermission(this, permission);
 	}
 
 	@Override
 	public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
 		super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 		if (!(getActivity() instanceof BaseActivity)) {
-			PermissionHelper.onRequestPermissionsResult(this, requestCode, permissions, grantResults);
+			PermissionHelper.onRequestPermissionsResult(this, requestCode, permissions, grantResults, requestCode != 0);
 		}
 	}
 

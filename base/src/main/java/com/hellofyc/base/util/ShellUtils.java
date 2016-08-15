@@ -91,12 +91,12 @@ public final class ShellUtils {
                 errorMsg = new StringBuilder();
                 successResult = new BufferedReader(new InputStreamReader(process.getInputStream()));
                 errorResult = new BufferedReader(new InputStreamReader(process.getErrorStream()));
-                String s;
-                while ((s = successResult.readLine()) != null) {
-                    successMsg.append(s);
+                int c;
+                while ((c = successResult.read()) != -1) {
+                    successMsg.append((char)c);
                 }
-                while ((s = errorResult.readLine()) != null) {
-                    errorMsg.append(s);
+                while ((c = successResult.read()) != -1) {
+                    errorMsg.append((char)c);
                 }
             }
         } catch (Exception e) {

@@ -12,11 +12,10 @@ if(projectPropertiesFile.exists()){
     properties.load(projectPropertiesFile.newDataInputStream())
 }
 
-// read properties
+//read properties
 def projectName = properties.getProperty("project.name")
 def projectGroupId = properties.getProperty("project.groupId")
 def projectArtifactId = properties.getProperty("project.artifactId")
-//noinspection GrUnresolvedAccess
 def projectVersionName = android.defaultConfig.versionName
 def projectPackaging = properties.getProperty("project.packaging")
 def projectSiteUrl = properties.getProperty("project.siteUrl")
@@ -33,23 +32,18 @@ def javadocName = properties.getProperty("javadoc.name")
 
 group = projectGroupId
 
-// This generates POM.xml with proper parameters
 install {
     repositories.mavenInstaller {
         pom {
-            //noinspection GroovyAssignabilityCheck
             project {
-                //noinspection GroovyAssignabilityCheck
                 name projectName
                 groupId projectGroupId
                 artifactId projectArtifactId
-                //noinspection GroovyAssignabilityCheck
                 version projectVersionName
                 packaging projectPackaging
                 url projectSiteUrl
                 licenses {
                     license {
-                        //noinspection GroovyAssignabilityCheck
                         name 'The Apache Software License, Version 2.0'
                         url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
                     }
@@ -57,7 +51,6 @@ install {
                 developers {
                     developer {
                         id developerId
-                        //noinspection GroovyAssignabilityCheck
                         name developerName
                         email developerEmail
                     }
@@ -72,23 +65,18 @@ install {
     }
 }
 
-// This generates sources.jar
 task sourcesJar(type: Jar) {
-    //noinspection GroovyAssignabilityCheck
     from android.sourceSets.main.java.srcDirs
     classifier = 'sources'
 }
 
 task javadoc(type: Javadoc) {
     source = android.sourceSets.main.java.srcDirs
-    //noinspection GroovyAssignabilityCheck
     classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
 }
 
-// This generates javadoc.jar
 task javadocJar(type: Jar, dependsOn: javadoc) {
     classifier = 'javadoc'
-    //noinspection GroovyAccessibility
     from javadoc.destinationDir
 }
 
@@ -97,7 +85,6 @@ artifacts {
     archives sourcesJar
 }
 
-//noinspection GroovyAssignabilityCheck
 javadoc {
     failOnError false
 
@@ -105,14 +92,12 @@ javadoc {
         encoding 'UTF-8'
         charSet 'UTF-8'
         author true
-        //noinspection GroovyAssignabilityCheck
         version projectVersionName
         links "http://docs.oracle.com/javase/7/docs/api"
         title javadocName
     }
 }
 
-// bintray configuration
 bintray {
     user = bintrayUser
     key = bintrayApikey

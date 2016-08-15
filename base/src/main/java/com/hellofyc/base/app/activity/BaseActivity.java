@@ -76,6 +76,7 @@ abstract public class BaseActivity extends AppCompatActivity implements OnClickL
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+        requestPermissions(PermissionHelper.getPermissionsInManifest(this));
 	}
 
 	@Override
@@ -100,15 +101,8 @@ abstract public class BaseActivity extends AppCompatActivity implements OnClickL
 		getAppSupportDelegate().setViewsOnClickListener(this, views);
 	}
 
-    public void setViewsOnClickListener(int... viewResIds) {
-        getAppSupportDelegate().setViewsOnClickListener(this, viewResIds);
-    }
-
-    public void setOnClickListener(@IdRes int id) {
-        View view = findViewById(id);
-        if (view != null) {
-            view.setOnClickListener(this);
-        }
+    public void setViewsOnClickListener(@IdRes int... id) {
+        getAppSupportDelegate().setViewsOnClickListener(this, id);
     }
 
 	/**
@@ -282,20 +276,22 @@ abstract public class BaseActivity extends AppCompatActivity implements OnClickL
 		return super.stopService(name);
 	}
 
-    public boolean checkPermissions(String[] permissions, int requestCode) {
-        PermissionHelper.requestPermissions(this, permissions, requestCode);
-        for (String permission : permissions) {
-            if (!PermissionHelper.checkSelfPermission(this, permission)) {
-                return false;
-            }
-        }
-        return true;
+    public final boolean checkPermission(String permission) {
+        return getAppSupportDelegate().checkPermission(permission);
+    }
+
+    public final void requestPermission(String permission) {
+        getAppSupportDelegate().requestPermission(this, permission);
+    }
+
+    public final void requestPermissions(String[] permissions) {
+        PermissionHelper.requestPermissions(this, 0, permissions);
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        PermissionHelper.onRequestPermissionsResult(this, requestCode, permissions, grantResults);
+        PermissionHelper.onRequestPermissionsResult(this, requestCode, permissions, grantResults, requestCode != 0);
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -392,7 +388,6 @@ abstract public class BaseActivity extends AppCompatActivity implements OnClickL
                 ((BaseApplication)getApplication()).exit();
             } else {
                 ActivityCompat.finishAffinity(this);
-                FLog.e("Application must extends BaseApplication!");
             }
 		}
 	}

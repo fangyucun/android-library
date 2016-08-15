@@ -94,6 +94,7 @@ public final class FileUtils {
 			bytes = new byte[(int)length];
 			raFile.seek(offset);
 			raFile.readFully(bytes);
+			return bytes;
 		} catch (Exception e) {
             if (DEBUG) FLog.e(e);
 		} finally {

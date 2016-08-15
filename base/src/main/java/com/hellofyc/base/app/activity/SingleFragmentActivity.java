@@ -34,13 +34,8 @@ import com.hellofyc.base.util.FLog;
 public class SingleFragmentActivity extends BaseActivity {
 	static final boolean DEBUG = false;
 
-	public static final String EXTRA_SINGLE_FRAGMENT_ACTIVITY_PARAMS	 = "single_fragment_activity_params";
-	public static final String EXTRA_FROM_WHERE							 = "from_where";
-	public static final String EXTRA_FRAGMENT_CLASSNAME					 = "fragment_classname";
-	public static final String EXTRA_FRAGMENT_TAG						 = "fragment_tag";
-	public static final String EXTRA_FRAGMENT_ARGS						 = "fragment_args";
-	public static final String EXTRA_FRAGMENT_EXTRA						 = "fragment_extra";
-	
+	public static final String EXTRA_FRAGMENT_CLASSNAME	 = "fragment_classname";
+
 	private FragmentManager mFM;
 
 	private String mFragmentClassName;
@@ -71,7 +66,6 @@ public class SingleFragmentActivity extends BaseActivity {
 			FragmentTransaction transaction = mFM.beginTransaction();
 			transaction.replace(R.id.fragment_container, fragment);
 			transaction.commit();
-
 		} catch (Exception e) {
 			if (DEBUG) FLog.e(e);
 		}

@@ -27,6 +27,7 @@ import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Point;
 import android.os.Build;
+import android.provider.Settings;
 import android.provider.Settings.Secure;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresPermission;
@@ -212,6 +213,16 @@ public final class DeviceUtils {
 			}
 		}
 		return false;
+	}
+
+	/**
+	 * 是否开启了模拟位置
+	 * @param context context
+	 * @return true or false
+     */
+	public static boolean isMockLocationOpened(@NonNull Context context) {
+		return Build.VERSION.SDK_INT < Build.VERSION_CODES.M
+				&& Settings.Secure.getInt(context.getContentResolver(), Settings.Secure.ALLOW_MOCK_LOCATION, 0) != 0;
 	}
 
 	private DeviceUtils(){/*Do not new me!*/}

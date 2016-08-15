@@ -266,6 +266,14 @@ public final class IntentHelper {
 		return false;
 	}
 
+    /**
+     * 打开开发者页面
+     * @param context context
+     */
+    public static void openDevelopmentActivity(@NonNull Context context) {
+        context.startActivity(new Intent(Settings.ACTION_APPLICATION_DEVELOPMENT_SETTINGS));
+    }
+
 	/**
 	 * 判断是否有可以接受的Activity
 	 */

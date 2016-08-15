@@ -21,6 +21,8 @@ import android.support.v4.util.ArrayMap;
 import com.hellofyc.base.R;
 import com.hellofyc.base.text.SpanBuilder;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -32,6 +34,7 @@ import java.util.List;
 public class PermissionHelper {
 
     private static final ArrayMap<String, String> sPermissionGroupMap;
+    private static final ArrayMap<String, Integer> sRequestCodeMap;
 
     public static final int REQUEST_CODE_LOCATION        = 0x00000001;
     public static final int REQUEST_CODE_PHONE           = 0x00000002;
@@ -102,38 +105,115 @@ public class PermissionHelper {
 
         //麦克风
         sPermissionGroupMap.put(Manifest.permission.RECORD_AUDIO, "麦克风");
+
+
+        sRequestCodeMap = new ArrayMap<>();
+
+        //位置信息
+        sRequestCodeMap.put(Manifest.permission.ACCESS_COARSE_LOCATION, REQUEST_CODE_LOCATION);
+        sRequestCodeMap.put(Manifest.permission.ACCESS_FINE_LOCATION, REQUEST_CODE_LOCATION);
+
+        //电话
+        sRequestCodeMap.put(Manifest.permission.ADD_VOICEMAIL, REQUEST_CODE_PHONE);
+        sRequestCodeMap.put(Manifest.permission.CALL_PHONE, REQUEST_CODE_PHONE);
+        sRequestCodeMap.put(Manifest.permission.PROCESS_OUTGOING_CALLS, REQUEST_CODE_PHONE);
+        sRequestCodeMap.put(Manifest.permission.READ_CALL_LOG, REQUEST_CODE_PHONE);
+        sRequestCodeMap.put(Manifest.permission.READ_PHONE_STATE, REQUEST_CODE_PHONE);
+        sRequestCodeMap.put(Manifest.permission.USE_SIP, REQUEST_CODE_PHONE);
+        sRequestCodeMap.put(Manifest.permission.WRITE_CALL_LOG, REQUEST_CODE_PHONE);
+
+        //身体传感器
+        if (Build.VERSION.SDK_INT >= 20) {
+            sRequestCodeMap.put(Manifest.permission.BODY_SENSORS, REQUEST_CODE_SENSORS);
+        }
+
+        //相机
+        sRequestCodeMap.put(Manifest.permission.CAMERA, REQUEST_CODE_CAMERA);
+
+        //通讯录
+        sRequestCodeMap.put(Manifest.permission.GET_ACCOUNTS, REQUEST_CODE_CONTACTS);
+        sRequestCodeMap.put(Manifest.permission.WRITE_CONTACTS, REQUEST_CODE_CONTACTS);
+        sRequestCodeMap.put(Manifest.permission.READ_CONTACTS, REQUEST_CODE_CONTACTS);
+
+        //日历
+        sRequestCodeMap.put(Manifest.permission.READ_CALENDAR, REQUEST_CODE_CALENDAR);
+        sRequestCodeMap.put(Manifest.permission.WRITE_CALENDAR, REQUEST_CODE_CALENDAR);
+
+        //存储空间
+        sRequestCodeMap.put(Manifest.permission.READ_EXTERNAL_STORAGE, REQUEST_CODE_STORAGE);
+        sRequestCodeMap.put(Manifest.permission.WRITE_EXTERNAL_STORAGE, REQUEST_CODE_STORAGE);
+
+        //短信
+        sRequestCodeMap.put(Manifest.permission.READ_SMS, REQUEST_CODE_SMS);
+        sRequestCodeMap.put(Manifest.permission.RECEIVE_MMS, REQUEST_CODE_SMS);
+        sRequestCodeMap.put(Manifest.permission.RECEIVE_SMS, REQUEST_CODE_SMS);
+        sRequestCodeMap.put(Manifest.permission.SEND_SMS, REQUEST_CODE_SMS);
+        sRequestCodeMap.put(Manifest.permission.RECEIVE_WAP_PUSH, REQUEST_CODE_SMS);
+
+        //麦克风
+        sRequestCodeMap.put(Manifest.permission.RECORD_AUDIO, REQUEST_CODE_AUDIO);
     }
 
     public static String getPermissionGroupName(String permission) {
         return sPermissionGroupMap.get(permission);
     }
 
+    public static int getPermissionRequestCode(@NonNull String permission) {
+        return sRequestCodeMap.get(permission);
+    }
+
+    public static String[] getPermissionsInManifest(@NonNull Context context) {
+        List<String> permissions = new ArrayList<>();
+        try {
+            PackageInfo info = context.getPackageManager().getPackageInfo(context.getPackageName(), PackageManager.GET_PERMISSIONS);
+            permissions.addAll(Arrays.asList(info.requestedPermissions));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return permissions.toArray(new String[permissions.size()]);
+    }
+
+    public static String[] getPermissionsNeedRuntimeRequest(@NonNull Context context) {
+        List<String> permissions = new ArrayList<>();
+        String[] applyPermissions = getPermissionsInManifest(context);
+        for (String permission : applyPermissions) {
+            if (sPermissionGroupMap.containsKey(permission)) {
+                permissions.add(permission);
+            }
+        }
+        return permissions.toArray(new String[permissions.size()]);
+    }
+
     public static boolean checkSelfPermission(@NonNull Activity activity, @NonNull String permission) {
         return PermissionChecker.checkSelfPermission(activity, permission) == PackageManager.PERMISSION_GRANTED;
     }
 
-    public static void requestPermissions(@NonNull Activity activity, String[] permissions, int requestCode) {
+    public static void requestPermissions(@NonNull Activity activity, int requestCode, String[] permissions) {
         ActivityCompat.requestPermissions(activity, permissions, requestCode);
     }
 
-    public static void requestPermissions(@NonNull Fragment fragment, @NonNull String[] permissions, int requestCode) {
+    public static void requestPermissions(@NonNull Fragment fragment, int requestCode, @NonNull String[] permissions) {
         fragment.requestPermissions(permissions, requestCode);
     }
 
-    public static void onRequestPermissionsResult(Activity activity, int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public static void onRequestPermissionsResult(Activity activity, int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults, boolean isShowDialogTips) {
         for (int i=0; i<permissions.length; i++) {
             boolean grantResult = grantResults[i] == PackageManager.PERMISSION_GRANTED;
-            if (!grantResult && !ActivityCompat.shouldShowRequestPermissionRationale(activity, permissions[i])) {
+            if (!grantResult
+                    && !ActivityCompat.shouldShowRequestPermissionRationale(activity, permissions[i])
+                    && isShowDialogTips) {
                 showRequestPermissionDeniedDialog(activity, permissions[i]);
                 return;
             }
         }
     }
 
-    public static void onRequestPermissionsResult(@NonNull Fragment fragment, int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public static void onRequestPermissionsResult(@NonNull Fragment fragment, int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults, boolean isShowDialogTips) {
         for (int i=0; i<permissions.length; i++) {
             boolean grantResult = grantResults[i] == PackageManager.PERMISSION_GRANTED;
-            if (!grantResult && !fragment.shouldShowRequestPermissionRationale(permissions[i])) {
+            if (!grantResult
+                    && !fragment.shouldShowRequestPermissionRationale(permissions[i])
+                    && isShowDialogTips) {
                 showRequestPermissionDeniedDialog(fragment.getActivity(), permissions[i]);
                 return;
             }

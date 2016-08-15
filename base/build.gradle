@@ -7,14 +7,13 @@ android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
 
-    //noinspection GroovyAssignabilityCheck
     defaultConfig {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode gitCommitCount
-        versionName "1.2.3"
+        versionName "1.2.6"
         resConfigs "zh"
-}
+    }
 
     buildTypes {
         release {
@@ -31,8 +30,8 @@ android {
 
 dependencies {
 //    compile fileTree(include: ['*.jar'], dir: 'libs')
-    //noinspection GradleCompatible
     compile "com.android.support:design:$rootProject.ext.supportLibraryVersion"
 //    compile 'com.google.android.gms:play-services:9.2.1'
 }
+
 apply from: rootProject.file("release.gradle")

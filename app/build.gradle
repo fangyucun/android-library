@@ -32,7 +32,6 @@ android {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile project(':base')
-    compile 'com.alibaba:fastjson:1.1.52.android'
     //    compile 'com.github.bumptech:glide:v3.7.0'
     compile "com.android.support:support-v13:$rootProject.ext.supportLibraryVersion"
 }

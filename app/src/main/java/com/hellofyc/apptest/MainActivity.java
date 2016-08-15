@@ -1,5 +1,6 @@
 package com.hellofyc.apptest;
 
+import android.Manifest;
 import android.annotation.TargetApi;
 import android.content.Intent;
 import android.graphics.Color;
@@ -130,10 +131,19 @@ public class MainActivity extends BaseActivity {
         super.onClick(v);
         switch (v.getId()) {
             case R.id.text:
-                Intent intent = new Intent(this, Test1Activity.class);
-                startActivity(intent);
+//                Intent intent = new Intent(this, Test1Activity.class);
+//                startActivity(intent);
+
+                if (!checkPermission(Manifest.permission.READ_CONTACTS)) {
+                    requestPermission(Manifest.permission.READ_CONTACTS);
+                }
+
                 break;
             case R.id.btn:
+
+
+
+
 //                if (checkPermissions(
 //                        new String[]{PermissionHelper.PERMISSION_CAMERA, PermissionHelper.PERMISSION_STORAGE},
 //                        PermissionHelper.REQUEST_CODE_CAMERA )) {
@@ -156,7 +166,7 @@ public class MainActivity extends BaseActivity {
 //                        .generate();
 //                mImageView.setImageBitmap(bitmap);
 
-                startActivity(new Intent(this, DatabindingActivity.class));
+//                startActivity(new Intent(this, DatabindingActivity.class));
 
 //                startActivity(new Intent(this, QRCodeActivity.class));
 

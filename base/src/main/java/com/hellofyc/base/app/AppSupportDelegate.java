@@ -49,6 +49,7 @@ import android.view.WindowManager.LayoutParams;
 import android.widget.EditText;
 
 import com.hellofyc.base.app.activity.SingleFragmentActivity;
+import com.hellofyc.base.content.PermissionHelper;
 import com.hellofyc.base.util.AndroidUtils;
 import com.hellofyc.base.util.FLog;
 import com.hellofyc.base.util.ToastUtils;
@@ -104,6 +105,18 @@ public class AppSupportDelegate implements ResourcesValue {
 	public View findViewById(Window window, @IdRes int id) {
 		return window != null ? window.findViewById(id) : null;
 	}
+
+    public boolean checkPermission(@NonNull String permission) {
+        return PermissionHelper.checkSelfPermission(mActivity, permission);
+    }
+
+    public void requestPermission(Activity activity, @NonNull String permission) {
+        PermissionHelper.requestPermissions(activity, PermissionHelper.getPermissionRequestCode(permission), new String[]{permission});
+    }
+
+    public void requestPermission(Fragment fragment, @NonNull String permission) {
+        PermissionHelper.requestPermissions(fragment, PermissionHelper.getPermissionRequestCode(permission), new String[]{permission});
+    }
 
 	public void setViewsOnClickListener(@Nullable OnClickListener listener, @NonNull View... views) {
 		for (View view : views) {
