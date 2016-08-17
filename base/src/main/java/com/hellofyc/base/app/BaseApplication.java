@@ -50,10 +50,16 @@ public class BaseApplication extends Application {
 	
 	private void init() {
 		mApplication = this;
-		
-		CrashHandler.startMonitor(getApplicationContext());
+
+		if (isCrashInterceptEnabled()) {
+			CrashHandler.startMonitor(getApplicationContext());
+		}
 		
 		registerActivityLifecycleCallbacks(new DefaultActivityLifecycleCallbacks());
+	}
+
+	protected boolean isCrashInterceptEnabled() {
+		return true;
 	}
 	
 	/**

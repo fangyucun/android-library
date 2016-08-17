@@ -26,8 +26,7 @@ import java.math.RoundingMode;
  * @author Jason Fang
  */
 public class ArithUtils {
-	private static final boolean DEBUG = false;
-	
+
 	public static double add(double augend, double addend) {
 		return BigDecimal.valueOf(augend).add(BigDecimal.valueOf(addend)).doubleValue();
 	}

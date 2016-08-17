@@ -60,6 +60,7 @@ import android.support.annotation.RequiresPermission;
 import android.text.TextUtils;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -647,6 +648,23 @@ public final class AndroidUtils {
 	
 	public static String getVMVersion() {
 		return System.getProperty("java.vm.version");
+	}
+
+	/**
+	 * 是否开启了模拟位置
+	 * @param context context
+	 * @return true or false
+	 */
+	public static boolean isMockLocationOpened(@NonNull Context context) {
+		return Build.VERSION.SDK_INT < Build.VERSION_CODES.M
+				&& Settings.Secure.getInt(context.getContentResolver(), Settings.Secure.ALLOW_MOCK_LOCATION, 0) != 0;
+	}
+
+	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
+	public static int getActionBarHeight(@NonNull Context context) {
+		TypedValue typedValue = new TypedValue();
+		context.getTheme().resolveAttribute(android.R.attr.actionBarSize, typedValue, true);
+		return TypedValue.complexToDimensionPixelSize(typedValue.data, context.getResources().getDisplayMetrics());
 	}
 	
 	private AndroidUtils() {/* Do not new me */}

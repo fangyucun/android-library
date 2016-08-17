@@ -31,7 +31,7 @@ import android.widget.Toast;
 public final class ToastUtils {
 	static final boolean DEBUG = false;
 	
-	private static final int TYPE_DEFAULT				 = 1;
+	private static final int TYPE_DEFAULT = 1;
 
 	private static Toast mToast;
 

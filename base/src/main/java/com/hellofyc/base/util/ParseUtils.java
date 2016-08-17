@@ -157,20 +157,6 @@ public class ParseUtils {
 		return baos.toByteArray();
     }
     
-	public static int stringToInt(String intString) {
-		return stringToInt(intString, 0);
-	}
-	
-	public static int stringToInt(String intString, int defValue) {
-		int result;
-		try {
-			result = Integer.parseInt(intString);
-		} catch(NumberFormatException e) {
-			result = defValue;
-		}
-		return result;
-	}
-
     public static Long[] transformLongArray(long[] source) {
         Long[] destin = new Long[source.length];
         for (int i = 0; i < source.length; i++) {

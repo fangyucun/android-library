@@ -27,14 +27,12 @@ import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Point;
 import android.os.Build;
-import android.provider.Settings;
 import android.provider.Settings.Secure;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresPermission;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.text.format.Formatter;
-import android.util.TypedValue;
 import android.view.WindowManager;
 
 import static android.content.Context.ACTIVITY_SERVICE;
@@ -178,17 +176,6 @@ public final class DeviceUtils {
 		return context.getResources().getDisplayMetrics().densityDpi;
 	}
 
-	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
-	public static int getActionBarHeight(Context context) {
-        if (context == null) {
-            throw new RuntimeException("context cannot be null!");
-        }
-
-        TypedValue typedValue = new TypedValue();
-		context.getTheme().resolveAttribute(android.R.attr.actionBarSize, typedValue, true);
-        return TypedValue.complexToDimensionPixelSize(typedValue.data, context.getResources().getDisplayMetrics());
-	}
-
 	public static int getAvailableProcessors() {
 		return Runtime.getRuntime().availableProcessors();
 	}
@@ -213,16 +200,6 @@ public final class DeviceUtils {
 			}
 		}
 		return false;
-	}
-
-	/**
-	 * 是否开启了模拟位置
-	 * @param context context
-	 * @return true or false
-     */
-	public static boolean isMockLocationOpened(@NonNull Context context) {
-		return Build.VERSION.SDK_INT < Build.VERSION_CODES.M
-				&& Settings.Secure.getInt(context.getContentResolver(), Settings.Secure.ALLOW_MOCK_LOCATION, 0) != 0;
 	}
 
 	private DeviceUtils(){/*Do not new me!*/}
