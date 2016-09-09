@@ -1,6 +1,5 @@
 package com.hellofyc.apptest;
 
-import android.Manifest;
 import android.annotation.TargetApi;
 import android.content.Intent;
 import android.graphics.Color;
@@ -21,6 +20,7 @@ import com.hellofyc.base.util.FLog;
 import com.hellofyc.base.widget.ClearableEditText;
 import com.hellofyc.base.widget.SwipeRefreshRecyclerView;
 
+import java.nio.charset.Charset;
 import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends BaseActivity {
@@ -34,13 +34,41 @@ public class MainActivity extends BaseActivity {
 
     private CameraHelper mCameraHelper;
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    @TargetApi(Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FLog.i("===onCreate===");
         setStatusBarColorTransparent();
         getWindow().setStatusBarColor(Color.BLUE);
+
+        Charset charset = Charset.defaultCharset();
+       FLog.i("Charset:" + Charset.defaultCharset().name());
+
+//        Calendar calendar = Calendar.getInstance();
+//        calendar.setTime(new Date());
+//        long endTime = calendar.getTimeInMillis();
+//        calendar.add(Calendar.DAY_OF_YEAR, -2);
+//        long startTime = calendar.getTimeInMillis();
+//
+//        if (!IntentUtils.isOpenInUsageStatsActivity(this)) {
+//            IntentUtils.openUsageStatsActivity(this);
+//            return;
+//        }
+//
+//        UsageStatsManager usageStatsManager = (UsageStatsManager) getSystemService(Context.USAGE_STATS_SERVICE);
+//        List<UsageStats> usageStatses = usageStatsManager.queryUsageStats(UsageStatsManager.INTERVAL_DAILY, startTime, endTime);
+//        for (UsageStats stats : usageStatses) {
+//            FLog.i("pacakgeName:" + stats.getPackageName()
+//                    + ", first:" + TimeUtils.getDateTime(stats.getFirstTimeStamp())
+//                    + ", total foreground:" + TimeUtils.getDateTime(stats.getTotalTimeInForeground())
+//                    + ", last:" + TimeUtils.getDateTime(stats.getLastTimeStamp())
+//                    + ", last used:" + TimeUtils.getDateTime(stats.getLastTimeUsed())
+//            );
+//        }
+
+
+
 
         setContentView(R.layout.activity_main);
         setViewsOnClickListener(R.id.text);
@@ -68,7 +96,6 @@ public class MainActivity extends BaseActivity {
         init();
 //        mCameraHelper = CameraHelper.newInstance(this);
     }
-
 
     public static class ItemViewHolder extends RecyclerView.ViewHolder {
 
@@ -134,14 +161,13 @@ public class MainActivity extends BaseActivity {
 //                Intent intent = new Intent(this, Test1Activity.class);
 //                startActivity(intent);
 
-                if (!checkPermission(Manifest.permission.READ_CONTACTS)) {
-                    requestPermission(Manifest.permission.READ_CONTACTS);
-                }
+//                if (!checkPermission(Manifest.permission.READ_CONTACTS)) {
+//                    requestPermission(Manifest.permission.READ_CONTACTS);
+//                }
+
 
                 break;
             case R.id.btn:
-
-
 
 
 //                if (checkPermissions(

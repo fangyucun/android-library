@@ -78,10 +78,6 @@ public final class StringUtils {
 		return true;
 	}
 	
-	public static String valueOf(Object obj) {
-		return obj == null ? "" : obj.toString();
-	}
-
 	public static String[] divideString(@NonNull String text, int lengthPerGroup) {
 		if (lengthPerGroup < 1) {
             lengthPerGroup = 1;

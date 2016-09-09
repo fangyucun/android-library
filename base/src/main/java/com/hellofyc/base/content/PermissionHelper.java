@@ -20,6 +20,7 @@ import android.support.v4.util.ArrayMap;
 
 import com.hellofyc.base.R;
 import com.hellofyc.base.text.SpanBuilder;
+import com.hellofyc.base.util.IntentUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -233,7 +234,7 @@ public class PermissionHelper {
             @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Intent intent = IntentHelper.getOpenAppDetailActivityIntent(activity, activity.getPackageName());
+                Intent intent = IntentUtils.getAppDetailActivityIntent(activity, activity.getPackageName());
                 if (intent != null) {
                     ActivityOptionsCompat options = ActivityOptionsCompat.makeCustomAnimation(activity, R.anim.base_right_enter, R.anim.base_slow_fade_exit);
                     activity.startActivity(intent, options.toBundle());

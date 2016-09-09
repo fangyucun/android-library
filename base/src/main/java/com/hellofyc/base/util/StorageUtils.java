@@ -14,7 +14,6 @@
  *  limitations under the License.
  */package com.hellofyc.base.util;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
 import android.os.Environment;
@@ -62,8 +61,6 @@ public final class StorageUtils {
 	/**
 	 * 获取存储卡可用空间
 	 */
-    @SuppressWarnings("deprecation")
-	@TargetApi(18)
 	public static long getExternalStorageAvailableSpace() {
         try {
             StatFs stat = new StatFs(getExternalStorageRootDir().getAbsolutePath());
@@ -75,24 +72,22 @@ public final class StorageUtils {
             }
             return avaliableSize;
         } catch (Exception e) {
-        	FLog.e(e);
+			e.printStackTrace();
         }
         return 0;
     }
     
-    @SuppressWarnings("deprecation")
-	@TargetApi(18)
-	public static long getExternalStorageTotalSize(Context context) {
+	public static long getExternalStorageTotalSize() {
 		File dir = Environment.getExternalStorageDirectory();
 		StatFs statFs = new StatFs(dir.getPath());
 		long blockSize;
 		long blockCount;
-		if (Build.VERSION.SDK_INT < 18) {
-			blockSize = statFs.getBlockSize();
-			blockCount = statFs.getBlockCount();
-		} else {
+		if (Build.VERSION.SDK_INT >= 18) {
 			blockSize = statFs.getBlockSizeLong();
 			blockCount = statFs.getBlockCountLong();
+		} else {
+			blockSize = statFs.getBlockSize();
+			blockCount = statFs.getBlockCount();
 		}
 		return blockSize * blockCount;
 	}

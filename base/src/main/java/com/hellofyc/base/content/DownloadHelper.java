@@ -26,6 +26,7 @@ import android.view.View;
 
 import com.hellofyc.base.util.AndroidUtils;
 import com.hellofyc.base.util.FLog;
+import com.hellofyc.base.util.IntentUtils;
 import com.hellofyc.base.util.StorageUtils;
 import com.hellofyc.base.util.StringUtils;
 
@@ -43,7 +44,6 @@ public class DownloadHelper {
 	public static final int ERROR_CODE_NO_SDCARD = -1;
 	
 	private Context mContext;
-	private static DownloadHelper sInstance;
 	private DownloadManager mDownloadManager;
 	private OnDownloadListener mOnDownloadListener;
 	
@@ -54,11 +54,8 @@ public class DownloadHelper {
 		mDownloadManager = (DownloadManager) mContext.getSystemService(Context.DOWNLOAD_SERVICE);
 	}
 	
-	public static DownloadHelper getInstance(Context context) {
-		if (sInstance == null) {
-			sInstance = new DownloadHelper(context.getApplicationContext());
-		}
-		return sInstance;
+	public static DownloadHelper newInstance(Context context) {
+		return new DownloadHelper(context.getApplicationContext());
 	}
 	
 	public long download(String urlString, String name, OnDownloadListener listener) {
@@ -134,7 +131,7 @@ public class DownloadHelper {
                 }
                 unregisterDownloadReceiver();
             } else if (DownloadManager.ACTION_NOTIFICATION_CLICKED.equals(action)) {
-                Intent downloadIntent = IntentHelper.getOpenDownloadActivityIntent(mContext);
+                Intent downloadIntent = IntentUtils.getDownloadActivityIntent(mContext);
                 if (downloadIntent != null) {
                     mContext.startActivity(downloadIntent);
                 }

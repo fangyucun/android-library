@@ -14,10 +14,10 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.NotificationCompat;
 import android.view.Window;
 
-import com.hellofyc.base.content.IntentHelper;
+import com.hellofyc.base.util.IntentUtils;
 import com.hellofyc.base.util.AndroidUtils;
 import com.hellofyc.base.util.FLog;
-import com.hellofyc.base.util.ParseUtils;
+import com.hellofyc.base.util.NumberUtils;
 import com.hellofyc.base.util.Reflect;
 
 import java.lang.reflect.Field;
@@ -37,7 +37,7 @@ public class MiuiCompat {
     static {
         String versionName = AndroidUtils.getSystemProperty("ro.miui.ui.version.name");
         if (versionName != null) {
-            VERSION = ParseUtils.stringToInt(versionName.substring(1));
+            VERSION = NumberUtils.parseInt(versionName.substring(1));
         } else {
             VERSION = 0;
         }
@@ -46,7 +46,7 @@ public class MiuiCompat {
     public static Intent getOpenPermissionManagerActivityIntent (@NonNull Context context) {
         Intent intent = new Intent();
         intent.setClassName("com.miui.securitycenter", "com.miui.permcenter.MainAcitivty");
-        return IntentHelper.isIntentAvailable(context, intent) ? intent : null;
+        return IntentUtils.isIntentAvailable(context, intent) ? intent : null;
     }
 
     public static Intent getOpenPermissionActivityIntent(@NonNull Context context) {
@@ -68,7 +68,7 @@ public class MiuiCompat {
                 e.printStackTrace();
             }
         }
-        return IntentHelper.isIntentAvailable(context, intent) ? intent : null;
+        return IntentUtils.isIntentAvailable(context, intent) ? intent : null;
     }
 
     public static void setLauncherIconCornerMark(@NonNull Context context, int notifyId, int count) {

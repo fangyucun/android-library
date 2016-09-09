@@ -53,20 +53,12 @@ public final class FLog {
         mIsShow = enabled;
     }
 
-    public static void v() {
-        v(null, "");
-    }
-
     public static void v(Object textObject) {
         v(null, String.valueOf(textObject));
     }
 
     public static void v(String tag, Object text) {
         printLog(VERBOSE, new LogInfo(tag, String.valueOf(text)));
-    }
-
-    public static void a() {
-        a(null, "");
     }
 
     public static void a(Object textObject) {
@@ -95,10 +87,6 @@ public final class FLog {
 
     public static void w(String tag, String textObject) {
         printLog(WARN, new LogInfo(tag, textObject));
-    }
-
-    public static void e() {
-        e(null, "");
     }
 
     public static void e(Object textObject) {

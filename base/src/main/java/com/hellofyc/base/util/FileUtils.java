@@ -317,17 +317,23 @@ public final class FileUtils {
             outChannel = new FileOutputStream(destFile).getChannel();
             inChannel.transferTo(0, inChannel.size(), outChannel);
             return true;
-        } finally {
-            if (inChannel != null) {
-                inChannel.close();
-            }
-            if (outChannel != null) {
-                outChannel.close();
-            }
-        }
+        } catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (inChannel != null) {
+					inChannel.close();
+				}
+				if (outChannel != null) {
+					outChannel.close();
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		return false;
     }
 
-	@SuppressWarnings("TryFinallyCanBeTryWithResources")
     public static void writeByteArrayToFile(File file, byte[] bytes) throws IOException {
 		FileOutputStream fout = new FileOutputStream(file);
 		try {
@@ -335,7 +341,11 @@ public final class FileUtils {
 		} catch (Exception e) {
             if (DEBUG) FLog.e(e);
         } finally {
-			fout.close();
+			try {
+				fout.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 

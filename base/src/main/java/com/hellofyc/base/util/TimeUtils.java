@@ -150,8 +150,9 @@ public final class TimeUtils {
 	 * @param timeInMillis timeInMillis
 	 * @return true or false;
 	 */
+	@SuppressWarnings("WrongConstant")
 	public static boolean isCurrentMonth(long timeInMillis) {
-		int month = Integer.parseInt(getTime(timeInMillis, "MM"));
+		int month = NumberUtils.parseInt(getTime(timeInMillis, "MM"));
 		return new GregorianCalendar().get(Calendar.MONTH) == month;
 	}
 	
@@ -160,8 +161,9 @@ public final class TimeUtils {
 	 * @param timeInMillis timeInMillis
 	 * @return true or false
 	 */
+	@SuppressWarnings("WrongConstant")
 	public static boolean isCurrentYear(long timeInMillis) {
-		int year = Integer.parseInt(getTime(timeInMillis, "yyyy"));
+		int year = NumberUtils.parseInt(getTime(timeInMillis, "yyyy"));
 		return new GregorianCalendar().get(Calendar.YEAR) == year;
 	}
 	
@@ -172,7 +174,7 @@ public final class TimeUtils {
 			Date date = new SimpleDateFormat(template, Locale.CHINA).parse(dateStr);
 			return date.getTime();
 		} catch (ParseException e) {
-			if (DEBUG) FLog.e(e);
+			e.printStackTrace();
 		}
 		return 0;
 	}

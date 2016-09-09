@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 
-import com.hellofyc.base.content.IntentHelper;
+import com.hellofyc.base.util.IntentUtils;
 
 /**
  * Created on 2015/11/23.
@@ -23,12 +23,12 @@ public class ColorOsCompat {
     public static Intent getOpenPureBackgroundActivityIntent(@NonNull Context context) {
         Intent intent = new Intent();
         intent.setClassName(PACKAGE_COLOROS_PURE_BACKGROUND, ACTIVITY_COLOROS_PURE_BACKGROUND);
-        return IntentHelper.isIntentAvailable(context, intent) ? intent : null;
+        return IntentUtils.isIntentAvailable(context, intent) ? intent : null;
     }
 
     public static Intent getOpenPermissionManagerActivityIntent(@NonNull Context context) {
         Intent intent = new Intent();
         intent.setClassName(PACKAGE_COLOROS_PERMISSION_MANAGER, ACTIVITY_COLOROS_PERMISSION_MANAGER);
-        return IntentHelper.isIntentAvailable(context, intent) ? intent : null;
+        return IntentUtils.isIntentAvailable(context, intent) ? intent : null;
     }
 }

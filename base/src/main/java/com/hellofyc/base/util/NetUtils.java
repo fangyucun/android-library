@@ -3,6 +3,7 @@ package com.hellofyc.base.util;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 
 import java.util.regex.Pattern;
@@ -45,5 +46,14 @@ public class NetUtils {
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
         return networkInfo != null && networkInfo.isAvailable();
     }
+
+    /**
+     * 设置代理
+     */
+    public static void setProxy(@NonNull Context context, String proxy) {
+        Settings.System.putString(context.getContentResolver(),
+                "http_proxy", proxy + ":8080");
+    }
+
 
 }

@@ -214,7 +214,11 @@ public final class IoUtils {
 		try {
 			fout.write(bytes);
 		} finally {
-			fout.close();
+			try {
+				fout.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
@@ -233,7 +237,7 @@ public final class IoUtils {
                 text.append("\n");
 			}
 		} catch (IOException e) {
-			FLog.e(e);
+			e.printStackTrace();
 		} finally {
 			close(reader, in);
 		}

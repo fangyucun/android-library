@@ -20,7 +20,6 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.ActivityManager;
-import android.app.ActivityManager.MemoryInfo;
 import android.content.Context;
 import android.content.pm.FeatureInfo;
 import android.content.pm.PackageManager;
@@ -32,7 +31,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.RequiresPermission;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
-import android.text.format.Formatter;
 import android.view.WindowManager;
 
 import static android.content.Context.ACTIVITY_SERVICE;
@@ -93,14 +91,10 @@ public final class DeviceUtils {
 	 */
     @SuppressLint("HardwareIds")
 	@RequiresPermission(Manifest.permission.READ_PHONE_STATE)
-	public static String getIMEI(Context context) {
-        if (context == null) {
-            throw new RuntimeException("context cannot be null!");
-        }
-
+	public static String getIMEI(@NonNull Context context) {
 		try {
 			TelephonyManager tm = (TelephonyManager)context.getSystemService(Context.TELEPHONY_SERVICE);
-			return tm.getDeviceId() == null ? "" : tm.getDeviceId();
+			return Objects.toString(tm.getDeviceId(), "");
 		} catch (SecurityException e) {
 			FLog.e("Requires android.Manifest.permission#READ_PHONE_STATE");
 		}
@@ -108,11 +102,7 @@ public final class DeviceUtils {
 	}
 
 	@SuppressLint("HardwareIds")
-	public static String getAndroidId(Context context) {
-		if (context == null) {
-			throw new RuntimeException("context cannot be null!");
-		}
-
+	public static String getAndroidId(@NonNull Context context) {
 		return Secure.getString(context.getContentResolver(), Secure.ANDROID_ID);
 	}
 
@@ -120,42 +110,19 @@ public final class DeviceUtils {
 	 * 获取设备唯一号
 	 */
 	@RequiresPermission(Manifest.permission.READ_PHONE_STATE)
-	public static String getDeviceUniqueId(Context context) {
+	public static String getDeviceUniqueId(@NonNull Context context) {
 		if (!TextUtils.isEmpty(sDeviceUniqueId)) {
 			return sDeviceUniqueId;
 		}
-
 		String imei = getIMEI(context);
 		String androidId = getAndroidId(context);
 		String serial = getSerial();
-
 		return MD5Utils.encode(imei + androidId + serial);
 	}
 
-	/**
-	 * 获取系统app运行内存
-	 */
-    public static void getSystemMemory(Context context) {
-        if (context == null) {
-            throw new RuntimeException("context cannot be null!");
-        }
-
-    	ActivityManager activityManager = (ActivityManager)context.getSystemService(Context.ACTIVITY_SERVICE);
-        MemoryInfo info = new MemoryInfo();
-        activityManager.getMemoryInfo(info);
-
-        if (DEBUG) FLog.i("系统剩余内存:" + Formatter.formatFileSize(context, info.availMem));
-        if (DEBUG) FLog.i("系统是否处于低内存运行：" + info.lowMemory);
-        if (DEBUG) FLog.i("当系统剩余内存低于" + Formatter.formatFileSize(context, info.threshold) + "时就看成低内存运行");
-    }
-
 	@SuppressWarnings("deprecation")
 	@TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
-	public static Point getScreenSize(Context context) {
-        if (context == null) {
-            throw new RuntimeException("context cannot be null!");
-        }
-
+	public static Point getScreenSize(@NonNull Context context) {
 		Point point = new Point();
 		WindowManager wM = (WindowManager)context.getSystemService(Context.WINDOW_SERVICE);
 
@@ -168,16 +135,8 @@ public final class DeviceUtils {
 		return point;
 	}
 
-	public static int getScreenDensity(Context context) {
-        if (context == null) {
-            throw new RuntimeException("context cannot be null!");
-        }
-
+	public static int getScreenDensity(@NonNull Context context) {
 		return context.getResources().getDisplayMetrics().densityDpi;
-	}
-
-	public static int getAvailableProcessors() {
-		return Runtime.getRuntime().availableProcessors();
 	}
 
 	/**
@@ -185,12 +144,7 @@ public final class DeviceUtils {
 	 *
 	 * Use {@link PackageManager#hasSystemFeature(String)}
 	 */
-	public static boolean isSupportFeature(Context context, String feature) {
-		if (context == null) {
-			throw new RuntimeException("context cannot be null!");
-		}
-		if (TextUtils.isEmpty(feature)) return false;
-
+	public static boolean isSupportFeature(@NonNull Context context, @NonNull String feature) {
 		FeatureInfo[] infos = context.getPackageManager().getSystemAvailableFeatures();
 		if (infos == null || infos.length == 0) return false;
 		for (FeatureInfo info : infos) {

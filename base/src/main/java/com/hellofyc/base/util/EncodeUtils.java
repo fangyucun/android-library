@@ -22,6 +22,7 @@ import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.nio.charset.Charset;
 
 /**
  * Encode Tool
@@ -31,24 +32,17 @@ import java.net.URLEncoder;
  * @author Jason Fang
  */
 public final class EncodeUtils {
-	private static final boolean DEBUG = false;
-	
-	public static final String CHARSET_UFT_8 = "UTF-8";
-	
+
     public static String encode(String text) {
     	if (TextUtils.isEmpty(text)) return "";
     	
 		try {
-			return URLEncoder.encode(text, getDefultCharset());
+			return URLEncoder.encode(text, Charset.defaultCharset().name());
 		} catch (UnsupportedEncodingException e) {
 			FLog.e(e);
 		}
 
 		return "";
-    }
-
-    public static String getDefultCharset() {
-    	return CHARSET_UFT_8;
     }
 
 	public static String getTextCodeFormat(String filePath) {

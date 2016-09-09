@@ -35,6 +35,7 @@ import java.net.HttpCookie;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.UnknownHostException;
+import java.nio.charset.Charset;
 import java.util.Map;
 import java.util.UUID;
 
@@ -53,6 +54,7 @@ public class HttpUtils {
 	private static final String LINE_END = "\r\n";
 
     private boolean mDebug = false;
+    private boolean mStackTrace = false;
     private HttpRequest mRequestParams = new HttpRequest();
     private Method mMethod = Method.POST;
     private String mUrlString;
@@ -100,6 +102,11 @@ public class HttpUtils {
         return this;
     }
 
+    public HttpUtils setStackTraceEnable() {
+        mStackTrace = true;
+        return this;
+    }
+
     public HttpUtils setBitmap(@NonNull Bitmap bitmap) {
         mType = TYPE_BITMAP;
         mBitmap = bitmap;
@@ -122,8 +129,13 @@ public class HttpUtils {
 
 	public HttpResponse request(){
         if (mDebug) {
-            FLog.i("URL:" + mUrlString);
+            FLog.i("REQUEST URL:" + mUrlString);
             FLog.i("REQUEST PARAMS:" + mRequestParams.getArrayMap().toString());
+            FLog.i("REQUEST STRING:" + mRequestParams.getString());
+        }
+
+        if (mStackTrace) {
+            getInvokeStackTraceElement();
         }
 
         HttpResponse response = new HttpResponse();
@@ -176,7 +188,7 @@ public class HttpUtils {
         connection.setReadTimeout(mReadTimeout);
         connection.setUseCaches(false);
         connection.setDoInput(true);
-        connection.setRequestProperty("Charset", EncodeUtils.getDefultCharset());
+        connection.setRequestProperty("Charset", Charset.defaultCharset().name());
         connection.setRequestProperty("Connection", "Keep-Alive");
         connection.setRequestProperty("User-Agent", mUserAgent);
         connection.setInstanceFollowRedirects(false);
@@ -287,5 +299,13 @@ public class HttpUtils {
             sb.append(size == 0 ? "" : "&");
         }
         return sb.toString();
+    }
+
+    private static void getInvokeStackTraceElement() {
+        FLog.i("Thread ID: " + Thread.currentThread().getId() + " getInvokeStackTraceElement");
+        StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();
+        for (StackTraceElement element : stackTraceElements) {
+            FLog.i("(" + element.getLineNumber() + ") " + "class name:" + element.getClassName() + ", method name:" + element.getMethodName());
+        }
     }
 }

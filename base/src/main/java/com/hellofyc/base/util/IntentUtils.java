@@ -13,11 +13,14 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package com.hellofyc.base.content;
+package com.hellofyc.base.util;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.SearchManager;
 import android.app.admin.DevicePolicyManager;
+import android.app.usage.UsageStats;
+import android.app.usage.UsageStatsManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -26,12 +29,12 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
+import android.support.annotation.RequiresPermission;
 import android.webkit.URLUtil;
-
-import com.hellofyc.base.util.CollectionUtils;
-import com.hellofyc.base.util.PackageUtils;
 
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -44,9 +47,7 @@ import java.util.List;
  * Create on 2014/05
  * @author Jason Fang
  */
-public final class IntentHelper {
-    static final boolean DEBUG = true;
-
+public final class IntentUtils {
     public static final String SCHEME_FILE = "file://";
     public static final String SCHEME_MARKET = "market://";
 
@@ -112,39 +113,39 @@ public final class IntentHelper {
         return null;
     }
 
-    public static Intent getOpenWebSearchActivityIntent(@NonNull Context context, @NonNull String text) {
+    public static Intent getWebSearchActivityIntent(@NonNull Context context, @NonNull String text) {
         Intent intent = new Intent(Intent.ACTION_WEB_SEARCH);
         intent.putExtra(SearchManager.QUERY, text);
         return isIntentAvailable(context, intent) ? intent : null;
     }
 
-    public static Intent getOpenAppDetailActivityIntent(@NonNull Context context, @NonNull String packageName) {
+    public static Intent getAppDetailActivityIntent(@NonNull Context context, @NonNull String packageName) {
         Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
         Uri uri = Uri.fromParts(SCHEME_PACKAGE, packageName, null);
         intent.setData(uri);
         return isIntentAvailable(context, intent) ? intent : null;
     }
 
-    public static Intent getOpenDownloadActivityIntent (Context context) {
+    public static Intent getDownloadActivityIntent (Context context) {
         Intent intent = new Intent();
         intent.setClassName(PACKAGE_DOWNLOAD, ACTIVITY_DOWNLOAD);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         return isIntentAvailable(context, intent) ? intent : null;
     }
 
-    public static Intent getOpenActiveDeviceAdminActivityIntent (@NonNull Context context, Class<?> clazz) {
+    public static Intent getActiveDeviceAdminActivityIntent (@NonNull Context context, Class<?> clazz) {
         Intent intent = new Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN);
         ComponentName cm = new ComponentName(context, clazz);
         intent.putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN, cm);
         return isIntentAvailable(context, intent) ? intent : null;
     }
 
-    public static Intent getOpenSettingsActivityIntent(@NonNull Context context) {
+    public static Intent getSettingsActivityIntent(@NonNull Context context) {
         Intent intent = new Intent(Settings.ACTION_SETTINGS);
         return isIntentAvailable(context, intent) ? intent : null;
     }
 
-    public static Intent getOpenShareTextActivityIntent(@NonNull Context context, String title, String text) {
+    public static Intent getShareTextActivityIntent(@NonNull Context context, String title, String text) {
         Intent intent = new Intent();
         intent.setAction(Intent.ACTION_SEND);
         intent.setType("text/plain");
@@ -154,42 +155,42 @@ public final class IntentHelper {
         return isIntentAvailable(context, shareIntent) ? shareIntent : null;
     }
 
-    public static Intent getOpenDialActivityIntent(@NonNull String tel) {
+    public static Intent getDialActivityIntent(@NonNull String tel) {
         return new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + tel));
     }
 
-    public static Intent getOpenEmailActivityIntent (@NonNull Context context, @NonNull String receiverEmail) {
+    public static Intent getEmailActivityIntent(@NonNull Context context, @NonNull String receiverEmail) {
         Uri uri = Uri.parse("mailto:" + receiverEmail);
         Intent intent = new Intent(Intent.ACTION_SENDTO, uri);
         Intent emailIntent = Intent.createChooser(intent, "请选择邮件类应用");
         return isIntentAvailable(context, emailIntent) ? emailIntent : null;
     }
 
-    public static Intent getOpenSMSActivityIntent (@NonNull Context context, @NonNull String receiver) {
+    public static Intent getSMSActivityIntent(@NonNull Context context, @NonNull String receiver) {
         Uri uri = Uri.parse("smsto:" + receiver);
         Intent intent = new Intent(Intent.ACTION_SENDTO, uri);
         return isIntentAvailable(context, intent) ? intent : null;
     }
 
-    public static Intent getOpenMarketByPackageNameIntent(@NonNull Context context, @NonNull String packageName) {
+    public static Intent getMarketActivityIntentByPackageName(@NonNull Context context, @NonNull String packageName) {
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setData(Uri.parse("market://details?id=".concat(packageName)));
         return isIntentAvailable(context, intent) ? intent : null;
     }
 
-    public static Intent getOpenMarketByPublisherNameIntent(@NonNull Context context, @NonNull String publisherName) {
+    public static Intent getMarketActivityIntentByPublisherNameIntent(@NonNull Context context, @NonNull String publisherName) {
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setData(Uri.parse("market://search?q=pub:".concat(publisherName)));
         return isIntentAvailable(context, intent) ? intent : null;
     }
 
-    public static Intent getOpenMarketBySearchQueryIntent(@NonNull Context context, @NonNull String searchQuery) {
+    public static Intent getMarketActivityIntentBySearchQuery(@NonNull Context context, @NonNull String searchQuery) {
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setData(Uri.parse("market://search?q=".concat(searchQuery).concat("&c=apps")));
         return isIntentAvailable(context, intent) ? intent : null;
     }
 
-    public static Intent getOpenBrowserActivityIntent(@NonNull Context context, @NonNull String urlString) {
+    public static Intent getBrowserActivityIntent(@NonNull Context context, @NonNull String urlString) {
         if (!URLUtil.isHttpUrl(urlString) && !URLUtil.isHttpsUrl(urlString)) return null;
 
         Intent intent = new Intent();
@@ -272,6 +273,34 @@ public final class IntentHelper {
      */
     public static void openDevelopmentActivity(@NonNull Context context) {
         context.startActivity(new Intent(Settings.ACTION_APPLICATION_DEVELOPMENT_SETTINGS));
+    }
+
+    /**
+     * 打开"有权查看使用情况的应用"
+     */
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    @RequiresPermission(Manifest.permission.PACKAGE_USAGE_STATS)
+    public static void openUsageStatsActivity(@NonNull Context context) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Intent intent = new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS);
+            context.startActivity(intent);
+        }
+    }
+
+    /**
+     * 判断是否在"有权查看使用情况的应用"中打开
+     * @param context context
+     * @return true or false
+     */
+    public static boolean isOpenInUsageStatsActivity(@NonNull Context context) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
+            UsageStatsManager usageStatsManager = (UsageStatsManager) context.getSystemService(Context.USAGE_STATS_SERVICE);
+            List<UsageStats> usageStatses = usageStatsManager.queryUsageStats(UsageStatsManager.INTERVAL_BEST, 0, System.currentTimeMillis());
+            if (usageStatses == null || usageStatses.isEmpty()) {
+                return false;
+            }
+        }
+        return true;
     }
 
 	/**

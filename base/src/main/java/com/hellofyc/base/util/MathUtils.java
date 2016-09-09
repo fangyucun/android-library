@@ -16,6 +16,10 @@
 
 package com.hellofyc.base.util;
 
+import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
+
 /**
  * create on 2015/8/18 11:52
  *
@@ -29,5 +33,41 @@ public class MathUtils {
 
     public static float constrain(float amount, float low, float high) {
         return amount < low ? low : (amount > high ? high : amount);
+    }
+
+    public static double add(double augend, double addend) {
+        return BigDecimal.valueOf(augend).add(BigDecimal.valueOf(addend)).doubleValue();
+    }
+
+    public static double add(double augend, double addend, int precision) {
+        MathContext context = new MathContext(precision);
+        return BigDecimal.valueOf(augend).add(BigDecimal.valueOf(addend), context).doubleValue();
+    }
+
+    public static double divide(double dividend, double divisor, int precision) {
+        return divide(dividend, divisor, precision, RoundingMode.HALF_EVEN);
+    }
+
+    public static double divide(double dividend, double divisor, int precision, RoundingMode roundingMode) {
+        MathContext context = new MathContext(precision, roundingMode);
+        return BigDecimal.valueOf(dividend).divide(BigDecimal.valueOf(divisor), context).doubleValue();
+    }
+
+    public static double minus(double minuend, double subtrahand) {
+        return BigDecimal.valueOf(minuend).subtract(BigDecimal.valueOf(subtrahand)).doubleValue();
+    }
+
+    public static double minus(double minuend, double subtrahand, int precision) {
+        MathContext context = new MathContext(precision);
+        return BigDecimal.valueOf(minuend).subtract(BigDecimal.valueOf(subtrahand), context).doubleValue();
+    }
+
+    public static double multiply(double multiplacand, double multiplier) {
+        return BigDecimal.valueOf(multiplacand).multiply(BigDecimal.valueOf(multiplier)).doubleValue();
+    }
+
+    public static double multiply(double multiplacand, double multiplier, int precision) {
+        MathContext context = new MathContext(precision);
+        return BigDecimal.valueOf(multiplacand).multiply(BigDecimal.valueOf(multiplier), context).doubleValue();
     }
 }

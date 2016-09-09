@@ -2,8 +2,6 @@ package com.hellofyc.base.framework.data;
 
 import android.support.annotation.Nullable;
 
-import com.hellofyc.base.util.Objects;
-
 import java.util.UUID;
 
 public final class Task {
@@ -100,20 +98,20 @@ public final class Task {
                 (mDescription == null || "".equals(mDescription));
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Task task = (Task) o;
-        return Objects.equals(mId, task.mId) &&
-                Objects.equals(mTitle, task.mTitle) &&
-                Objects.equals(mDescription, task.mDescription);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(mId, mTitle, mDescription);
-    }
+//    @Override
+//    public boolean equals(Object o) {
+//        if (this == o) return true;
+//        if (o == null || getClass() != o.getClass()) return false;
+//        Task task = (Task) o;
+//        return Objects.equals(mId, task.mId) &&
+//                Objects.equals(mTitle, task.mTitle) &&
+//                Objects.equals(mDescription, task.mDescription);
+//    }
+//
+//    @Override
+//    public int hashCode() {
+//        return Objects.hashCode(mId, mTitle, mDescription);
+//    }
 
     @Override
     public String toString() {

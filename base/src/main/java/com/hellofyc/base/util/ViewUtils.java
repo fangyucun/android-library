@@ -30,13 +30,17 @@ import android.os.Message;
 import android.renderscript.Allocation;
 import android.renderscript.RenderScript;
 import android.renderscript.ScriptIntrinsicBlur;
+import android.support.annotation.NonNull;
 import android.support.v4.view.ViewCompat;
 import android.text.Html;
 import android.text.TextPaint;
 import android.text.TextUtils.TruncateAt;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 
 /**
@@ -134,6 +138,19 @@ public final class ViewUtils {
 	}
 
 	/**
+	 * 设置密码可见
+	 */
+	public static void setPasswordVisibility(@NonNull EditText input, boolean visibility) {
+		if (visibility) {
+			input.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+			input.setSelection(input.length());
+		} else {
+			input.setTransformationMethod(PasswordTransformationMethod.getInstance());
+			input.setSelection(input.length());
+		}
+	}
+
+	/**
 	 * 获取字宽
 	 */
 	public static float getTextWidth(String text, float size) {
@@ -146,7 +163,11 @@ public final class ViewUtils {
 	 * text underline
 	 */
 	public static void setTextUnderline(TextView textView, String text) {
-		textView.setText(Html.fromHtml("<u>" + text + "</u>"));
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+			textView.setText(Html.fromHtml("<u>" + text + "</u>", 0));
+		} else {
+			textView.setText(Html.fromHtml("<u>" + text + "</u>"));
+		}
 	}
 
 	@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)

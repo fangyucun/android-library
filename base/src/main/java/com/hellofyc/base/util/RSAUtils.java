@@ -3,6 +3,7 @@ package com.hellofyc.base.util;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 
 import java.math.BigInteger;
 import java.security.Key;
@@ -122,7 +123,8 @@ public class RSAUtils {
         return null;
     }
 
-    public static String encrypt(@NonNull String srcString, @NonNull Key key) {
+    public static String encrypt(String srcString, @NonNull Key key) {
+        if (TextUtils.isEmpty(srcString)) return "";
         byte[] bytes = encrypt(srcString.getBytes(), key);
         if (bytes != null) {
             Base64Utils.encodeToString(bytes);
@@ -130,7 +132,8 @@ public class RSAUtils {
         return "";
     }
 
-    public static byte[] encrypt(@NonNull byte[] data, @NonNull Key key) {
+    public static byte[] encrypt(byte[] data, @NonNull Key key) {
+        if (data == null) return null;
         try {
             Cipher cipher = Cipher.getInstance(TRANSFORMATION_RSA_ECB_PKCS1PADDING, PROVIDER_ANDROID_OPEN_SSL);
             cipher.init(Cipher.ENCRYPT_MODE, key);
@@ -141,21 +144,24 @@ public class RSAUtils {
         return null;
     }
 
-    public static String decrypt(@NonNull String encryptString, @NonNull Key key) {
-        byte[] bytes = decrypt(Base64Utils.decode(encryptString), key);
+    public static String decrypt(String encryptedString, @NonNull Key key) {
+        if (TextUtils.isEmpty(encryptedString)) return "";
+
+        byte[] bytes = decrypt(Base64Utils.decode(encryptedString), key);
         if (bytes != null) {
             return new String(bytes);
         }
         return "";
     }
 
-    public static byte[] decrypt(@NonNull byte[] data, @NonNull Key key) {
+    public static byte[] decrypt(byte[] data, @NonNull Key key) {
+        if (data == null) return null;
         try {
             Cipher cipher = Cipher.getInstance(TRANSFORMATION_RSA_ECB_PKCS1PADDING, PROVIDER_ANDROID_OPEN_SSL);
             cipher.init(Cipher.DECRYPT_MODE, key);
             return cipher.doFinal(data);
         } catch (Exception e) {
-            if (DEBUG) FLog.e(e);
+            e.printStackTrace();
         }
         return null;
     }

@@ -15,7 +15,7 @@ import java.security.MessageDigest;
 public class MD5Utils {
     private static final boolean DEBUG = false;
 
-    private static final String ALGORITHM_MD5         = "MD5";
+    private static final String ALGORITHM_MD5 = "MD5";
 
     public static String encode(@NonNull String data) {
         return encode(data.getBytes());

@@ -17,6 +17,7 @@
 package com.hellofyc.base.util;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.ActivityManager;
@@ -32,6 +33,7 @@ import android.content.ComponentName;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageItemInfo;
 import android.content.pm.PackageManager;
@@ -58,8 +60,6 @@ import android.provider.Settings.SettingNotFoundException;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresPermission;
 import android.text.TextUtils;
-import android.text.method.HideReturnsTransformationMethod;
-import android.text.method.PasswordTransformationMethod;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.Window;
@@ -72,6 +72,7 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.security.cert.CertificateException;
@@ -276,7 +277,8 @@ public final class AndroidUtils {
     /**
      * Get signature md5
      */
-    public static String getSignatureMD5(@NonNull Context context, @NonNull String packageName) {
+	@SuppressLint("PackageManagerGetSignatures")
+	public static String getSignatureMD5(@NonNull Context context, @NonNull String packageName) {
     	try {
 			Signature[] signatures = context.getPackageManager().getPackageInfo(packageName, PackageManager.GET_SIGNATURES).signatures;
             if (signatures != null && signatures.length > 0) {
@@ -547,27 +549,6 @@ public final class AndroidUtils {
                 PackageManager.DONT_KILL_APP);
     }
 
-    /**
-	 * 设置密码可见
-	 */
-	public static void setPasswordVisibility(@NonNull EditText input, boolean visibility) {
-		if (visibility) {
-			input.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-			input.setSelection(input.length());
-		} else {
-			input.setTransformationMethod(PasswordTransformationMethod.getInstance());
-			input.setSelection(input.length());
-		}
-	}
-
-    /**
-	 * 设置代理
-	 */
-	public static void setProxy(@NonNull Context context, String proxy) {
-		Settings.System.putString(context.getContentResolver(),
-				"http_proxy", proxy + ":8080");
-	}
-
 	public static String takeScreenShot(@NonNull Activity activity, String dirPath) throws IOException {
 		File file;
 		String name = TimeUtils.getCurrentDateTime() + ".png";
@@ -612,7 +593,7 @@ public final class AndroidUtils {
 	public static void updateLanguage(@NonNull Context context, Locale locale) {
 		Resources resource = context.getResources();
 		Configuration config = resource.getConfiguration();
-		config.locale = locale;
+		config.setLocale(locale);
 		resource.updateConfiguration(config, resource.getDisplayMetrics());
 	}
 	
@@ -665,6 +646,37 @@ public final class AndroidUtils {
 		TypedValue typedValue = new TypedValue();
 		context.getTheme().resolveAttribute(android.R.attr.actionBarSize, typedValue, true);
 		return TypedValue.complexToDimensionPixelSize(typedValue.data, context.getResources().getDisplayMetrics());
+	}
+
+	public static boolean isUsbConnected(Context context) {
+		Intent intent = context.registerReceiver(null, new IntentFilter("android.hardware.usb.action.USB_STATE"));
+		return intent != null && intent.getExtras() != null && intent.getExtras().getBoolean("connected");
+	}
+
+	public static String getProcessName(@NonNull Context context, int pid) {
+		ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+		List<RunningAppProcessInfo> runningAppProcessInfos = activityManager.getRunningAppProcesses();
+		if (runningAppProcessInfos != null) {
+			for (RunningAppProcessInfo info : runningAppProcessInfos) {
+				if (info.pid == pid) {
+					return info.processName;
+				}
+			}
+		}
+		return "";
+	}
+
+	public static String getProcessName(int pid) {
+		try {
+			File file = new File("/proc/" + pid + "/cmdline");
+			BufferedReader reader = new BufferedReader(new FileReader(file));
+			String processName = reader.readLine().trim();
+			reader.close();
+			return processName;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "";
+		}
 	}
 	
 	private AndroidUtils() {/* Do not new me */}

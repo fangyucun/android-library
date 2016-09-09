@@ -7,7 +7,7 @@ import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.view.Window;
 
-import com.hellofyc.base.content.IntentHelper;
+import com.hellofyc.base.util.IntentUtils;
 import com.hellofyc.base.util.AndroidUtils;
 
 import java.lang.reflect.Field;
@@ -49,22 +49,22 @@ public class OsCompat {
 
         @Override
         public Intent getOpenPermissionManagerActivityIntent(Context context) {
-            return IntentHelper.getOpenSettingsActivityIntent(context);
+            return IntentUtils.getSettingsActivityIntent(context);
         }
 
         @Override
         public Intent getOpenPermissionActivityIntent(Context context) {
-            return IntentHelper.getOpenSettingsActivityIntent(context);
+            return IntentUtils.getSettingsActivityIntent(context);
         }
 
         @Override
         public Intent getOpenPermissionActivityIntent(Context context, String packageName) {
-            return IntentHelper.getOpenSettingsActivityIntent(context);
+            return IntentUtils.getSettingsActivityIntent(context);
         }
 
         @Override
         public Intent getOpenPureBackgroundActivityIntent(Context context) {
-            return IntentHelper.getOpenSettingsActivityIntent(context);
+            return IntentUtils.getSettingsActivityIntent(context);
         }
 
         @Override
