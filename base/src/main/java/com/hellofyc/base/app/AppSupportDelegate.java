@@ -151,7 +151,7 @@ public class AppSupportDelegate implements ResourcesValue {
 
     @Nullable
     public final Uri getReferrer() {
-        return new ActivityCompat().getReferrer(mActivity);
+        return ActivityCompat.getReferrer(mActivity);
     }
 
 	public Configuration getConfiguration() {

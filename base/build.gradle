@@ -1,14 +1,14 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion rootProject.ext.compileSdkVersion
-    buildToolsVersion rootProject.ext.buildToolsVersion
+    compileSdkVersion 25
+    buildToolsVersion '25.0.0'
 
     defaultConfig {
-        minSdkVersion rootProject.ext.minSdkVersion
-        targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 140
-        versionName "1.4.1"
+        minSdkVersion 17
+        targetSdkVersion 25
+        versionCode 125002
+        versionName "1.2500.3"
         resConfigs "zh"
     }
 
@@ -27,8 +27,7 @@ android {
 
 dependencies {
 //    compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile "com.android.support:design:$rootProject.ext.supportLibraryVersion"
-//    compile 'com.google.android.gms:play-services:9.2.1'
+    compile "com.android.support:design:25.0.0"
 }
 
 apply from: rootProject.file("release.gradle")

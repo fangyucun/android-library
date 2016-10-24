@@ -16,7 +16,6 @@
 
 package com.hellofyc.base.util;
 
-import android.support.annotation.NonNull;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -114,7 +113,11 @@ public final class FLog {
     }
 
     @SuppressWarnings("PointlessBooleanExpression")
-    private static void printLog(int type, @NonNull LogInfo logInfo) {
+    private static void printLog(int type, LogInfo logInfo) {
+        if (logInfo == null) {
+            Log.e("FLog", "logInfo == null!");
+            return;
+        }
         if (!mIsShow) return;
 
         String[] wrapContent = getWrappedContent(logInfo.tag, logInfo.text);
@@ -144,7 +147,7 @@ public final class FLog {
         String methodName = element.getMethodName();
         int lineNumber = element.getLineNumber();
         String methodNameShort = methodName.substring(0, 1).toUpperCase() + methodName.substring(1);
-        String textPrefix = ("【 (").concat(className)
+        String textPrefix = ("【 (").concat(className == null ? "" : className)
                 .concat(":")
                 .concat(lineNumber + "")
                 .concat(")#")

@@ -1,13 +1,13 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion rootProject.ext.compileSdkVersion
-    buildToolsVersion rootProject.ext.buildToolsVersion
+    compileSdkVersion 25
+    buildToolsVersion '25.0.0'
 
     defaultConfig {
         applicationId "com.hellofyc.apptest"
-        minSdkVersion rootProject.ext.minSdkVersion
-        targetSdkVersion rootProject.ext.targetSdkVersion
+        minSdkVersion 17
+        targetSdkVersion 25
         versionCode 1
         versionName "1.0"
 
@@ -33,5 +33,5 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile project(':base')
     //    compile 'com.github.bumptech:glide:v3.7.0'
-    compile "com.android.support:support-v13:$rootProject.ext.supportLibraryVersion"
+//    compile "com.android.support:support-v13:25.0.0"
 }
