@@ -22,6 +22,7 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.annotation.Size;
 import android.support.v4.util.ArrayMap;
 import android.text.TextUtils;
@@ -176,8 +177,10 @@ public final class PrefsHelper {
         return getSharedPreferences().getAll();
     }
 
-	public String getString(String key, String defValue) {
+	public String getString(String key, @Nullable String defValue) {
 		String value = getSharedPreferences().getString(getEncodeKey(key), defValue);
+        if (TextUtils.isEmpty(value)) return value;
+
 		if (value.equals(defValue)) {
 			return value;
 		} else {
