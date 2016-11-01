@@ -3,8 +3,8 @@ package com.hellofyc.base.net.http;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-import com.hellofyc.base.util.FLog;
-import com.hellofyc.base.util.IoUtils;
+import com.hellofyc.base.utils.FLog;
+import com.hellofyc.base.utils.IoUtils;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;

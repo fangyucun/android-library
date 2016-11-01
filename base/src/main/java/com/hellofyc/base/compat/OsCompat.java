@@ -7,8 +7,8 @@ import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.view.Window;
 
-import com.hellofyc.base.util.IntentUtils;
-import com.hellofyc.base.util.AndroidUtils;
+import com.hellofyc.base.utils.AndroidUtils;
+import com.hellofyc.base.utils.IntentUtils;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;

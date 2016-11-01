@@ -4,7 +4,7 @@ import android.graphics.Rect;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import com.hellofyc.base.util.ParseUtils;
+import com.hellofyc.base.utils.ParseUtils;
 
 /**
  * Created on 2016/2/1.

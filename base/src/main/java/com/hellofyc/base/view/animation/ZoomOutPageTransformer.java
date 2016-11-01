@@ -20,7 +20,7 @@ import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager.PageTransformer;
 import android.view.View;
 
-import com.hellofyc.base.util.FLog;
+import com.hellofyc.base.utils.FLog;
 
 public class ZoomOutPageTransformer implements PageTransformer {
 	static final boolean DEBUG = false;

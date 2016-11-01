@@ -50,9 +50,9 @@ import android.widget.EditText;
 
 import com.hellofyc.base.app.activity.SingleFragmentActivity;
 import com.hellofyc.base.content.PermissionHelper;
-import com.hellofyc.base.util.AndroidUtils;
-import com.hellofyc.base.util.FLog;
-import com.hellofyc.base.util.ToastUtils;
+import com.hellofyc.base.utils.AndroidUtils;
+import com.hellofyc.base.utils.FLog;
+import com.hellofyc.base.utils.ToastUtils;
 
 /**
  * Create on 2015-4-24 11:44:49

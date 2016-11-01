@@ -8,7 +8,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 
-import com.hellofyc.base.util.ParseUtils;
+import com.hellofyc.base.utils.ParseUtils;
 
 import java.io.File;
 

@@ -26,8 +26,8 @@ import android.webkit.JavascriptInterface;
 import android.webkit.JsPromptResult;
 import android.webkit.WebView;
 
-import com.hellofyc.base.util.CollectionUtils;
-import com.hellofyc.base.util.FLog;
+import com.hellofyc.base.utils.CollectionUtils;
+import com.hellofyc.base.utils.FLog;
 
 import org.json.JSONArray;
 import org.json.JSONObject;

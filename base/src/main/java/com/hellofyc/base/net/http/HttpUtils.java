@@ -22,9 +22,9 @@ import android.support.annotation.NonNull;
 import android.support.v4.util.ArrayMap;
 import android.text.TextUtils;
 
-import com.hellofyc.base.util.EncodeUtils;
-import com.hellofyc.base.util.FLog;
-import com.hellofyc.base.util.IoUtils;
+import com.hellofyc.base.utils.EncodeUtils;
+import com.hellofyc.base.utils.FLog;
+import com.hellofyc.base.utils.IoUtils;
 
 import java.io.BufferedInputStream;
 import java.io.DataOutputStream;

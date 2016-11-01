@@ -22,7 +22,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.IBinder;
 
-import com.hellofyc.base.util.FLog;
+import com.hellofyc.base.utils.FLog;
 
 public class BaseService extends Service {
 

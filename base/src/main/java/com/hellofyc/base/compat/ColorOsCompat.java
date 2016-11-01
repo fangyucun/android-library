@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 
-import com.hellofyc.base.util.IntentUtils;
+import com.hellofyc.base.utils.IntentUtils;
 
 /**
  * Created on 2015/11/23.

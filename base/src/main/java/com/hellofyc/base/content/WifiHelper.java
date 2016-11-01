@@ -43,9 +43,9 @@ import android.support.annotation.Nullable;
 import android.support.annotation.RequiresPermission;
 import android.text.TextUtils;
 
-import com.hellofyc.base.util.FLog;
-import com.hellofyc.base.util.NumberUtils;
-import com.hellofyc.base.util.Reflect;
+import com.hellofyc.base.utils.FLog;
+import com.hellofyc.base.utils.NumberUtils;
+import com.hellofyc.base.utils.Reflect;
 
 import java.util.ArrayList;
 import java.util.Collections;

@@ -14,11 +14,11 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.NotificationCompat;
 import android.view.Window;
 
-import com.hellofyc.base.util.IntentUtils;
-import com.hellofyc.base.util.AndroidUtils;
-import com.hellofyc.base.util.FLog;
-import com.hellofyc.base.util.NumberUtils;
-import com.hellofyc.base.util.Reflect;
+import com.hellofyc.base.utils.AndroidUtils;
+import com.hellofyc.base.utils.FLog;
+import com.hellofyc.base.utils.IntentUtils;
+import com.hellofyc.base.utils.NumberUtils;
+import com.hellofyc.base.utils.Reflect;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;

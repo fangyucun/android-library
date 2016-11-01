@@ -43,6 +43,8 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.hellofyc.base.utils.FLog;
+
 /**
  * Create on 2014年12月6日 下午12:34:35
  *

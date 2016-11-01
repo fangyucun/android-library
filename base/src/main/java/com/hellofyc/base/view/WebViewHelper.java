@@ -7,7 +7,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import com.hellofyc.base.util.UrlUtils;
+import com.hellofyc.base.utils.UrlUtils;
 import com.hellofyc.base.widget.BaseWebView;
 
 public class WebViewHelper {

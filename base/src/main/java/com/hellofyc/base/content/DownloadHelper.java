@@ -24,11 +24,11 @@ import android.os.Build;
 import android.text.TextUtils;
 import android.view.View;
 
-import com.hellofyc.base.util.AndroidUtils;
-import com.hellofyc.base.util.FLog;
-import com.hellofyc.base.util.IntentUtils;
-import com.hellofyc.base.util.StorageUtils;
-import com.hellofyc.base.util.StringUtils;
+import com.hellofyc.base.utils.AndroidUtils;
+import com.hellofyc.base.utils.FLog;
+import com.hellofyc.base.utils.IntentUtils;
+import com.hellofyc.base.utils.StorageUtils;
+import com.hellofyc.base.utils.StringUtils;
 
 /**
  * 下载管理类
@@ -83,7 +83,7 @@ public class DownloadHelper {
 		}
 		request.setVisibleInDownloadsUi(true);
 		
-		if (StorageUtils.isExternalStorageAvailable(mContext)) {
+		if (StorageUtils.isExternalStorageAvailable()) {
 			request.setDestinationInExternalFilesDir(mContext, null, TextUtils.isEmpty(name) ? StringUtils.getFileNameFromUrl(urlString) : name);
 		} else {
 			if (mOnDownloadListener != null) {

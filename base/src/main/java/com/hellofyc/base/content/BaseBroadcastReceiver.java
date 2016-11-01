@@ -20,7 +20,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
-import com.hellofyc.base.util.FLog;
+import com.hellofyc.base.utils.FLog;
 
 public class BaseBroadcastReceiver extends BroadcastReceiver {
 	private static final boolean DEBUG = false;

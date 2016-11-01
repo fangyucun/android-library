@@ -20,7 +20,7 @@ import android.support.v4.util.ArrayMap;
 
 import com.hellofyc.base.R;
 import com.hellofyc.base.text.SpanBuilder;
-import com.hellofyc.base.util.IntentUtils;
+import com.hellofyc.base.utils.IntentUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;

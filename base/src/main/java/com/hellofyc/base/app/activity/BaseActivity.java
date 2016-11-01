@@ -53,10 +53,10 @@ import com.hellofyc.base.app.AppSupportDelegate;
 import com.hellofyc.base.app.BaseApplication;
 import com.hellofyc.base.content.IntentWrapper;
 import com.hellofyc.base.content.PermissionHelper;
-import com.hellofyc.base.util.FLog;
-import com.hellofyc.base.util.Reflect;
-import com.hellofyc.base.util.ResUtils;
-import com.hellofyc.base.util.ToastUtils;
+import com.hellofyc.base.utils.FLog;
+import com.hellofyc.base.utils.Reflect;
+import com.hellofyc.base.utils.ResUtils;
+import com.hellofyc.base.utils.ToastUtils;
 
 abstract public class BaseActivity extends AppCompatActivity implements OnClickListener {
 

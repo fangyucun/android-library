@@ -22,6 +22,8 @@ import android.os.Message;
 import android.support.v4.view.ViewCompat;
 import android.view.View;
 
+import com.hellofyc.base.utils.FLog;
+
 /**
  * Ui Tool
  * Create on 2014年11月26日 下午10:08:07

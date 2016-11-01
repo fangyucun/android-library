@@ -29,7 +29,7 @@ import android.content.IntentFilter;
 import android.os.Build;
 import android.support.annotation.RequiresPermission;
 
-import com.hellofyc.base.util.FLog;
+import com.hellofyc.base.utils.FLog;
 
 import java.io.IOException;
 import java.util.UUID;
