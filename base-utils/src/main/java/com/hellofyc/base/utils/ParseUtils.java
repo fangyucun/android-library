@@ -47,17 +47,17 @@ public class ParseUtils {
 		return -113 + dbm;
 	}
 	
-    public static int dpToPx(Context context, int dp) {
-        return Math.round(context.getResources().getDisplayMetrics().density * (float)dp);
+    public static int dpToPx(Context context, float dp) {
+        return Math.round(context.getResources().getDisplayMetrics().density * dp);
     }
-    
+
     public static int spToPx(Context context, int sp) {
     	Resources res = context.getResources();
     	return (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP,
     			sp, res.getDisplayMetrics());
     }
     
-    public static int pxToSp(Context context, float pxValue) { 
+    public static int pxToSp(Context context, int pxValue) {
         final float fontScale = context.getResources().getDisplayMetrics().scaledDensity; 
         return (int) (pxValue / fontScale + 0.5f);
     }

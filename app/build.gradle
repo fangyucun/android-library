@@ -1,13 +1,13 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion '25.0.0'
+    compileSdkVersion rootProject.ext.sdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
 
     defaultConfig {
         applicationId "com.hellofyc.apptest"
         minSdkVersion 17
-        targetSdkVersion 25
+        targetSdkVersion rootProject.ext.sdkVersion
         versionCode 1
         versionName "1.0"
 
@@ -32,6 +32,9 @@ android {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile project(':base')
+    compile project(':base-retrofit')
+    //    compile "com.hellofyc:base-retrofit:2.0.0"
     //    compile 'com.github.bumptech:glide:v3.7.0'
-//    compile "com.android.support:support-v13:25.0.0"
+    //    compile "com.android.support:support-v13:25.0.0"
+    compile project(':base-utils')
 }

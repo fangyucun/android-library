@@ -31,19 +31,7 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity
-            android:name="com.hellofyc.apptest.Test1Activity"
-            android:exported="true"
-            android:parentActivityName=".MainActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.hellofyc.apptest.MainActivity"/>
-        </activity>
-        <activity android:name="com.hellofyc.apptest.DatabindingActivity"/>
 
-        <service
-            android:name="com.hellofyc.apptest.AService"
-            android:process=":core"/>
         <service
             android:name="com.hellofyc.base.app.service.BaseService$KernalService"
             android:process=":core"/>

@@ -8,7 +8,10 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/base" />
+            <option value="$PROJECT_DIR$/base-retrofit" />
+            <option value="$PROJECT_DIR$/base-utils" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

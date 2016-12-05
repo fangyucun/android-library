@@ -2,12 +2,8 @@ package com.hellofyc.apptest;
 
 import android.annotation.TargetApi;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -15,13 +11,10 @@ import android.widget.TextView;
 
 import com.hellofyc.base.app.activity.BaseActivity;
 import com.hellofyc.base.content.CameraHelper;
-import com.hellofyc.base.content.PermissionHelper;
-import com.hellofyc.base.util.FLog;
+import com.hellofyc.base.utils.CpuUtils;
+import com.hellofyc.base.utils.FLog;
 import com.hellofyc.base.widget.ClearableEditText;
 import com.hellofyc.base.widget.SwipeRefreshRecyclerView;
-
-import java.nio.charset.Charset;
-import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends BaseActivity {
 
@@ -38,89 +31,14 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        FLog.i("===onCreate===");
-        setStatusBarColorTransparent();
-        getWindow().setStatusBarColor(Color.BLUE);
-
-        Charset charset = Charset.defaultCharset();
-       FLog.i("Charset:" + Charset.defaultCharset().name());
-
-//        Calendar calendar = Calendar.getInstance();
-//        calendar.setTime(new Date());
-//        long endTime = calendar.getTimeInMillis();
-//        calendar.add(Calendar.DAY_OF_YEAR, -2);
-//        long startTime = calendar.getTimeInMillis();
-//
-//        if (!IntentUtils.isOpenInUsageStatsActivity(this)) {
-//            IntentUtils.openUsageStatsActivity(this);
-//            return;
-//        }
-//
-//        UsageStatsManager usageStatsManager = (UsageStatsManager) getSystemService(Context.USAGE_STATS_SERVICE);
-//        List<UsageStats> usageStatses = usageStatsManager.queryUsageStats(UsageStatsManager.INTERVAL_DAILY, startTime, endTime);
-//        for (UsageStats stats : usageStatses) {
-//            FLog.i("pacakgeName:" + stats.getPackageName()
-//                    + ", first:" + TimeUtils.getDateTime(stats.getFirstTimeStamp())
-//                    + ", total foreground:" + TimeUtils.getDateTime(stats.getTotalTimeInForeground())
-//                    + ", last:" + TimeUtils.getDateTime(stats.getLastTimeStamp())
-//                    + ", last used:" + TimeUtils.getDateTime(stats.getLastTimeUsed())
-//            );
-//        }
-
-
-
 
         setContentView(R.layout.activity_main);
         setViewsOnClickListener(R.id.text);
-//        mImageView = (ImageView) findViewById(R.id.image);
-//        mList = (SwipeRefreshRecyclerView) findViewById(R.id.list);
-//        mList.setLayoutManager(new LinearLayoutManager(this));
-//        mList.setSupportRefresh(false);
-//        List<String> list = new ArrayList<>();
-//        for (int i=0; i<200; i++) {
-//            list.add("Hello" + i);
-//        }
-//        mAdapter = new BaseRecyclerViewAdapter<String, ItemViewHolder>(this, list) {
-//
-//            @Override
-//            public ViewHolder onCreateItemViewHolder(LayoutInflater inflater, ViewGroup parent, int viewType) {
-//                return new ViewHolder(inflater.inflate(android.R.layout.simple_list_item_1, parent, false));
-//            }
-//
-//            @Override
-//            public void onBindItemViewHolder(ViewHolder itemHolder, int position, int viewType) {
-//                itemHolder.mText.setText(getItem(position));
-//            }
-//        };
-//        mList.setAdapter(mAdapter);
         init();
-//        mCameraHelper = CameraHelper.newInstance(this);
-    }
-
-    public static class ItemViewHolder extends RecyclerView.ViewHolder {
-
-        TextView mText;
-
-        public ItemViewHolder(View itemView) {
-            super(itemView);
-            mText = (TextView)itemView.findViewById(android.R.id.text1);
-        }
     }
 
     private void init() {
         setViewsOnClickListener(R.id.btn);
-
-//        mAdapter.updateItems(new ArrayList<String>());
-
-        new Handler().postDelayed(new Runnable() {
-
-            @Override
-            public void run() {
-//                mList.setEmptyViewStatus(EmptyView.STATUS_NO_DATA);
-//                ToastUtils.show(MainActivity.this, mList.getEmptyView().getHeight() + "");
-            }
-
-        }, TimeUnit.SECONDS.toMillis(3));
     }
 
     @Override
@@ -168,7 +86,28 @@ public class MainActivity extends BaseActivity {
 
                 break;
             case R.id.btn:
+                CpuUtils.getInstance().getCurrentCpuUsage(new CpuUtils.OnCpuInfoCallback() {
 
+                    @Override
+                    public void onCpuInfoCallback(CpuUtils.CpuInfo cpuInfo) {
+                        FLog.i("total:" + cpuInfo.getTotalUsage());
+                        FLog.i("user:" + cpuInfo.getUserUsage());
+                        FLog.i("system:" + cpuInfo.getSystemUsage());
+                        FLog.i("iow:" + cpuInfo.getIowUsage());
+                        FLog.i("irq:" + cpuInfo.getIrqUsage());
+                    }
+
+                });
+
+                CpuUtils.getInstance().getCpuLoadAvg(new CpuUtils.OnCpuInfoCallback() {
+
+                    @Override
+                    public void onCpuInfoCallback(CpuUtils.CpuInfo cpuInfo) {
+                        FLog.i("1:" + cpuInfo.getLoadAvg1());
+                        FLog.i("2:" + cpuInfo.getLoadAvg5());
+                        FLog.i("3:" + cpuInfo.getLoadAvg15());
+                    }
+                });
 
 //                if (checkPermissions(
 //                        new String[]{PermissionHelper.PERMISSION_CAMERA, PermissionHelper.PERMISSION_STORAGE},
@@ -217,21 +156,6 @@ public class MainActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         mCameraHelper.onActivityResult(requestCode, resultCode, data);
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch (requestCode) {
-            case PermissionHelper.REQUEST_CODE_CALENDAR:
-                if (grantResults[0] == PermissionHelper.PERMISSION_GRANTED) {
-                    FLog.i("授权了!");
-                    doPermissionGranted();
-                } else {
-                    FLog.i("未授权");
-                }
-                break;
-        }
     }
 
     private void doPermissionGranted() {

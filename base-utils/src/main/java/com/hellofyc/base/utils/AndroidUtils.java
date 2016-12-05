@@ -58,6 +58,7 @@ import android.provider.Settings.Global;
 import android.provider.Settings.Secure;
 import android.provider.Settings.SettingNotFoundException;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.annotation.RequiresPermission;
 import android.text.TextUtils;
 import android.util.TypedValue;
@@ -590,6 +591,7 @@ public final class AndroidUtils {
 	/**
 	 * Update Language
 	 */
+	@RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
 	public static void updateLanguage(@NonNull Context context, Locale locale) {
 		Resources resource = context.getResources();
 		Configuration config = resource.getConfiguration();

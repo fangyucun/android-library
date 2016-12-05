@@ -1,4 +1,4 @@
-package com.hellofyc.baseretrofit;
+package com.hellofyc.base;
 
 import com.google.gson.GsonBuilder;
 
@@ -30,11 +30,8 @@ public class RetrofitHelper {
 
     static {
         mHttpClientBuilder.addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
-                .addInterceptor(new EncryptInterceptor())
                 .connectTimeout(15, TimeUnit.SECONDS)
-                .retryOnConnectionFailure(true)
-                .addNetworkInterceptor(new TokenInterceptor())
-                .authenticator(new DefaultAuthenticator());
+                .retryOnConnectionFailure(true);
     }
 
     private static class DefaultAuthenticator implements Authenticator {

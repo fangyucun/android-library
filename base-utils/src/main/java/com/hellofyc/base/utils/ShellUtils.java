@@ -33,7 +33,7 @@ public final class ShellUtils {
     public static final String COMMAND_SH       = "sh";
     public static final String COMMAND_EXIT     = "exit\n";
     public static final String COMMAND_LINE_END = "\n";
-    
+
     public static boolean checkRootPermission() {
         return execCommand("echo root", true, false).result == 0;
     }

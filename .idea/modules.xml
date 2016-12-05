@@ -3,7 +3,10 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/AppLib.iml" filepath="$PROJECT_DIR$/AppLib.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/base/base.iml" filepath="$PROJECT_DIR$/base/base.iml" />
+      <module fileurl="file://$PROJECT_DIR$/base-retrofit/base-retrofit.iml" filepath="$PROJECT_DIR$/base-retrofit/base-retrofit.iml" />
+      <module fileurl="file://$PROJECT_DIR$/base-utils/base-utils.iml" filepath="$PROJECT_DIR$/base-utils/base-utils.iml" />
     </modules>
   </component>
 </project>

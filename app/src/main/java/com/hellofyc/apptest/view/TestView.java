@@ -7,7 +7,8 @@ import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.view.View;
 
-import com.hellofyc.base.util.ParseUtils;
+import com.hellofyc.base.utils.ParseUtils;
+
 
 /**
  * Created on 2016/6/28.
