@@ -11,8 +11,8 @@ import android.widget.TextView;
 
 import com.hellofyc.base.app.activity.BaseActivity;
 import com.hellofyc.base.content.CameraHelper;
-import com.hellofyc.base.utils.CpuUtils;
 import com.hellofyc.base.utils.FLog;
+import com.hellofyc.base.view.OnValidClickListener;
 import com.hellofyc.base.widget.ClearableEditText;
 import com.hellofyc.base.widget.SwipeRefreshRecyclerView;
 
@@ -35,6 +35,14 @@ public class MainActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
         setViewsOnClickListener(R.id.text);
         init();
+
+        findViewById(R.id.btn).setOnClickListener(new OnValidClickListener(2000) {
+
+            @Override
+            public void onValidClick(View v) {
+                FLog.i("点击了!");
+            }
+        });
     }
 
     private void init() {
@@ -86,28 +94,6 @@ public class MainActivity extends BaseActivity {
 
                 break;
             case R.id.btn:
-                CpuUtils.getInstance().getCurrentCpuUsage(new CpuUtils.OnCpuInfoCallback() {
-
-                    @Override
-                    public void onCpuInfoCallback(CpuUtils.CpuInfo cpuInfo) {
-                        FLog.i("total:" + cpuInfo.getTotalUsage());
-                        FLog.i("user:" + cpuInfo.getUserUsage());
-                        FLog.i("system:" + cpuInfo.getSystemUsage());
-                        FLog.i("iow:" + cpuInfo.getIowUsage());
-                        FLog.i("irq:" + cpuInfo.getIrqUsage());
-                    }
-
-                });
-
-                CpuUtils.getInstance().getCpuLoadAvg(new CpuUtils.OnCpuInfoCallback() {
-
-                    @Override
-                    public void onCpuInfoCallback(CpuUtils.CpuInfo cpuInfo) {
-                        FLog.i("1:" + cpuInfo.getLoadAvg1());
-                        FLog.i("2:" + cpuInfo.getLoadAvg5());
-                        FLog.i("3:" + cpuInfo.getLoadAvg15());
-                    }
-                });
 
 //                if (checkPermissions(
 //                        new String[]{PermissionHelper.PERMISSION_CAMERA, PermissionHelper.PERMISSION_STORAGE},
