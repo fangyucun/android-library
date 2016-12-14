@@ -26,6 +26,9 @@ import android.support.annotation.Nullable;
 import android.support.annotation.Size;
 import android.text.TextUtils;
 
+import com.hellofyc.base.security.DESUtils;
+import com.hellofyc.base.security.SHAUtils;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -251,7 +254,7 @@ public class PrefsHelper {
 	}
 
     private String getEncodeKey(String key) {
-        return mIsKeyEncrypt ? MD5Utils.encode(key) : key;
+        return mIsKeyEncrypt ? SHAUtils.encodeWithMD5(key.getBytes()) : key;
     }
 
     private String getEncryptValue(Object value) {

@@ -1,9 +1,12 @@
-package com.hellofyc.base.utils;
+package com.hellofyc.base.security;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
+
+import com.hellofyc.base.utils.FLog;
+import com.hellofyc.base.utils.ResUtils;
 
 import java.math.BigInteger;
 import java.security.Key;

@@ -68,6 +68,8 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
+import com.hellofyc.base.security.SHAUtils;
+
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -283,7 +285,7 @@ public final class AndroidUtils {
     	try {
 			Signature[] signatures = context.getPackageManager().getPackageInfo(packageName, PackageManager.GET_SIGNATURES).signatures;
             if (signatures != null && signatures.length > 0) {
-                return MD5Utils.encode(signatures[0].toByteArray());
+                return SHAUtils.encodeWithMD5(signatures[0].toByteArray());
             }
         } catch (NameNotFoundException e) {
             e.printStackTrace();

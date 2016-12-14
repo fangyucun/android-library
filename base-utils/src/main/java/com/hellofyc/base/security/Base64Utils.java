@@ -1,7 +1,9 @@
-package com.hellofyc.base.utils;
+package com.hellofyc.base.security;
 
 import android.support.annotation.NonNull;
 import android.util.Base64;
+
+import com.hellofyc.base.utils.FLog;
 
 import java.io.UnsupportedEncodingException;
 

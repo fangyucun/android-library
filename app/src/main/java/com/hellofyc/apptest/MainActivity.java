@@ -9,12 +9,15 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.hellofyc.base.Keccak;
 import com.hellofyc.base.app.activity.BaseActivity;
 import com.hellofyc.base.content.CameraHelper;
-import com.hellofyc.base.utils.FLog;
+import com.hellofyc.base.security.SHAUtils;
 import com.hellofyc.base.view.OnValidClickListener;
 import com.hellofyc.base.widget.ClearableEditText;
 import com.hellofyc.base.widget.SwipeRefreshRecyclerView;
+
+import java.util.Formatter;
 
 public class MainActivity extends BaseActivity {
 
@@ -40,9 +43,45 @@ public class MainActivity extends BaseActivity {
 
             @Override
             public void onValidClick(View v) {
-                FLog.i("点击了!");
+                byte[] b = getByteArray("The quick brown fox jumps over the lazy dog");
+                String s = getHexStringByByteArray(b);
+                Keccak keccak = new Keccak(1600);
+
+                System.out.println("sha-256 = " + SHAUtils.encodeWithSHA_256(s));
+                System.out.println("sha3-224 = " + SHAUtils.encodeWithSHA3_224(b));
+                System.out.println("sha3-256 = " + SHAUtils.encodeWithSHA3_256(b));
+                System.out.println("sha3-384 = " + SHAUtils.encodeWithSHA3_384(b));
+                System.out.println("sha3-512 = " + SHAUtils.encodeWithSHA3_512(b));
+
+
+
+
+
+
+
+
+//                String encrypt =
+//                String result = RSAUtils.decrypt(, RSAUtils.getPublicKey(MainActivity.this, "private.oem"));
+//                FLog.i("result:" + result);
             }
         });
+    }
+
+    public static byte[] getByteArray(String s) {
+        return (s != null) ? s.getBytes(): null;
+    }
+
+    public static String getHexStringByByteArray(byte[] array) {
+        if (array == null)
+            return null;
+
+        StringBuilder stringBuilder = new StringBuilder(array.length * 2);
+        @SuppressWarnings("resource")
+        Formatter formatter = new Formatter(stringBuilder);
+        for (byte tempByte : array)
+            formatter.format("%02x", tempByte);
+
+        return stringBuilder.toString();
     }
 
     private void init() {

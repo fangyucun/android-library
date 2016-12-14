@@ -33,6 +33,8 @@ import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.view.WindowManager;
 
+import com.hellofyc.base.security.SHAUtils;
+
 import static android.content.Context.ACTIVITY_SERVICE;
 
 /**
@@ -117,7 +119,7 @@ public final class DeviceUtils {
 		String imei = getIMEI(context);
 		String androidId = getAndroidId(context);
 		String serial = getSerial();
-		return MD5Utils.encode(imei + androidId + serial);
+		return SHAUtils.encodeWithMD5((imei + androidId + serial).getBytes());
 	}
 
 	@SuppressWarnings("deprecation")
