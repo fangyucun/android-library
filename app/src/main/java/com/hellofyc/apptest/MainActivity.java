@@ -4,20 +4,20 @@ import android.annotation.TargetApi;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.hellofyc.base.Keccak;
 import com.hellofyc.base.app.activity.BaseActivity;
 import com.hellofyc.base.content.CameraHelper;
-import com.hellofyc.base.security.SHAUtils;
-import com.hellofyc.base.view.OnValidClickListener;
+import com.hellofyc.base.security.SecurityHelper;
+import com.hellofyc.base.utils.FLog;
 import com.hellofyc.base.widget.ClearableEditText;
 import com.hellofyc.base.widget.SwipeRefreshRecyclerView;
 
-import java.util.Formatter;
+import java.security.KeyStore;
 
 public class MainActivity extends BaseActivity {
 
@@ -29,6 +29,7 @@ public class MainActivity extends BaseActivity {
     private ImageView mImageView;
 
     private CameraHelper mCameraHelper;
+    private KeyStore mKeyStore;
 
     @TargetApi(Build.VERSION_CODES.M)
     @Override
@@ -39,50 +40,42 @@ public class MainActivity extends BaseActivity {
         setViewsOnClickListener(R.id.text);
         init();
 
-        findViewById(R.id.btn).setOnClickListener(new OnValidClickListener(2000) {
+        findViewById(R.id.btn).setOnClickListener(new View.OnClickListener() {
 
             @Override
-            public void onValidClick(View v) {
-                byte[] b = getByteArray("The quick brown fox jumps over the lazy dog");
-                String s = getHexStringByByteArray(b);
-                Keccak keccak = new Keccak(1600);
+            public void onClick(View v) {
+                for (int i=0; i<10; i++) {
+                    SecurityHelper.getInstance().encrypt(MainActivity.this, "token", "我是房余存" + i,
+                            new SecurityHelper.OnEncryptCallback() {
 
-                System.out.println("sha-256 = " + SHAUtils.encodeWithSHA_256(s));
-                System.out.println("sha3-224 = " + SHAUtils.encodeWithSHA3_224(b));
-                System.out.println("sha3-256 = " + SHAUtils.encodeWithSHA3_256(b));
-                System.out.println("sha3-384 = " + SHAUtils.encodeWithSHA3_384(b));
-                System.out.println("sha3-512 = " + SHAUtils.encodeWithSHA3_512(b));
-
-
-
-
-
-
-
-
-//                String encrypt =
-//                String result = RSAUtils.decrypt(, RSAUtils.getPublicKey(MainActivity.this, "private.oem"));
-//                FLog.i("result:" + result);
+                                @Override
+                                public void onEncrypt(byte[] data, String base64String) {
+                                    FLog.i("token:" + base64String);
+                                    getProviders("token", base64String);
+                                }
+                            });
+                }
             }
         });
     }
 
-    public static byte[] getByteArray(String s) {
-        return (s != null) ? s.getBytes(): null;
+
+
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
+    void getProviders(String alias, String value) {
+        SecurityHelper.getInstance().decrypt(this, alias, value, new SecurityHelper.OnDecryptCallback(){
+
+            @Override
+            public void onDecrypt(String decryptString) {
+                FLog.i("source:" + decryptString);
+            }
+        });
     }
 
-    public static String getHexStringByByteArray(byte[] array) {
-        if (array == null)
-            return null;
-
-        StringBuilder stringBuilder = new StringBuilder(array.length * 2);
-        @SuppressWarnings("resource")
-        Formatter formatter = new Formatter(stringBuilder);
-        for (byte tempByte : array)
-            formatter.format("%02x", tempByte);
-
-        return stringBuilder.toString();
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
+    private void addNewKey() {
     }
+
 
     private void init() {
         setViewsOnClickListener(R.id.btn);

@@ -36,5 +36,5 @@ dependencies {
     //    compile "com.hellofyc:base-retrofit:2.0.0"
     //    compile 'com.github.bumptech:glide:v3.7.0'
     //    compile "com.android.support:support-v13:25.0.0"
-    compile project(':base-utils')
+//    compile project(':base-utils')
 }

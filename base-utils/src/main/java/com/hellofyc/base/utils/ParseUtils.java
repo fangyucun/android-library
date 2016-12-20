@@ -30,6 +30,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.NumberFormat;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -227,5 +228,12 @@ public class ParseUtils {
     public static <V> int compare(V v1, V v2) {
         return v1 == null ? (v2 == null ? 0 : -1) : (v2 == null ? 1 : ((Comparable)v1).compareTo(v2));
     }
-    
+
+    public static <T> void listToArray(List<T> list, T[] array) {
+        if (list == null || array == null) return;
+
+        for (int i=0; i<list.size(); i++) {
+            array[i] = list.get(i);
+        }
+    }
 }

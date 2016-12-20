@@ -28,11 +28,11 @@ ext {
     // Sdk and tools
     minSdkVersion = 16
     sdkVersion = 25
-    buildToolsVersion = '25.0.1'
-    versionName = "2.0.1"
+    buildToolsVersion = '25.0.2'
+    versionName = "2.0.3"
 
     // App dependencies
-    supportLibraryVersion = '25.0.1'
+    supportLibraryVersion = '25.1.0'
 //    guavaVersion = '19.0'
 //    junitVersion = '4.12'
 //    mockitoVersion = '1.10.19'
