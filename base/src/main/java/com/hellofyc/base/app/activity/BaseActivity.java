@@ -18,7 +18,10 @@ package com.hellofyc.base.app.activity;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.content.res.AssetManager;
 import android.content.res.ColorStateList;
@@ -72,6 +75,7 @@ abstract public class BaseActivity extends AppCompatActivity implements OnClickL
     private long mPressTime = 0;
 
     private IntentWrapper mIntentWrapper;
+    private EntityKeyReciver mEntityKeyReciver;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -370,7 +374,19 @@ abstract public class BaseActivity extends AppCompatActivity implements OnClickL
         return getAppSupportDelegate().getColorStateList(id);
     }
 
-	@Override
+    @Override
+    protected void onResume() {
+        super.onResume();
+        registerEntityKeyReceiver();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterEntityKeyReceiver();
+    }
+
+    @Override
 	public void onBackPressed() {
 		if (mPressTwoExit && !mIsHighPriority) {
 			pressBackToExit();
@@ -378,6 +394,12 @@ abstract public class BaseActivity extends AppCompatActivity implements OnClickL
 			super.onBackPressed();
 		}
 	}
+
+    public void onHomePressed() {
+    }
+
+    public void onRecentAppsPressed() {
+    }
 
 	void pressBackToExit() {
 		if (System.currentTimeMillis() - mPressTime > 2000) {
@@ -397,6 +419,37 @@ abstract public class BaseActivity extends AppCompatActivity implements OnClickL
      */
     public boolean invalidateOptionsMenuCompat() {
         return ActivityCompat.invalidateOptionsMenu(this);
+    }
+
+    private void registerEntityKeyReceiver() {
+        if (mEntityKeyReciver == null) {
+            mEntityKeyReciver = new EntityKeyReciver();
+        }
+        IntentFilter filter = new IntentFilter(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
+        registerReceiver(mEntityKeyReciver, filter);
+    }
+
+    private void unregisterEntityKeyReceiver() {
+        if (mEntityKeyReciver != null) {
+            try {
+                unregisterReceiver(mEntityKeyReciver);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private class EntityKeyReciver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String reason = intent.getStringExtra("reason");
+            if ("homekey".equals(reason)) {
+                onHomePressed();
+            } else if ("recentapps".equals(reason)) {
+                onRecentAppsPressed();
+            }
+        }
     }
 
 	@Override
