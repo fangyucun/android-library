@@ -16,6 +16,7 @@
 
 package com.hellofyc.base.content;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -35,6 +36,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.ref.WeakReference;
 import java.net.HttpURLConnection;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
@@ -70,10 +72,10 @@ public class PhoneHelper {
     public static final String CTNET = "ctnet";
 	
 	private static PhoneHelper sInstance;
-	private Context mContext;
-	
+	private WeakReference<Context> mContext;
+
 	private PhoneHelper(Context context) {
-		mContext = context;
+		mContext = new WeakReference<>(context);
 	}
 	
 	public static PhoneHelper getInstance(Context context) {
@@ -159,7 +161,8 @@ public class PhoneHelper {
 	 * HHH:省份区号
 	 * XXXXXXXX:流水号
 	 */
-	public static String getICCID(Context context) {
+	@SuppressLint("HardwareIds")
+    public static String getICCID(Context context) {
 		try {
 			TelephonyManager tm = (TelephonyManager)context.getSystemService(Context.TELEPHONY_SERVICE);
 			return tm.getSimSerialNumber();
@@ -174,7 +177,8 @@ public class PhoneHelper {
 	 * Requires Permission:
 	 * {@link android.Manifest.permission#READ_PHONE_STATE}
 	 */
-	public static String getIMSI(Context context) {
+	@SuppressLint("HardwareIds")
+    public static String getIMSI(Context context) {
 		try {
 			TelephonyManager tm = (TelephonyManager)context.getSystemService(Context.TELEPHONY_SERVICE);
 			return tm.getSubscriberId() == null ? "" : tm.getSubscriberId();

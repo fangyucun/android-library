@@ -87,7 +87,7 @@ public class WifiHelper {
 	public static final int WIFI_AP_STATE_ENABLED				 = 13;
 	public static final int WIFI_AP_STATE_FAILED				 = 14;
 	
-	private static final int CONNECT_TIMEOUT = 20;
+	private static final int CONNECT_TIMEOUT = 60;
 	
 	private static WifiHelper sInstance;
 	private Context mContext;
