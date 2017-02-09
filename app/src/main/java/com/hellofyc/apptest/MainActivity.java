@@ -2,6 +2,8 @@ package com.hellofyc.apptest;
 
 import android.annotation.TargetApi;
 import android.content.Intent;
+import android.net.wifi.ScanResult;
+import android.net.wifi.WifiInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
@@ -12,12 +14,16 @@ import android.widget.TextView;
 
 import com.hellofyc.base.app.activity.BaseActivity;
 import com.hellofyc.base.content.CameraHelper;
+import com.hellofyc.base.content.WifiHelper;
 import com.hellofyc.base.security.SecurityHelper;
 import com.hellofyc.base.utils.FLog;
 import com.hellofyc.base.widget.ClearableEditText;
 import com.hellofyc.base.widget.SwipeRefreshRecyclerView;
 
 import java.security.KeyStore;
+import java.util.List;
+
+import static com.hellofyc.base.content.WifiHelper.getInstance;
 
 public class MainActivity extends BaseActivity {
 
@@ -40,23 +46,65 @@ public class MainActivity extends BaseActivity {
         setViewsOnClickListener(R.id.text);
         init();
 
-        findViewById(R.id.btn).setOnClickListener(new View.OnClickListener() {
 
-            @Override
-            public void onClick(View v) {
-                for (int i=0; i<10; i++) {
-                    SecurityHelper.getInstance().encrypt(MainActivity.this, "token", "我是房余存" + i,
-                            new SecurityHelper.OnEncryptCallback() {
+        if (getInstance(this).isWifiApEnabled()) {
+            FLog.i("Wifi Ap is enabled");
+            getInstance(this).setWifiApDisabled();
+        } else {
+            FLog.i("Wifi Ap is disabled");
+        }
 
-                                @Override
-                                public void onEncrypt(byte[] data, String base64String) {
-                                    FLog.i("token:" + base64String);
-                                    getProviders("token", base64String);
-                                }
-                            });
+        getInstance(this).setWifiEnabled(true, null);
+
+        List<ScanResult> scanResults = WifiHelper.getInstance(this).getScanResults();
+        for (ScanResult result : scanResults) {
+            FLog.i("result:" + result.SSID);
+        }
+
+
+//        WifiInfo wifiInfo = WifiHelper.getInstance(this).getConnectionInfo();
+//        if (wifiInfo != null && !"0x".equals(wifiInfo.getSSID())) {
+//            FLog.i("wifi-info:" + wifiInfo.getSSID());
+//        } else {
+            WifiHelper.getInstance(this).connect("360-Canbus", "fangyucun", new WifiHelper.SimpleOnWifiConnectListener() {
+
+                @Override
+                public void onWifiConnecting(int status) {
+                    super.onWifiConnecting(status);
+                    FLog.i("onWifiConnecting:", status);
                 }
-            }
-        });
+
+                @Override
+                public void onWifiConnectSuccess(WifiInfo wifiInfo) {
+                    super.onWifiConnectSuccess(wifiInfo);
+                    FLog.i("onWifiConnectSuccess:", wifiInfo.getSSID());
+                }
+
+                @Override
+                public void onWifiConnectFailure(int errorCode) {
+                    super.onWifiConnectFailure(errorCode);
+                    FLog.i("onWifiConnectFailure:", errorCode);
+                }
+            });
+//        }
+
+//        findViewById(R.id.btn).setOnClickListener(new View.OnClickListener() {
+//
+//            @Override
+//            public void onClick(View v) {
+//                for (int i=0; i<10; i++) {
+//                    SecurityHelper.getInstance().encrypt(MainActivity.this, "token", "我是房余存" + i,
+//                            new SecurityHelper.OnEncryptCallback() {
+//
+//                                @Override
+//                                public void onEncrypt(byte[] data, String base64String) {
+//                                    FLog.i("token:" + base64String);
+//                                    getProviders("token", base64String);
+//                                }
+//                            });
+//                }
+//            }
+//        });
     }
 
 

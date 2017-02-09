@@ -75,7 +75,7 @@ abstract public class BaseActivity extends AppCompatActivity implements OnClickL
     private long mPressTime = 0;
 
     private IntentWrapper mIntentWrapper;
-    private EntityKeyReciver mEntityKeyReciver;
+    private KeyReciver mKeyReciver;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -422,24 +422,24 @@ abstract public class BaseActivity extends AppCompatActivity implements OnClickL
     }
 
     private void registerEntityKeyReceiver() {
-        if (mEntityKeyReciver == null) {
-            mEntityKeyReciver = new EntityKeyReciver();
+        if (mKeyReciver == null) {
+            mKeyReciver = new KeyReciver();
         }
         IntentFilter filter = new IntentFilter(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
-        registerReceiver(mEntityKeyReciver, filter);
+        registerReceiver(mKeyReciver, filter);
     }
 
     private void unregisterEntityKeyReceiver() {
-        if (mEntityKeyReciver != null) {
+        if (mKeyReciver != null) {
             try {
-                unregisterReceiver(mEntityKeyReciver);
+                unregisterReceiver(mKeyReciver);
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
     }
 
-    private class EntityKeyReciver extends BroadcastReceiver {
+    private class KeyReciver extends BroadcastReceiver {
 
         @Override
         public void onReceive(Context context, Intent intent) {
